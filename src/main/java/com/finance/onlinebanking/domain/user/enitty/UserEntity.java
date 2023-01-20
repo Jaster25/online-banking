@@ -1,6 +1,6 @@
 package com.finance.onlinebanking.domain.user.enitty;
 
-import com.finance.onlinebanking.domain.passbook.entity.PassBookEntity;
+import com.finance.onlinebanking.domain.passbook.entity.PassbookEntity;
 import com.finance.onlinebanking.global.common.BaseTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +14,6 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor
 @Table(name = "users")
-
 public class UserEntity extends BaseTime {
 
     @Id
@@ -23,7 +22,7 @@ public class UserEntity extends BaseTime {
     private Long id;
 
     @OneToMany(mappedBy = "user")
-    private List<PassBookEntity> passbooks;
+    private List<PassbookEntity> passbooks;
 
     private String name;
 
@@ -32,6 +31,7 @@ public class UserEntity extends BaseTime {
     private String password;
 
     private String role;
+
 
     // -- 비즈니스 로직 -- //
     public void updatePassword(String password) {

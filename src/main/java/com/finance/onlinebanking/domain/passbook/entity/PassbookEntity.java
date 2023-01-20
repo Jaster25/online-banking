@@ -1,7 +1,8 @@
 package com.finance.onlinebanking.domain.passbook.entity;
 
 import com.finance.onlinebanking.domain.bank.entity.BankEntity;
-import com.finance.onlinebanking.domain.product.entity.PassBookProductEntity;
+import com.finance.onlinebanking.domain.product.entity.PassbookProductEntity;
+import com.finance.onlinebanking.domain.transactionhistory.entity.TransactionHistoryEntity;
 import com.finance.onlinebanking.domain.user.enitty.UserEntity;
 import com.finance.onlinebanking.global.common.BaseTime;
 import lombok.Getter;
@@ -10,19 +11,18 @@ import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
-@Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn
 @SuperBuilder
 @NoArgsConstructor
 @Table(name = "passbook")
-
-
-public abstract class PassBookEntity extends BaseTime {
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn
+public abstract class PassbookEntity extends BaseTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -39,15 +39,15 @@ public abstract class PassBookEntity extends BaseTime {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "passbook_product_id")
-    private PassBookProductEntity passBookProduct;
+    private PassbookProductEntity passbookProduct;
 
-    /**
-     * 거래내역과 매핑 부분
-     * 같은 필드 참조가 두갠데... 생각해보기
-     */
-//    @OneToMany(mappedBy = "")
+    @OneToMany(mappedBy = "withdrawPassbook")
+    List<TransactionHistoryEntity> withdrawPassbook;
 
-    private String accountNumber; // 따로 암호화
+    @OneToMany(mappedBy = "depositPassbook")
+    List<TransactionHistoryEntity> depositPassbook;
+
+    private String accountNumber;
 
     private String password;
 
@@ -82,11 +82,11 @@ public abstract class PassBookEntity extends BaseTime {
         bank.getPassbooks().add(this);
     }
 
-    public void setPassBookProduct(PassBookProductEntity passBookProduct) {
-        if (this.passBookProduct != null) {
-            this.passBookProduct.getPassbooks().remove(this);
+    public void setPassbookProduct(PassbookProductEntity passbookProduct) {
+        if (this.passbookProduct != null) {
+            this.passbookProduct.getPassbooks().remove(this);
         }
-        this.passBookProduct = passBookProduct;
-        passBookProduct.getPassbooks().add(this);
+        this.passbookProduct = passbookProduct;
+        passbookProduct.getPassbooks().add(this);
     }
 }

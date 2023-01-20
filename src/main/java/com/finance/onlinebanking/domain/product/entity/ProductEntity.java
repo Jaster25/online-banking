@@ -9,19 +9,16 @@ import lombok.experimental.SuperBuilder;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
-@Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn
 @SuperBuilder
 @NoArgsConstructor
 @Table(name = "product")
-
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn
 public abstract class ProductEntity extends BaseTime {
 
     @Id
@@ -46,4 +43,14 @@ public abstract class ProductEntity extends BaseTime {
     private String content;
 
     private String condition;
+
+
+    // 연관관계 메서드
+    public void setBank(BankEntity bank) {
+        if (this.bank != null) {
+            this.bank.getProducts().remove(this);
+        }
+        this.bank = bank;
+        bank.getProducts().add(this);
+    }
 }

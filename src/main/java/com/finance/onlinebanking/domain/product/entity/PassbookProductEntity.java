@@ -1,6 +1,6 @@
 package com.finance.onlinebanking.domain.product.entity;
 
-import com.finance.onlinebanking.domain.passbook.entity.PassBookEntity;
+import com.finance.onlinebanking.domain.passbook.entity.PassbookEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -12,16 +12,15 @@ import java.util.List;
 
 @Entity
 @Getter
-@Table(name = "passbook_product")
-@DiscriminatorValue("PP")
-@PrimaryKeyJoinColumn(name = "passbook_product_id")
 @SuperBuilder
 @NoArgsConstructor
+@Table(name = "passbook_product")
+@PrimaryKeyJoinColumn(name = "passbook_product_id")
+@DiscriminatorValue("PP")
+public class PassbookProductEntity extends ProductEntity{
 
-public class PassBookProductEntity extends ProductEntity{
-
-    @OneToMany(mappedBy = "passBookProduct")
-    private List<PassBookEntity> passbooks = new ArrayList<PassBookEntity>();
+    @OneToMany(mappedBy = "passbookProduct")
+    private List<PassbookEntity> passbooks = new ArrayList<PassbookEntity>();
 
     private int term;
 

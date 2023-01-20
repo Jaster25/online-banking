@@ -1,6 +1,6 @@
 package com.finance.onlinebanking.domain.passbook.entity.installment;
 
-import com.finance.onlinebanking.domain.passbook.entity.PassBookEntity;
+import com.finance.onlinebanking.domain.passbook.entity.PassbookEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -13,13 +13,12 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@Table(name = "installment")
-@DiscriminatorValue("I")
-@PrimaryKeyJoinColumn(name = "installment_id")
 @SuperBuilder
 @NoArgsConstructor
+@Table(name = "installment")
+@PrimaryKeyJoinColumn(name = "installment_id")
+@DiscriminatorValue("I")
+public class InstallmentEntity extends PassbookEntity {
 
-// 적금 통장
-public class InstallmentEntity extends PassBookEntity {
     private LocalDateTime expiredAt;
 }

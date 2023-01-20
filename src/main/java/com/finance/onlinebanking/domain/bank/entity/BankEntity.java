@@ -1,6 +1,6 @@
 package com.finance.onlinebanking.domain.bank.entity;
 
-import com.finance.onlinebanking.domain.passbook.entity.PassBookEntity;
+import com.finance.onlinebanking.domain.passbook.entity.PassbookEntity;
 import com.finance.onlinebanking.domain.product.entity.ProductEntity;
 import com.finance.onlinebanking.global.common.BaseTime;
 import lombok.Getter;
@@ -12,10 +12,9 @@ import java.util.List;
 
 @Entity
 @Getter
-@Table(name = "bank")
 @SuperBuilder
 @NoArgsConstructor
-
+@Table(name = "bank")
 public class BankEntity extends BaseTime {
 
     @Id
@@ -24,7 +23,7 @@ public class BankEntity extends BaseTime {
     private Long id;
 
     @OneToMany(mappedBy = "bank")
-    private List<PassBookEntity> passbooks;
+    private List<PassbookEntity> passbooks;
 
     @OneToMany(mappedBy = "bank")
     private List<ProductEntity> products;
