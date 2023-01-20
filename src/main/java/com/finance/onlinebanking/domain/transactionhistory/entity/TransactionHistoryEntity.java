@@ -44,7 +44,7 @@ public class TransactionHistoryEntity extends BaseTime {
 
 
     // 연관관계 메서드
-    public void setWithdrawPassBook(PassbookEntity withdrawPassbook) {
+    public void setWithdrawPassbook(PassbookEntity withdrawPassbook) {
         if (this.withdrawPassbook != null) {
             this.withdrawPassbook.getWithdrawPassbook().remove(this);
         }

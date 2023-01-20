@@ -31,7 +31,7 @@ public abstract class PassbookEntity extends BaseTime {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
-    public UserEntity user;
+    private UserEntity user;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "bank_id")
