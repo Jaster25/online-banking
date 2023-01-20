@@ -1,12 +1,14 @@
-package com.finance.onlinebanking.domain.user.enitty;
+package com.finance.onlinebanking.domain.user.entity;
 
 import com.finance.onlinebanking.domain.passbook.entity.PassbookEntity;
 import com.finance.onlinebanking.global.common.BaseTime;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -33,9 +35,19 @@ public class UserEntity extends BaseTime {
     private String role;
 
 
-    // -- 비즈니스 로직 -- //
-    public void updatePassword(String password) {
-
+    @Builder
+    public UserEntity(Long id, List<PassbookEntity> passbooks, String name, String username, String password, String role) {
+        this.id = id;
+        this.passbooks = passbooks;
+        this.name = name;
+        this.username = username;
+        this.password = password;
+        this.role = role;
     }
 
+
+    public void updatePassword(String password) {
+        this.password = password;
+        updatedAt = LocalDateTime.now();
+    }
 }
