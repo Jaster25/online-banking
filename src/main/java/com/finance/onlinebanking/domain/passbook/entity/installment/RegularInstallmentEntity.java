@@ -11,14 +11,12 @@ import javax.persistence.Table;
 import java.time.LocalDateTime;
 
 @Entity
-@DiscriminatorValue("RI")
 @Getter
-@Table(name = "regular_installment")
-@PrimaryKeyJoinColumn(name = "regular_installment_id")
 @SuperBuilder
 @NoArgsConstructor
-
-// 정기 적금 통장
+@Table(name = "regular_installment")
+@PrimaryKeyJoinColumn(name = "regular_installment_id")
+@DiscriminatorValue("RI")
 public class RegularInstallmentEntity extends InstallmentEntity {
 
     private LocalDateTime depositDate;

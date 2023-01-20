@@ -13,14 +13,12 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@Table(name = "fixed_deposit")
-@DiscriminatorValue("FD")
-@PrimaryKeyJoinColumn(name = "fixed_deposit_id")
 @SuperBuilder
 @NoArgsConstructor
-
-//예금 통장
-public class FixedDepositEntity extends PassBookEntity {
+@Table(name = "fixed_deposit")
+@PrimaryKeyJoinColumn(name = "fixed_deposit_id")
+@DiscriminatorValue("FD")
+public class FixedDepositEntity extends PassbookEntity {
 
     private LocalDateTime expiredAt;
 }

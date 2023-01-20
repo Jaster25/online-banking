@@ -10,12 +10,10 @@ import javax.persistence.Table;
 
 @Entity
 @Getter
-@Table(name = "free_installment")
-@DiscriminatorValue("FI")
 @SuperBuilder
 @NoArgsConstructor
-
-// 자유 적금 통장
+@Table(name = "free_installment")
+@DiscriminatorValue("FI")
 public class FreeInstallmentEntity extends InstallmentEntity {
 
 }
