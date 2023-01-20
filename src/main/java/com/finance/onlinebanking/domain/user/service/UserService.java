@@ -33,4 +33,13 @@ public class UserService {
                 .id(userEntity.getUsername())
                 .build();
     }
+
+    @Transactional
+    public void updatePassword(String password) {
+        // 스프링 시큐리티 도입 후 변경 예정
+        UserEntity userEntity = userRepository.findByUsername("user1")
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 사용자입니다."));
+
+        userEntity.updatePassword(password);
+    }
 }
