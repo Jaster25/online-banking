@@ -42,4 +42,17 @@ public class UserService {
 
         userEntity.updatePassword(password);
     }
+
+    @Transactional
+    public void deleteUser() {
+        // 스프링 시큐리티 도입 후 변경 예정
+        UserEntity userEntity = userRepository.findByUsername("user1")
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 사용자입니다."));
+
+        if (userEntity.isDeleted()) {
+            throw new RuntimeException("이미 탈퇴한 사용자입니다.");
+        }
+
+        userEntity.delete();
+    }
 }

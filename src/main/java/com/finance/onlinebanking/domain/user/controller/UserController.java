@@ -27,4 +27,10 @@ public class UserController {
         userService.updatePassword(passwordRequestDto.getPassword());
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
+
+    @DeleteMapping
+    public ResponseEntity<Void> deleteUserApi() {
+        userService.deleteUser();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+    }
 }

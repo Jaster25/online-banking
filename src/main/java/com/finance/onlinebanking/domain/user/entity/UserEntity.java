@@ -34,20 +34,29 @@ public class UserEntity extends BaseTime {
 
     private String role;
 
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
+
 
     @Builder
-    public UserEntity(Long id, List<PassbookEntity> passbooks, String name, String username, String password, String role) {
+    public UserEntity(Long id, List<PassbookEntity> passbooks, String name, String username, String password, String role, boolean isDeleted) {
         this.id = id;
         this.passbooks = passbooks;
         this.name = name;
         this.username = username;
         this.password = password;
         this.role = role;
+        this.isDeleted = isDeleted;
     }
 
 
     public void updatePassword(String password) {
         this.password = password;
+        updatedAt = LocalDateTime.now();
+    }
+
+    public void delete() {
+        this.isDeleted = true;
         updatedAt = LocalDateTime.now();
     }
 }
