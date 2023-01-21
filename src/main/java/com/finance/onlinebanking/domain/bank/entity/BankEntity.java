@@ -3,11 +3,13 @@ package com.finance.onlinebanking.domain.bank.entity;
 import com.finance.onlinebanking.domain.passbook.entity.PassbookEntity;
 import com.finance.onlinebanking.domain.product.entity.ProductEntity;
 import com.finance.onlinebanking.global.common.BaseEntity;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,15 +24,17 @@ public class BankEntity extends BaseEntity {
     @Column(name = "bank_id")
     private Long id;
 
-    @OneToMany(mappedBy = "bank")
-    private List<PassbookEntity> passbooks;
-
-    @OneToMany(mappedBy = "bank")
-    private List<ProductEntity> products;
-
     private String name;
 
     private String code;
 
     private String branch;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "bank")
+    private List<PassbookEntity> passbooks = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "bank")
+    private List<ProductEntity> products = new ArrayList<>();
 }
