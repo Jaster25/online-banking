@@ -2,7 +2,7 @@ package com.finance.onlinebanking.domain.bank.entity;
 
 import com.finance.onlinebanking.domain.passbook.entity.PassbookEntity;
 import com.finance.onlinebanking.domain.product.entity.ProductEntity;
-import com.finance.onlinebanking.global.common.BaseTime;
+import com.finance.onlinebanking.global.common.BaseEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -15,7 +15,7 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor
 @Table(name = "bank")
-public class BankEntity extends BaseTime {
+public class BankEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

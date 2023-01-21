@@ -1,7 +1,7 @@
 package com.finance.onlinebanking.domain.transactionhistory.entity;
 
 import com.finance.onlinebanking.domain.passbook.entity.PassbookEntity;
-import com.finance.onlinebanking.global.common.BaseTime;
+import com.finance.onlinebanking.global.common.BaseEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -15,7 +15,7 @@ import static javax.persistence.FetchType.LAZY;
 @SuperBuilder
 @NoArgsConstructor
 @Table(name = "transaction_history")
-public class TransactionHistoryEntity extends BaseTime {
+public class TransactionHistoryEntity extends BaseEntity {
 
     @Id
     @GeneratedValue

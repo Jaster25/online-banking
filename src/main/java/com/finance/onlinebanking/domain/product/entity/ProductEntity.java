@@ -1,7 +1,7 @@
 package com.finance.onlinebanking.domain.product.entity;
 
 import com.finance.onlinebanking.domain.bank.entity.BankEntity;
-import com.finance.onlinebanking.global.common.BaseTime;
+import com.finance.onlinebanking.global.common.BaseEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -19,7 +19,7 @@ import static javax.persistence.FetchType.LAZY;
 @Table(name = "product")
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn
-public abstract class ProductEntity extends BaseTime {
+public abstract class ProductEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

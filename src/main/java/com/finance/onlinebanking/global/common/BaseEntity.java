@@ -1,5 +1,6 @@
 package com.finance.onlinebanking.global.common;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -16,7 +17,7 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 @SuperBuilder
 @NoArgsConstructor
-public abstract class BaseTime {
+public abstract class BaseEntity {
 
         @CreatedDate
         @Column(name = "created_at", nullable = false, updatable = false)
@@ -24,4 +25,14 @@ public abstract class BaseTime {
 
         @Column(name = "updated_at")
         protected LocalDateTime updatedAt;
+
+        @Builder.Default
+        @Column(name = "is_deleted")
+        boolean isDeleted = false;
+
+
+        public void delete() {
+                this.isDeleted = true;
+                updatedAt = LocalDateTime.now();
+        }
 }
