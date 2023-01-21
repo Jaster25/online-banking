@@ -32,6 +32,8 @@ public class BankService {
                 .name(bankEntity.getName())
                 .code(bankEntity.getCode())
                 .branch(bankEntity.getBranch())
+                .createdAt(bankEntity.getCreatedAt())
+                .updatedAt(bankEntity.getUpdatedAt())
                 .build();
     }
 
@@ -44,6 +46,8 @@ public class BankService {
                 .name(bankEntity.getName())
                 .code(bankEntity.getCode())
                 .branch(bankEntity.getBranch())
+                .createdAt(bankEntity.getCreatedAt())
+                .updatedAt(bankEntity.getUpdatedAt())
                 .build();
     }
 }
