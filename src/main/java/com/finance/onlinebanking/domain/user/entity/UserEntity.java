@@ -37,16 +37,6 @@ public class UserEntity extends BaseEntity {
     private String role;
 
 
-    public UserEntity(Long id, List<PassbookEntity> passbooks, String name, String username, String password, String role) {
-        this.id = id;
-        this.passbooks = passbooks;
-        this.name = name;
-        this.username = username;
-        this.password = password;
-        this.role = role;
-    }
-
-
     public void updatePassword(String password) {
         this.password = password;
         updatedAt = LocalDateTime.now();
