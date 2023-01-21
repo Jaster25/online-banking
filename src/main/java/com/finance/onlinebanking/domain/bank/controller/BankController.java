@@ -6,10 +6,7 @@ import com.finance.onlinebanking.domain.bank.service.BankService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,5 +19,11 @@ public class BankController {
     public ResponseEntity<BankResponseDto> createBankApi(@RequestBody BankRequestDto bankRequestDto) {
         BankResponseDto bankResponseDto = bankService.createBank(bankRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(bankResponseDto);
+    }
+
+    @GetMapping("/{bankId}")
+    public ResponseEntity<BankResponseDto> getBankApi(@PathVariable Long bankId) {
+        BankResponseDto bankResponseDto = bankService.getBank(bankId);
+        return ResponseEntity.status(HttpStatus.OK).body(bankResponseDto);
     }
 }

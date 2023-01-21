@@ -34,4 +34,16 @@ public class BankService {
                 .branch(bankEntity.getBranch())
                 .build();
     }
+
+    public BankResponseDto getBank(Long bankId) {
+        BankEntity bankEntity = bankRepository.findById(bankId)
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 은행 ID입니다."));
+
+        return BankResponseDto.builder()
+                .id(bankEntity.getId())
+                .name(bankEntity.getName())
+                .code(bankEntity.getCode())
+                .branch(bankEntity.getBranch())
+                .build();
+    }
 }
