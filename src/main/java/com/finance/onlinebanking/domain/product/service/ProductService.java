@@ -62,4 +62,27 @@ public class ProductService {
                 .updatedAt(passbookProductEntity.getUpdatedAt())
                 .build();
     }
+
+    public PassbookProductResponseDto getProduct(Long productId) {
+
+        PassbookProductEntity passbookProductEntity = passbookProductRepository.findById(productId)
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 상품 ID 입니다."));
+
+        return PassbookProductResponseDto.builder()
+                .id(passbookProductEntity.getId())
+                .bankId(passbookProductEntity.getBank().getId())
+                .name(passbookProductEntity.getName())
+                .startedAt(passbookProductEntity.getStartedAt())
+                .endedAt(passbookProductEntity.getEndedAt())
+                .interestRate(passbookProductEntity.getInterestRate())
+                .benefit(passbookProductEntity.getBenefit())
+                .content(passbookProductEntity.getContent())
+                .condition(passbookProductEntity.getCondition())
+                .term(passbookProductEntity.getTerm())
+                .amount(passbookProductEntity.getAmount())
+                .expiredAt(passbookProductEntity.getExpiredAt())
+                .createdAt(passbookProductEntity.getCreatedAt())
+                .updatedAt(passbookProductEntity.getUpdatedAt())
+                .build();
+    }
 }

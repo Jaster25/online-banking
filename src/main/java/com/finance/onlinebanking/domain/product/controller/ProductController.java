@@ -21,4 +21,10 @@ public class ProductController {
         PassbookProductResponseDto passbookProductResponseDto = productService.createProduct(Long.parseLong(bankId), passbookProductRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(passbookProductResponseDto);
     }
+
+    @GetMapping("/{productId}")
+    public ResponseEntity<PassbookProductResponseDto> getProductApi(@PathVariable("productId") String productId) {
+        PassbookProductResponseDto passbookProductResponseDto = productService.getProduct(Long.parseLong(productId));
+        return ResponseEntity.status(HttpStatus.OK).body(passbookProductResponseDto);
+    }
 }
