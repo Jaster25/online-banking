@@ -17,14 +17,14 @@ public class ProductController {
 
 
     @PostMapping("/{bankId}")
-    public ResponseEntity<PassbookProductResponseDto> createProductApi(@PathVariable("bankId") String bankId, @RequestBody PassbookProductRequestDto passbookProductRequestDto) {
-        PassbookProductResponseDto passbookProductResponseDto = productService.createProduct(Long.parseLong(bankId), passbookProductRequestDto);
+    public ResponseEntity<PassbookProductResponseDto> createProductApi(@PathVariable("bankId") Long bankId, @RequestBody PassbookProductRequestDto passbookProductRequestDto) {
+        PassbookProductResponseDto passbookProductResponseDto = productService.createProduct(bankId, passbookProductRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(passbookProductResponseDto);
     }
 
     @GetMapping("/{productId}")
-    public ResponseEntity<PassbookProductResponseDto> getProductApi(@PathVariable("productId") String productId) {
-        PassbookProductResponseDto passbookProductResponseDto = productService.getProduct(Long.parseLong(productId));
+    public ResponseEntity<PassbookProductResponseDto> getProductApi(@PathVariable("productId") Long productId) {
+        PassbookProductResponseDto passbookProductResponseDto = productService.getProduct(productId);
         return ResponseEntity.status(HttpStatus.OK).body(passbookProductResponseDto);
     }
 }

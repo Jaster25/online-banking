@@ -33,20 +33,11 @@ public class PassbookProductRequestDto {
 
     private Long amount;
 
+    private LocalDateTime expiredAt;
+
 
     @Builder
-    public PassbookProductRequestDto(String name, LocalDateTime startedAt, LocalDateTime endedAt, BigDecimal interestRate, String benefit, String content, String condition) {
-        this.name = name;
-        this.startedAt = startedAt;
-        this.endedAt = endedAt;
-        this.interestRate = interestRate;
-        this.benefit = benefit;
-        this.content = content;
-        this.condition = condition;
-    }
-
-    @Builder
-    public PassbookProductRequestDto(String name, LocalDateTime startedAt, LocalDateTime endedAt, BigDecimal interestRate, String benefit, String content, String condition, int term, Long amount) {
+    public PassbookProductRequestDto(String name, LocalDateTime startedAt, LocalDateTime endedAt, BigDecimal interestRate, String benefit, String content, String condition, int term, Long amount, LocalDateTime expiredAt) {
         this.name = name;
         this.startedAt = startedAt;
         this.endedAt = endedAt;
@@ -56,5 +47,6 @@ public class PassbookProductRequestDto {
         this.condition = condition;
         this.term = term;
         this.amount = amount;
+        this.expiredAt = expiredAt;
     }
 }
