@@ -22,6 +22,16 @@ public class TransactionHistoryEntity extends BaseEntity {
     @Column(name = "transaction_history_id")
     private Long id;
 
+    private String withdrawAccountNumber;
+
+    private String depositAccountNumber;
+
+    private Long amount;
+
+    private String memo;
+
+    private Long commission;
+
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "withdraw_passbook_id")
     private PassbookEntity withdrawPassbook;
@@ -29,18 +39,6 @@ public class TransactionHistoryEntity extends BaseEntity {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "deposit_passbook_id")
     private PassbookEntity depositPassbook;
-
-    private String withdrawAccountNumber;
-
-    private String depositAccountNumber;
-
-    private Long amount;
-
-    private LocalDateTime transactionAt;
-
-    private String memo;
-
-    private Long commission;
 
 
     // 연관관계 메서드
