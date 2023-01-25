@@ -54,10 +54,10 @@ public abstract class PassbookEntity extends BaseEntity {
     private PassbookProductEntity passbookProduct;
 
     @OneToMany(mappedBy = "withdrawPassbook")
-    List<TransactionHistoryEntity> withdrawPassbook;
+    private List<TransactionHistoryEntity> withdrawTransactionHistories;
 
     @OneToMany(mappedBy = "depositPassbook")
-    List<TransactionHistoryEntity> depositPassbook;
+    private List<TransactionHistoryEntity> depositTransactionHistories;
 
 
     public void updatePassword(String password) {
@@ -65,8 +65,9 @@ public abstract class PassbookEntity extends BaseEntity {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public void transfer(String depositAccountNumber, Long amount, String memo) {
-
+    public void transfer(PassbookEntity depositPassbook, Long amount) {
+        this.balance -= amount;
+        depositPassbook.balance += amount;
     }
 
 

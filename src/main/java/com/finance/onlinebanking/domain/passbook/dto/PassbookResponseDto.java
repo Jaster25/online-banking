@@ -13,40 +13,39 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Getter
-@NoArgsConstructor
 public class PassbookResponseDto {
 
-    private Long id;
+    private final Long id;
 
-    private String accountNumber;
+    private final String accountNumber;
 
-    private Long balance;
+    private final Long balance;
 
-    private BigDecimal interestRate;
+    private final BigDecimal interestRate;
 
-    private Long userId;
+    private final Long userId;
 
-    private Long bankId;
+    private final Long bankId;
 
-    private Long passbookProductId;
+    private final Long passbookProductId;
 
-    private Long transferLimit;
+    private final Long transferLimit;
 
-    private Long amount;
+    private final Long amount;
 
-    private String dtype;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
-    private LocalDateTime expiredAt;
+    private final String dtype;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
-    private LocalDateTime depositDate;
+    private final LocalDateTime expiredAt;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
-    private LocalDateTime createdAt;
+    private final LocalDateTime depositDate;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
-    private LocalDateTime updatedAt;
+    private final LocalDateTime createdAt;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
+    private final LocalDateTime updatedAt;
 
 
     @Builder
@@ -67,7 +66,7 @@ public class PassbookResponseDto {
         this.updatedAt = updatedAt;
     }
 
-    public PassbookResponseDto depositWithdrawBuilder(DepositWithdrawEntity depositWithdrawEntity) {
+    public static PassbookResponseDto depositWithdrawBuilder(DepositWithdrawEntity depositWithdrawEntity) {
         return PassbookResponseDto.builder()
                 .id(depositWithdrawEntity.getId())
                 .dtype(depositWithdrawEntity.getDtype())
@@ -83,7 +82,7 @@ public class PassbookResponseDto {
                 .build();
     }
 
-    public PassbookResponseDto fixedDepositBuilder(FixedDepositEntity fixedDepositEntity) {
+    public static PassbookResponseDto fixedDepositBuilder(FixedDepositEntity fixedDepositEntity) {
         return PassbookResponseDto.builder()
                 .id(fixedDepositEntity.getId())
                 .dtype(fixedDepositEntity.getDtype())
@@ -99,7 +98,7 @@ public class PassbookResponseDto {
                 .build();
     }
 
-    public PassbookResponseDto regularInstallmentBuilder(RegularInstallmentEntity regularInstallmentEntity) {
+    public static PassbookResponseDto regularInstallmentBuilder(RegularInstallmentEntity regularInstallmentEntity) {
         return PassbookResponseDto.builder()
                 .id(regularInstallmentEntity.getId())
                 .dtype(regularInstallmentEntity.getDtype())
@@ -117,7 +116,7 @@ public class PassbookResponseDto {
                 .build();
     }
 
-    public PassbookResponseDto freeInstallmentBuilder(FreeInstallmentEntity freeInstallmentEntity) {
+    public static PassbookResponseDto freeInstallmentBuilder(FreeInstallmentEntity freeInstallmentEntity) {
         return PassbookResponseDto.builder()
                 .id(freeInstallmentEntity.getId())
                 .dtype(freeInstallmentEntity.getDtype())

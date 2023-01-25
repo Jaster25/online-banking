@@ -37,15 +37,23 @@ public class PassbookController {
         return ResponseEntity.status(HttpStatus.OK).body(passbookResponseDto);
     }
 
-    @PutMapping("{passbookId}/password")
+    @PutMapping("/{passbookId}/password")
     public ResponseEntity<Void> updatePassbookPasswordApi(@PathVariable("passbookId") Long passbookId, @RequestBody PasswordRequestDto passwordRequestDto) {
         passbookService.updatePassword(passbookId, passwordRequestDto);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
 
-    @PutMapping("{passbookId}/transfer-limit")
+    @PutMapping("/{passbookId}/transfer-limit")
     public ResponseEntity<TransferLimitResponseDto> updateTransferLimitApi(@PathVariable("passbookId") Long passbookId, @RequestBody TransferLimitRequestDto transferLimitRequestDto) {
         TransferLimitResponseDto transferLimitResponseDto = passbookService.updateTransferLimit(passbookId, transferLimitRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(transferLimitResponseDto);
+    }
+
+    @PostMapping("/{passbookId}/transfer/{depositPassbookId}")
+    public ResponseEntity<TransferResponseDto> createTransferApi(@PathVariable("passbookId") Long passbookId,
+                                                                 @PathVariable("depositPassbookId") Long depositPassbookId,
+                                                                 @RequestBody TransferRequestDto transferRequestDto) {
+        TransferResponseDto transferResponseDto = passbookService.createTransfer(passbookId, depositPassbookId, transferRequestDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(transferResponseDto);
     }
 }

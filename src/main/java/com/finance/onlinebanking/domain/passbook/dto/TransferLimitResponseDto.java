@@ -5,14 +5,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
 public class TransferLimitResponseDto {
 
-    private Long id;
+    private final Long id;
 
-    private String accountNumber;
+    private final String accountNumber;
 
-    private Long transferLimit;
+    private final Long transferLimit;
 
 
     @Builder

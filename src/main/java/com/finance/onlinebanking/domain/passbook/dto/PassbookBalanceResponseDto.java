@@ -5,14 +5,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
 public class PassbookBalanceResponseDto {
 
-    private Long id;
+    private final Long id;
 
-    private String accountNumber;
+    private final String accountNumber;
 
-    private Long balance;
+    private final Long balance;
 
 
     @Builder

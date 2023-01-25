@@ -13,6 +13,9 @@ import com.finance.onlinebanking.domain.passbook.utils.AccountNumberCreator;
 import com.finance.onlinebanking.domain.passbook.utils.PassbookType;
 import com.finance.onlinebanking.domain.product.entity.PassbookProductEntity;
 import com.finance.onlinebanking.domain.product.repository.PassbookProductRepository;
+import com.finance.onlinebanking.domain.transactionhistory.dto.TransactionHistoryRequestDto;
+import com.finance.onlinebanking.domain.transactionhistory.dto.TransactionHistoryResponseDto;
+import com.finance.onlinebanking.domain.transactionhistory.service.TransactionHistoryService;
 import com.finance.onlinebanking.domain.user.entity.UserEntity;
 import com.finance.onlinebanking.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -40,6 +43,8 @@ public class PassbookService {
 
     private final RegularInstallmentRepository regularInstallmentRepository;
 
+    private final TransactionHistoryService transactionHistoryService;
+
 
     @Transactional
     public PassbookResponseDto createPassbook(Long bankId, Long productId, Long userId, PassbookRequestDto passbookRequestDto) {
@@ -57,8 +62,6 @@ public class PassbookService {
         UserEntity userEntity = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("존재하지 않는 유저 ID 입니다."));
 
-        PassbookResponseDto passbookResponseDto = new PassbookResponseDto();
-
         if (passbookRequestDto.getPassbookType().equals(PassbookType.DW.toString())) {
             DepositWithdrawEntity depositWithdrawEntity = DepositWithdrawEntity.builder()
                     .accountNumber(new AccountNumberCreator().createAccountNumber(bankId, bankEntity.getCode()))
@@ -75,7 +78,7 @@ public class PassbookService {
 
             depositWithdrawRepository.save(depositWithdrawEntity);
 
-            return passbookResponseDto.depositWithdrawBuilder(depositWithdrawEntity);
+            return PassbookResponseDto.depositWithdrawBuilder(depositWithdrawEntity);
         } else if (passbookRequestDto.getPassbookType().equals(PassbookType.FD.toString())) {
             FixedDepositEntity fixedDepositEntity = FixedDepositEntity.builder()
                     .accountNumber(new AccountNumberCreator().createAccountNumber(bankId, bankEntity.getCode()))
@@ -92,7 +95,7 @@ public class PassbookService {
 
             fixedDepositRepository.save(fixedDepositEntity);
 
-            return passbookResponseDto.fixedDepositBuilder(fixedDepositEntity);
+            return PassbookResponseDto.fixedDepositBuilder(fixedDepositEntity);
         } else if (passbookRequestDto.getPassbookType().equals(PassbookType.FI.toString())) {
             FreeInstallmentEntity freeInstallmentEntity = FreeInstallmentEntity.builder()
                     .accountNumber(new AccountNumberCreator().createAccountNumber(bankId, bankEntity.getCode()))
@@ -109,7 +112,7 @@ public class PassbookService {
 
             freeInstallmentRepository.save(freeInstallmentEntity);
 
-            return passbookResponseDto.freeInstallmentBuilder(freeInstallmentEntity);
+            return PassbookResponseDto.freeInstallmentBuilder(freeInstallmentEntity);
         } else if (passbookRequestDto.getPassbookType().equals(PassbookType.RI.toString())) {
             RegularInstallmentEntity regularInstallmentEntity = RegularInstallmentEntity.builder()
                     .accountNumber(new AccountNumberCreator().createAccountNumber(bankId, bankEntity.getCode()))
@@ -128,7 +131,7 @@ public class PassbookService {
 
             regularInstallmentRepository.save(regularInstallmentEntity);
 
-            return passbookResponseDto.regularInstallmentBuilder(regularInstallmentEntity);
+            return PassbookResponseDto.regularInstallmentBuilder(regularInstallmentEntity);
         }
         return null;
     }
@@ -150,24 +153,22 @@ public class PassbookService {
         PassbookEntity passbookEntity = passbookRepository.findById(passbookId)
                 .orElseThrow(() -> new RuntimeException("존재하지 않는 통장 ID 입니다."));
 
-        PassbookResponseDto passbookResponseDto = new PassbookResponseDto();
-
         if (passbookEntity.getDtype().equals(PassbookType.DW.toString())) {
             DepositWithdrawEntity depositWithdrawEntity = depositWithdrawRepository.findById(passbookId)
                     .orElseThrow(() -> new RuntimeException("존재하지 않는 입출금 통장 ID 입니다."));
-            return passbookResponseDto.depositWithdrawBuilder(depositWithdrawEntity);
+            return PassbookResponseDto.depositWithdrawBuilder(depositWithdrawEntity);
         } else if (passbookEntity.getDtype().equals(PassbookType.FD.toString())) {
             FixedDepositEntity fixedDepositEntity = fixedDepositRepository.findById(passbookId)
                     .orElseThrow(() -> new RuntimeException("존재하지 않는 예금 통장 ID 입니다."));
-            return passbookResponseDto.fixedDepositBuilder(fixedDepositEntity);
+            return PassbookResponseDto.fixedDepositBuilder(fixedDepositEntity);
         } else if (passbookEntity.getDtype().equals(PassbookType.FI.toString())) {
             FreeInstallmentEntity freeInstallmentEntity = freeInstallmentRepository.findById(passbookId)
                     .orElseThrow(() -> new RuntimeException("존재하지 않는 자유 적금 통장 ID 입니다."));
-            return passbookResponseDto.freeInstallmentBuilder(freeInstallmentEntity);
+            return PassbookResponseDto.freeInstallmentBuilder(freeInstallmentEntity);
         } else if (passbookEntity.getDtype().equals(PassbookType.RI.toString())) {
             RegularInstallmentEntity regularInstallmentEntity = regularInstallmentRepository.findById(passbookId)
                     .orElseThrow(() -> new RuntimeException("존재하지 않는 정기 적금 통장 ID 입니다."));
-            return passbookResponseDto.regularInstallmentBuilder(regularInstallmentEntity);
+            return PassbookResponseDto.regularInstallmentBuilder(regularInstallmentEntity);
         }
         return null;
     }
@@ -198,6 +199,39 @@ public class PassbookService {
                 .id(depositWithdrawEntity.getId())
                 .accountNumber(depositWithdrawEntity.getAccountNumber())
                 .transferLimit(depositWithdrawEntity.getTransferLimit())
+                .build();
+    }
+
+    @Transactional
+    public TransferResponseDto createTransfer(Long passbookId, Long depositPassbookId, TransferRequestDto transferRequestDto) {
+        PassbookEntity withdrawPassbook = passbookRepository.findById(passbookId)
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 출금 통장 ID 입니다."));
+
+        PassbookEntity depositPassbook = passbookRepository.findById(depositPassbookId)
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 입금 통장 ID 입니다."));
+
+        // TODO: 유효성 검사, 출금 통장 잔액 확인, 출금 통장 이체 한도 확인
+        withdrawPassbook.transfer(depositPassbook, transferRequestDto.getAmount());
+        passbookRepository.save(withdrawPassbook);
+        passbookRepository.save(depositPassbook);
+
+        TransactionHistoryRequestDto transactionHistoryRequestDto = TransactionHistoryRequestDto.builder()
+                .withdrawAccountNumber(withdrawPassbook.getAccountNumber())
+                .depositAccountNumber(depositPassbook.getAccountNumber())
+                .amount(transferRequestDto.getAmount())
+                .memo(transferRequestDto.getMemo())
+                .commission(transferRequestDto.getCommission())
+                .build();
+
+        TransactionHistoryResponseDto transactionHistoryResponseDto = transactionHistoryService.createTransactionHistory(transactionHistoryRequestDto, withdrawPassbook, depositPassbook);
+
+        return TransferResponseDto.builder()
+                .withdrawAccountNumber(transactionHistoryResponseDto.getWithdrawAccountNumber())
+                .depositAccountNumber(transactionHistoryResponseDto.getDepositAccountNumber())
+                .amount(transactionHistoryResponseDto.getAmount())
+                .memo(transactionHistoryResponseDto.getMemo())
+                .commission(transactionHistoryResponseDto.getCommission())
+                .createdAt(transactionHistoryResponseDto.getCreatedAt())
                 .build();
     }
 }
