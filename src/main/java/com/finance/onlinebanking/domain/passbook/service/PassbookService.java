@@ -136,6 +136,19 @@ public class PassbookService {
         return null;
     }
 
+    @Transactional
+    public void deletePassbook(Long passbookId) {
+        //TODO: 유효성 검증
+        PassbookEntity passbookEntity = passbookRepository.findById(passbookId)
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 통장 ID 입니다."));
+
+        if (passbookEntity.isDeleted()) {
+            throw new RuntimeException("이미 삭제된 통장입니다.");
+        }
+
+        passbookEntity.delete();
+    }
+
     public PassbookBalanceResponseDto getBalance(Long passbookId) {
         // TODO: 사용자 검증
         PassbookEntity passbookEntity = passbookRepository.findById(passbookId)

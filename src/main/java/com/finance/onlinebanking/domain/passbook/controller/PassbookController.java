@@ -25,6 +25,12 @@ public class PassbookController {
         return ResponseEntity.status(HttpStatus.CREATED).body(passbookResponseDto);
     }
 
+    @DeleteMapping("/{passbookId}")
+    public ResponseEntity<Void> deletePassbookApi(@PathVariable("passbookId") Long passbookId) {
+        passbookService.deletePassbook(passbookId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+    }
+
     @GetMapping("/{passbookId}/balance")
     public ResponseEntity<PassbookBalanceResponseDto> getBalanceApi(@PathVariable("passbookId") Long passbookId) {
         PassbookBalanceResponseDto passbookBalanceResponseDto = passbookService.getBalance(passbookId);
@@ -56,4 +62,6 @@ public class PassbookController {
         TransferResponseDto transferResponseDto = passbookService.createTransfer(passbookId, depositPassbookId, transferRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(transferResponseDto);
     }
+
+
 }
