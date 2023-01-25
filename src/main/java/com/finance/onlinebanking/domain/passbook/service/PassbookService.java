@@ -2,7 +2,6 @@ package com.finance.onlinebanking.domain.passbook.service;
 
 import com.finance.onlinebanking.domain.bank.entity.BankEntity;
 import com.finance.onlinebanking.domain.bank.repository.BankRepository;
-import com.finance.onlinebanking.domain.passbook.dto.FixedDepositResponseDto;
 import com.finance.onlinebanking.domain.passbook.dto.PassbookBalanceResponseDto;
 import com.finance.onlinebanking.domain.passbook.dto.PassbookRequestDto;
 import com.finance.onlinebanking.domain.passbook.dto.PassbookResponseDto;
@@ -17,6 +16,9 @@ import com.finance.onlinebanking.domain.product.entity.PassbookProductEntity;
 import com.finance.onlinebanking.domain.product.repository.PassbookProductRepository;
 import com.finance.onlinebanking.domain.user.entity.UserEntity;
 import com.finance.onlinebanking.domain.user.repository.UserRepository;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -206,6 +208,18 @@ public class PassbookService {
                 .amount(regularInstallmentEntity.getAmount())
                 .createdAt(regularInstallmentEntity.getCreatedAt())
                 .updatedAt(regularInstallmentEntity.getUpdatedAt())
+                .build();
+    }
+
+    public PassbookBalanceResponseDto getBalance(Long passbookId) {
+        // TODO: 사용자 검증
+        PassbookEntity passbookEntity = passbookRepository.findById(passbookId)
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 통장 ID 입니다."));
+
+        return PassbookBalanceResponseDto.builder()
+                .id(passbookEntity.getId())
+                .accountNumber(passbookEntity.getAccountNumber())
+                .balance(passbookEntity.getBalance())
                 .build();
     }
 }

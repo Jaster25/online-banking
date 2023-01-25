@@ -1,6 +1,5 @@
 package com.finance.onlinebanking.domain.passbook.controller;
 
-import com.finance.onlinebanking.domain.passbook.dto.FixedDepositResponseDto;
 import com.finance.onlinebanking.domain.passbook.dto.PassbookBalanceResponseDto;
 import com.finance.onlinebanking.domain.passbook.dto.PassbookRequestDto;
 import com.finance.onlinebanking.domain.passbook.dto.PassbookResponseDto;
@@ -36,4 +35,12 @@ public class PassbookController {
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(passbookResponseDto);
     }
+
+    @GetMapping("/{passbookId}/balance")
+    public ResponseEntity<PassbookBalanceResponseDto> getBalanceApi(@PathVariable("passbookId") Long passbookId) {
+        PassbookBalanceResponseDto passbookBalanceResponseDto = new PassbookBalanceResponseDto();
+        passbookBalanceResponseDto = passbookService.getBalance(passbookId);
+        return ResponseEntity.status(HttpStatus.OK).body(passbookBalanceResponseDto);
+    }
+
 }
