@@ -29,6 +29,14 @@ public abstract class PassbookEntity extends BaseEntity {
     @Column(name = "passbook_id")
     private Long id;
 
+    private String accountNumber;
+
+    private String password;
+
+    private Long balance;
+
+    private BigDecimal interestRate;
+
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private UserEntity user;
@@ -46,14 +54,6 @@ public abstract class PassbookEntity extends BaseEntity {
 
     @OneToMany(mappedBy = "depositPassbook")
     List<TransactionHistoryEntity> depositPassbook;
-
-    private String accountNumber;
-
-    private String password;
-
-    private Long balance;
-
-    private BigDecimal interestRate;
 
 
     // 비즈니스 로직
