@@ -1,9 +1,6 @@
 package com.finance.onlinebanking.domain.passbook.controller;
 
-import com.finance.onlinebanking.domain.passbook.dto.PassbookBalanceResponseDto;
-import com.finance.onlinebanking.domain.passbook.dto.PassbookRequestDto;
-import com.finance.onlinebanking.domain.passbook.dto.PassbookResponseDto;
-import com.finance.onlinebanking.domain.passbook.dto.PasswordRequestDto;
+import com.finance.onlinebanking.domain.passbook.dto.*;
 import com.finance.onlinebanking.domain.passbook.service.PassbookService;
 import com.finance.onlinebanking.domain.passbook.utils.PassbookType;
 import lombok.RequiredArgsConstructor;
@@ -25,11 +22,7 @@ public class PassbookController {
                                                                  @PathVariable("userId") Long userId,
                                                                  @RequestBody PassbookRequestDto passbookRequestDto) {
         PassbookResponseDto passbookResponseDto = passbookService.createPassbook(bankId, productId, userId, passbookRequestDto);
-        if (passbookResponseDto != null) {
-            return ResponseEntity.status(HttpStatus.CREATED).body(passbookResponseDto);
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(passbookResponseDto);
     }
 
     @GetMapping("/{passbookId}/balance")
@@ -41,16 +34,18 @@ public class PassbookController {
     @GetMapping("/{passbookId}")
     public ResponseEntity<PassbookResponseDto> getPassbookApi(@PathVariable("passbookId") Long passbookId) {
         PassbookResponseDto passbookResponseDto = passbookService.getPassbook(passbookId);
-        if (passbookResponseDto != null) {
-            return ResponseEntity.status(HttpStatus.OK).body(passbookResponseDto);
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }
+        return ResponseEntity.status(HttpStatus.OK).body(passbookResponseDto);
     }
 
     @PutMapping("{passbookId}/password")
     public ResponseEntity<Void> updatePassbookPassword(@PathVariable("passbookId") Long passbookId, @RequestBody PasswordRequestDto passwordRequestDto) {
         passbookService.updatePassword(passbookId, passwordRequestDto);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+    }
+
+    @PutMapping("{passbookId}/transfer-limit")
+    public ResponseEntity<TransferLimitResponseDto> updateTransferLimit(@PathVariable("passbookId") Long passbookId, @RequestBody TransferLimitRequestDto transferLimitRequestDto) {
+        TransferLimitResponseDto transferLimitResponseDto = passbookService.updateTransferLimit(passbookId, transferLimitRequestDto);
+        return ResponseEntity.status(HttpStatus.OK).body(transferLimitResponseDto);
     }
 }

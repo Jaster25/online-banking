@@ -2,10 +2,7 @@ package com.finance.onlinebanking.domain.passbook.service;
 
 import com.finance.onlinebanking.domain.bank.entity.BankEntity;
 import com.finance.onlinebanking.domain.bank.repository.BankRepository;
-import com.finance.onlinebanking.domain.passbook.dto.PassbookBalanceResponseDto;
-import com.finance.onlinebanking.domain.passbook.dto.PassbookRequestDto;
-import com.finance.onlinebanking.domain.passbook.dto.PassbookResponseDto;
-import com.finance.onlinebanking.domain.passbook.dto.PasswordRequestDto;
+import com.finance.onlinebanking.domain.passbook.dto.*;
 import com.finance.onlinebanking.domain.passbook.entity.DepositWithdrawEntity;
 import com.finance.onlinebanking.domain.passbook.entity.FixedDepositEntity;
 import com.finance.onlinebanking.domain.passbook.entity.PassbookEntity;
@@ -18,9 +15,6 @@ import com.finance.onlinebanking.domain.product.entity.PassbookProductEntity;
 import com.finance.onlinebanking.domain.product.repository.PassbookProductRepository;
 import com.finance.onlinebanking.domain.user.entity.UserEntity;
 import com.finance.onlinebanking.domain.user.repository.UserRepository;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -184,6 +178,27 @@ public class PassbookService {
                 .orElseThrow(()->new RuntimeException("존재하지 않는 통장 ID 입니다."));
 
         passbookEntity.updatePassword(passwordRequestDto.getPassword());
+    }
+
+    @Transactional
+    public TransferLimitResponseDto updateTransferLimit(Long passbookId, TransferLimitRequestDto transferLimitRequestDto) {
+        PassbookEntity passbookEntity = passbookRepository.findById(passbookId)
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 통장 ID 입니다."));
+
+        if (!passbookEntity.getDtype().equals(PassbookType.DW.toString())) {
+            return null;
+        }
+
+        DepositWithdrawEntity depositWithdrawEntity = depositWithdrawRepository.findById(passbookEntity.getId())
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 입출금 통장 ID 입니다."));
+
+        depositWithdrawEntity.updateTransferLimit(transferLimitRequestDto.getTransferLimit());
+
+        return TransferLimitResponseDto.builder()
+                .id(depositWithdrawEntity.getId())
+                .accountNumber(depositWithdrawEntity.getAccountNumber())
+                .transferLimit(depositWithdrawEntity.getTransferLimit())
+                .build();
     }
 }
 
