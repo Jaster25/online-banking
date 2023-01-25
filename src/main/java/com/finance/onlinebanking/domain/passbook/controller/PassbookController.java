@@ -38,13 +38,13 @@ public class PassbookController {
     }
 
     @PutMapping("{passbookId}/password")
-    public ResponseEntity<Void> updatePassbookPassword(@PathVariable("passbookId") Long passbookId, @RequestBody PasswordRequestDto passwordRequestDto) {
+    public ResponseEntity<Void> updatePassbookPasswordApi(@PathVariable("passbookId") Long passbookId, @RequestBody PasswordRequestDto passwordRequestDto) {
         passbookService.updatePassword(passbookId, passwordRequestDto);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
 
     @PutMapping("{passbookId}/transfer-limit")
-    public ResponseEntity<TransferLimitResponseDto> updateTransferLimit(@PathVariable("passbookId") Long passbookId, @RequestBody TransferLimitRequestDto transferLimitRequestDto) {
+    public ResponseEntity<TransferLimitResponseDto> updateTransferLimitApi(@PathVariable("passbookId") Long passbookId, @RequestBody TransferLimitRequestDto transferLimitRequestDto) {
         TransferLimitResponseDto transferLimitResponseDto = passbookService.updateTransferLimit(passbookId, transferLimitRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(transferLimitResponseDto);
     }
