@@ -15,12 +15,17 @@ import com.finance.onlinebanking.domain.product.entity.PassbookProductEntity;
 import com.finance.onlinebanking.domain.product.repository.PassbookProductRepository;
 import com.finance.onlinebanking.domain.transactionhistory.dto.TransactionHistoryRequestDto;
 import com.finance.onlinebanking.domain.transactionhistory.dto.TransactionHistoryResponseDto;
+import com.finance.onlinebanking.domain.transactionhistory.repository.TransactionHistoryRepository;
 import com.finance.onlinebanking.domain.transactionhistory.service.TransactionHistoryService;
 import com.finance.onlinebanking.domain.user.entity.UserEntity;
 import com.finance.onlinebanking.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Transactional(readOnly = true)
@@ -245,6 +250,25 @@ public class PassbookService {
                 .memo(transactionHistoryResponseDto.getMemo())
                 .commission(transactionHistoryResponseDto.getCommission())
                 .createdAt(transactionHistoryResponseDto.getCreatedAt())
+                .build();
+    }
+
+    public TransactionsResponseDto getPassbookTransactions(Long passbookId) {
+        // TODO: 유효성 검사
+        PassbookEntity passbookEntity = passbookRepository.findById(passbookId)
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 통장 ID 입니다."));
+
+        List<TransactionResponseDto> dtoList =
+                Stream.concat(passbookEntity.getWithdrawTransactionHistories()
+                                        .stream().map(TransactionResponseDto::getDto)
+                                        .collect(Collectors.toList()).stream(),
+                                passbookEntity.getDepositTransactionHistories()
+                                        .stream().map(TransactionResponseDto::getDto)
+                                        .collect(Collectors.toList()).stream())
+                        .collect(Collectors.toList());
+
+        return TransactionsResponseDto.builder()
+                .transactions(dtoList)
                 .build();
     }
 }

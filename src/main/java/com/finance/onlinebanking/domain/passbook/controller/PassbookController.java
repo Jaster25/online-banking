@@ -2,7 +2,6 @@ package com.finance.onlinebanking.domain.passbook.controller;
 
 import com.finance.onlinebanking.domain.passbook.dto.*;
 import com.finance.onlinebanking.domain.passbook.service.PassbookService;
-import com.finance.onlinebanking.domain.passbook.utils.PassbookType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -63,5 +62,9 @@ public class PassbookController {
         return ResponseEntity.status(HttpStatus.CREATED).body(transferResponseDto);
     }
 
-
+    @GetMapping("/{passbookId}/transactions")
+    public ResponseEntity<TransactionsResponseDto> getPassbookTransactionsApi(@PathVariable("passbookId") Long passbookId) {
+        TransactionsResponseDto transactionsResponseDto = passbookService.getPassbookTransactions(passbookId);
+        return ResponseEntity.status(HttpStatus.OK).body(transactionsResponseDto);
+    }
 }
