@@ -23,17 +23,12 @@ public class PassbookController {
                                                                  @PathVariable("productId") Long productId,
                                                                  @PathVariable("userId") Long userId,
                                                                  @RequestBody PassbookRequestDto passbookRequestDto) {
-        PassbookResponseDto passbookResponseDto = new PassbookResponseDto();
-        if (passbookRequestDto.getPassbookType().equals(PassbookType.DW.toString())) {
-            passbookResponseDto = passbookService.createDepositWithdrawPassbook(bankId, productId, userId, passbookRequestDto);
-        } else if (passbookRequestDto.getPassbookType().equals(PassbookType.FD.toString())) {
-            passbookResponseDto = passbookService.createFixedDepositPassbook(bankId, productId, userId, passbookRequestDto);
-        } else if (passbookRequestDto.getPassbookType().equals(PassbookType.FI.toString())) {
-            passbookResponseDto = passbookService.createFreeInstallmentPassbook(bankId, productId, userId, passbookRequestDto);
-        } else if (passbookRequestDto.getPassbookType().equals(PassbookType.RI.toString())) {
-            passbookResponseDto = passbookService.createRegularInstallmentPassbook(bankId, productId, userId, passbookRequestDto);
+        PassbookResponseDto passbookResponseDto = passbookService.createPassbook(bankId, productId, userId, passbookRequestDto);
+        if (passbookResponseDto != null) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(passbookResponseDto);
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body(passbookResponseDto);
     }
 
     @GetMapping("/{passbookId}/balance")
