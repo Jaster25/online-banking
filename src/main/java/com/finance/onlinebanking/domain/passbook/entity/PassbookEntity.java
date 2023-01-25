@@ -11,6 +11,7 @@ import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
@@ -59,8 +60,9 @@ public abstract class PassbookEntity extends BaseEntity {
     List<TransactionHistoryEntity> depositPassbook;
 
 
-    // 비즈니스 로직
     public void updatePassword(String password) {
+        this.password = password;
+        this.updatedAt = LocalDateTime.now();
     }
 
     public void transfer(String depositAccountNumber, Long amount, String memo) {
@@ -68,7 +70,6 @@ public abstract class PassbookEntity extends BaseEntity {
     }
 
 
-    // 연관관계 메서드
     public void setUser(UserEntity user) {
         if (this.user != null) {
             this.user.getPassbooks().remove(this);

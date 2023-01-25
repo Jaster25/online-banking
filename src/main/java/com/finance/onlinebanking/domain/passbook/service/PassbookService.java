@@ -5,6 +5,7 @@ import com.finance.onlinebanking.domain.bank.repository.BankRepository;
 import com.finance.onlinebanking.domain.passbook.dto.PassbookBalanceResponseDto;
 import com.finance.onlinebanking.domain.passbook.dto.PassbookRequestDto;
 import com.finance.onlinebanking.domain.passbook.dto.PassbookResponseDto;
+import com.finance.onlinebanking.domain.passbook.dto.PasswordRequestDto;
 import com.finance.onlinebanking.domain.passbook.entity.DepositWithdrawEntity;
 import com.finance.onlinebanking.domain.passbook.entity.FixedDepositEntity;
 import com.finance.onlinebanking.domain.passbook.entity.PassbookEntity;
@@ -151,7 +152,7 @@ public class PassbookService {
     }
 
     public PassbookResponseDto getPassbook(Long passbookId) {
-//        // TODO: 통장 유효성 검증
+        // TODO: 통장 유효성 검증
         PassbookEntity passbookEntity = passbookRepository.findById(passbookId)
                 .orElseThrow(() -> new RuntimeException("존재하지 않는 통장 ID 입니다."));
 
@@ -175,6 +176,14 @@ public class PassbookService {
             return passbookResponseDto.regularInstallmentBuilder(regularInstallmentEntity);
         }
         return null;
+    }
+
+    @Transactional
+    public void updatePassword(Long passbookId, PasswordRequestDto passwordRequestDto) {
+        PassbookEntity passbookEntity = passbookRepository.findById(passbookId)
+                .orElseThrow(()->new RuntimeException("존재하지 않는 통장 ID 입니다."));
+
+        passbookEntity.updatePassword(passwordRequestDto.getPassword());
     }
 }
 

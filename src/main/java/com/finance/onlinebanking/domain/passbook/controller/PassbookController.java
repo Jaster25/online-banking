@@ -3,6 +3,7 @@ package com.finance.onlinebanking.domain.passbook.controller;
 import com.finance.onlinebanking.domain.passbook.dto.PassbookBalanceResponseDto;
 import com.finance.onlinebanking.domain.passbook.dto.PassbookRequestDto;
 import com.finance.onlinebanking.domain.passbook.dto.PassbookResponseDto;
+import com.finance.onlinebanking.domain.passbook.dto.PasswordRequestDto;
 import com.finance.onlinebanking.domain.passbook.service.PassbookService;
 import com.finance.onlinebanking.domain.passbook.utils.PassbookType;
 import lombok.RequiredArgsConstructor;
@@ -45,5 +46,11 @@ public class PassbookController {
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
+    }
+
+    @PutMapping("{passbookId}/password")
+    public ResponseEntity<Void> updatePassbookPassword(@PathVariable("passbookId") Long passbookId, @RequestBody PasswordRequestDto passwordRequestDto) {
+        passbookService.updatePassword(passbookId, passwordRequestDto);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
 }
