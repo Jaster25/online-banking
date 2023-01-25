@@ -37,6 +37,9 @@ public abstract class PassbookEntity extends BaseEntity {
 
     private BigDecimal interestRate;
 
+    @Column(insertable = false, updatable = false)
+    private String dtype;
+
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private UserEntity user;

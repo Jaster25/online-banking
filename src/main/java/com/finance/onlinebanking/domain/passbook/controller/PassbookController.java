@@ -38,9 +38,17 @@ public class PassbookController {
 
     @GetMapping("/{passbookId}/balance")
     public ResponseEntity<PassbookBalanceResponseDto> getBalanceApi(@PathVariable("passbookId") Long passbookId) {
-        PassbookBalanceResponseDto passbookBalanceResponseDto = new PassbookBalanceResponseDto();
-        passbookBalanceResponseDto = passbookService.getBalance(passbookId);
+        PassbookBalanceResponseDto passbookBalanceResponseDto = passbookService.getBalance(passbookId);
         return ResponseEntity.status(HttpStatus.OK).body(passbookBalanceResponseDto);
     }
 
+    @GetMapping("/{passbookId}")
+    public ResponseEntity<PassbookResponseDto> getPassbookApi(@PathVariable("passbookId") Long passbookId) {
+        PassbookResponseDto passbookResponseDto = passbookService.getPassbook(passbookId);
+        if (passbookResponseDto != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(passbookResponseDto);
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+    }
 }
