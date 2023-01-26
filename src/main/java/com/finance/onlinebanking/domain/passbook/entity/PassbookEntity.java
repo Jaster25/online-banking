@@ -12,6 +12,7 @@ import lombok.experimental.SuperBuilder;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
@@ -54,10 +55,10 @@ public abstract class PassbookEntity extends BaseEntity {
     private PassbookProductEntity passbookProduct;
 
     @OneToMany(mappedBy = "withdrawPassbook")
-    private List<TransactionHistoryEntity> withdrawTransactionHistories;
+    private List<TransactionHistoryEntity> withdrawTransactionHistories = new ArrayList<>();
 
     @OneToMany(mappedBy = "depositPassbook")
-    private List<TransactionHistoryEntity> depositTransactionHistories;
+    private List<TransactionHistoryEntity> depositTransactionHistories = new ArrayList<>();
 
 
     public void updatePassword(String password) {

@@ -15,7 +15,7 @@ import com.finance.onlinebanking.domain.product.entity.PassbookProductEntity;
 import com.finance.onlinebanking.domain.product.repository.PassbookProductRepository;
 import com.finance.onlinebanking.domain.transactionhistory.dto.TransactionHistoryRequestDto;
 import com.finance.onlinebanking.domain.transactionhistory.dto.TransactionHistoryResponseDto;
-import com.finance.onlinebanking.domain.transactionhistory.repository.TransactionHistoryRepository;
+import com.finance.onlinebanking.domain.transactionhistory.dto.TransactionsHistoryResponseDto;
 import com.finance.onlinebanking.domain.transactionhistory.service.TransactionHistoryService;
 import com.finance.onlinebanking.domain.user.entity.UserEntity;
 import com.finance.onlinebanking.domain.user.repository.UserRepository;
@@ -253,21 +253,21 @@ public class PassbookService {
                 .build();
     }
 
-    public TransactionsResponseDto getPassbookTransactions(Long passbookId) {
+    public TransactionsHistoryResponseDto getPassbookTransactions(Long passbookId) {
         // TODO: 유효성 검사
         PassbookEntity passbookEntity = passbookRepository.findById(passbookId)
                 .orElseThrow(() -> new RuntimeException("존재하지 않는 통장 ID 입니다."));
 
-        List<TransactionResponseDto> dtoList =
+        List<TransactionHistoryResponseDto> dtoList =
                 Stream.concat(passbookEntity.getWithdrawTransactionHistories()
-                                        .stream().map(TransactionResponseDto::getDto)
+                                        .stream().map(TransactionHistoryResponseDto::of)
                                         .collect(Collectors.toList()).stream(),
                                 passbookEntity.getDepositTransactionHistories()
-                                        .stream().map(TransactionResponseDto::getDto)
+                                        .stream().map(TransactionHistoryResponseDto::of)
                                         .collect(Collectors.toList()).stream())
                         .collect(Collectors.toList());
 
-        return TransactionsResponseDto.builder()
+        return TransactionsHistoryResponseDto.builder()
                 .transactions(dtoList)
                 .build();
     }

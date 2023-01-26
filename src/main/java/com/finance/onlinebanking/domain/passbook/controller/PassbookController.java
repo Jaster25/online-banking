@@ -2,6 +2,7 @@ package com.finance.onlinebanking.domain.passbook.controller;
 
 import com.finance.onlinebanking.domain.passbook.dto.*;
 import com.finance.onlinebanking.domain.passbook.service.PassbookService;
+import com.finance.onlinebanking.domain.transactionhistory.dto.TransactionsHistoryResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,7 @@ public class PassbookController {
     private final PassbookService passbookService;
 
 
-    @PostMapping("/bank/{bankId}/product/{productId}/user/{userId}")
+    @PostMapping("/banks/{bankId}/products/{productId}/users/{userId}")
     public ResponseEntity<PassbookResponseDto> createPassbookApi(@PathVariable("bankId") Long bankId,
                                                                  @PathVariable("productId") Long productId,
                                                                  @PathVariable("userId") Long userId,
@@ -63,8 +64,8 @@ public class PassbookController {
     }
 
     @GetMapping("/{passbookId}/transactions")
-    public ResponseEntity<TransactionsResponseDto> getPassbookTransactionsApi(@PathVariable("passbookId") Long passbookId) {
-        TransactionsResponseDto transactionsResponseDto = passbookService.getPassbookTransactions(passbookId);
-        return ResponseEntity.status(HttpStatus.OK).body(transactionsResponseDto);
+    public ResponseEntity<TransactionsHistoryResponseDto> getPassbookTransactionsApi(@PathVariable("passbookId") Long passbookId) {
+        TransactionsHistoryResponseDto transactionsHistoryResponseDto = passbookService.getPassbookTransactions(passbookId);
+        return ResponseEntity.status(HttpStatus.OK).body(transactionsHistoryResponseDto);
     }
 }

@@ -1,5 +1,6 @@
 package com.finance.onlinebanking.domain.transactionhistory.dto;
 
+import com.finance.onlinebanking.domain.transactionhistory.entity.TransactionHistoryEntity;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -35,5 +36,18 @@ public class TransactionHistoryResponseDto {
         this.commission = commission;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+    }
+
+    public static TransactionHistoryResponseDto of(TransactionHistoryEntity transactionHistoryEntity) {
+        return TransactionHistoryResponseDto.builder()
+                .id(transactionHistoryEntity.getId())
+                .withdrawAccountNumber(transactionHistoryEntity.getWithdrawAccountNumber())
+                .depositAccountNumber(transactionHistoryEntity.getDepositAccountNumber())
+                .amount(transactionHistoryEntity.getAmount())
+                .memo(transactionHistoryEntity.getMemo())
+                .commission(transactionHistoryEntity.getCommission())
+                .createdAt(transactionHistoryEntity.getCreatedAt())
+                .updatedAt(transactionHistoryEntity.getUpdatedAt())
+                .build();
     }
 }
