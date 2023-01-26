@@ -8,6 +8,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -23,5 +24,7 @@ public class DepositWithdrawEntity extends PassbookEntity {
 
     // -- 비즈니스 로직 -- //
     public void updateTransferLimit(Long transferLimit) {
+        this.transferLimit = transferLimit;
+        this.updatedAt = LocalDateTime.now();
     }
 }

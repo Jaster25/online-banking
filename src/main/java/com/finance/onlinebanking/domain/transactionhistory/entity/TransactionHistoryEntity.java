@@ -44,17 +44,17 @@ public class TransactionHistoryEntity extends BaseEntity {
     // 연관관계 메서드
     public void setWithdrawPassbook(PassbookEntity withdrawPassbook) {
         if (this.withdrawPassbook != null) {
-            this.withdrawPassbook.getWithdrawPassbook().remove(this);
+            this.withdrawPassbook.getWithdrawTransactionHistories().remove(this);
         }
         this.withdrawPassbook = withdrawPassbook;
-        withdrawPassbook.getWithdrawPassbook().add(this);
+        withdrawPassbook.getWithdrawTransactionHistories().add(this);
     }
 
     public void setDepositPassbook(PassbookEntity depositPassbook) {
         if (this.depositPassbook != null) {
-            this.depositPassbook.getDepositPassbook().remove(this);
+            this.depositPassbook.getDepositTransactionHistories().remove(this);
         }
         this.depositPassbook = depositPassbook;
-        depositPassbook.getDepositPassbook().add(this);
+        depositPassbook.getDepositTransactionHistories().add(this);
     }
 }

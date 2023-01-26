@@ -11,6 +11,8 @@ import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
@@ -29,6 +31,17 @@ public abstract class PassbookEntity extends BaseEntity {
     @Column(name = "passbook_id")
     private Long id;
 
+    private String accountNumber;
+
+    private String password;
+
+    private Long balance;
+
+    private BigDecimal interestRate;
+
+    @Column(insertable = false, updatable = false)
+    private String dtype;
+
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private UserEntity user;
@@ -42,30 +55,23 @@ public abstract class PassbookEntity extends BaseEntity {
     private PassbookProductEntity passbookProduct;
 
     @OneToMany(mappedBy = "withdrawPassbook")
-    List<TransactionHistoryEntity> withdrawPassbook;
+    private List<TransactionHistoryEntity> withdrawTransactionHistories = new ArrayList<>();
 
     @OneToMany(mappedBy = "depositPassbook")
-    List<TransactionHistoryEntity> depositPassbook;
-
-    private String accountNumber;
-
-    private String password;
-
-    private Long balance;
-
-    private BigDecimal interestRate;
+    private List<TransactionHistoryEntity> depositTransactionHistories = new ArrayList<>();
 
 
-    // 비즈니스 로직
     public void updatePassword(String password) {
+        this.password = password;
+        this.updatedAt = LocalDateTime.now();
     }
 
-    public void transfer(String depositAccountNumber, Long amount, String memo) {
-
+    public void transfer(PassbookEntity depositPassbook, Long amount) {
+        this.balance -= amount;
+        depositPassbook.balance += amount;
     }
 
 
-    // 연관관계 메서드
     public void setUser(UserEntity user) {
         if (this.user != null) {
             this.user.getPassbooks().remove(this);
