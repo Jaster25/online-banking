@@ -3,11 +3,12 @@ package com.finance.onlinebanking.domain.passbook.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.finance.onlinebanking.domain.passbook.entity.DepositWithdrawEntity;
 import com.finance.onlinebanking.domain.passbook.entity.FixedDepositEntity;
+import com.finance.onlinebanking.domain.passbook.entity.PassbookEntity;
 import com.finance.onlinebanking.domain.passbook.entity.installment.FreeInstallmentEntity;
+import com.finance.onlinebanking.domain.passbook.entity.installment.InstallmentEntity;
 import com.finance.onlinebanking.domain.passbook.entity.installment.RegularInstallmentEntity;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -129,6 +130,35 @@ public class PassbookResponseDto {
                 .expiredAt(freeInstallmentEntity.getExpiredAt())
                 .createdAt(freeInstallmentEntity.getCreatedAt())
                 .updatedAt(freeInstallmentEntity.getUpdatedAt())
+                .build();
+    }
+
+    public static PassbookResponseDto of(PassbookEntity passbookEntity) {
+        return PassbookResponseDto.builder()
+                .id(passbookEntity.getId())
+                .accountNumber(passbookEntity.getAccountNumber())
+                .balance(passbookEntity.getBalance())
+                .interestRate(passbookEntity.getInterestRate())
+                .userId(passbookEntity.getUser().getId())
+                .bankId(passbookEntity.getBank().getId())
+                .passbookProductId(passbookEntity.getPassbookProduct().getId())
+                .transferLimit(passbookEntity.isDepositWithdrawPassbook()
+                        ? ((DepositWithdrawEntity) passbookEntity).getTransferLimit()
+                        : null)
+                .amount(passbookEntity.isRegularInstallmentPassbook()
+                        ? ((RegularInstallmentEntity) passbookEntity).getAmount()
+                        : null)
+                .dtype(passbookEntity.getDtype())
+                .expiredAt(!passbookEntity.isDepositWithdrawPassbook()
+                        ? passbookEntity.isFixedDepositPassbook()
+                            ? ((FixedDepositEntity) passbookEntity).getExpiredAt()
+                            : ((InstallmentEntity) passbookEntity).getExpiredAt()
+                        : null)
+                .depositDate(passbookEntity.isRegularInstallmentPassbook()
+                        ? ((RegularInstallmentEntity) passbookEntity).getDepositDate()
+                        : null)
+                .createdAt(passbookEntity.getCreatedAt())
+                .updatedAt(passbookEntity.getUpdatedAt())
                 .build();
     }
 }

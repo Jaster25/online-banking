@@ -171,24 +171,37 @@ public class PassbookService {
         PassbookEntity passbookEntity = passbookRepository.findById(passbookId)
                 .orElseThrow(() -> new RuntimeException("존재하지 않는 통장 ID 입니다."));
 
-        if (passbookEntity.getDtype().equals(PassbookType.DW.toString())) {
+        if (passbookEntity.isDepositWithdrawPassbook()) {
             DepositWithdrawEntity depositWithdrawEntity = depositWithdrawRepository.findById(passbookId)
                     .orElseThrow(() -> new RuntimeException("존재하지 않는 입출금 통장 ID 입니다."));
             return PassbookResponseDto.depositWithdrawBuilder(depositWithdrawEntity);
-        } else if (passbookEntity.getDtype().equals(PassbookType.FD.toString())) {
+        } else if (passbookEntity.isFixedDepositPassbook()) {
             FixedDepositEntity fixedDepositEntity = fixedDepositRepository.findById(passbookId)
                     .orElseThrow(() -> new RuntimeException("존재하지 않는 예금 통장 ID 입니다."));
             return PassbookResponseDto.fixedDepositBuilder(fixedDepositEntity);
-        } else if (passbookEntity.getDtype().equals(PassbookType.FI.toString())) {
+        } else if (passbookEntity.isFreeInstallmentPassbook()) {
             FreeInstallmentEntity freeInstallmentEntity = freeInstallmentRepository.findById(passbookId)
                     .orElseThrow(() -> new RuntimeException("존재하지 않는 자유 적금 통장 ID 입니다."));
             return PassbookResponseDto.freeInstallmentBuilder(freeInstallmentEntity);
-        } else if (passbookEntity.getDtype().equals(PassbookType.RI.toString())) {
+        } else if (passbookEntity.isRegularInstallmentPassbook()) {
             RegularInstallmentEntity regularInstallmentEntity = regularInstallmentRepository.findById(passbookId)
                     .orElseThrow(() -> new RuntimeException("존재하지 않는 정기 적금 통장 ID 입니다."));
             return PassbookResponseDto.regularInstallmentBuilder(regularInstallmentEntity);
         }
         return null;
+    }
+
+    public PassbooksResponseDto getPassbooks(Long userId) {
+        UserEntity user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 사용자 ID입니다."));
+
+        List<PassbookEntity> passbooks = passbookRepository.findAllByUser(user);
+
+        return PassbooksResponseDto.builder()
+                .passbooks(passbooks.stream()
+                        .map(PassbookResponseDto::of)
+                        .collect(Collectors.toList()))
+                .build();
     }
 
     @Transactional
