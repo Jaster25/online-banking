@@ -42,7 +42,7 @@ public abstract class ProductEntity extends BaseEntity {
 
     private String content;
 
-    private String condition;
+    private String conditions;
 
 
     // 연관관계 메서드

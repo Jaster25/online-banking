@@ -5,9 +5,7 @@ import com.finance.onlinebanking.domain.bank.repository.BankRepository;
 import com.finance.onlinebanking.domain.product.dto.PassbookProductRequestDto;
 import com.finance.onlinebanking.domain.product.dto.PassbookProductResponseDto;
 import com.finance.onlinebanking.domain.product.entity.PassbookProductEntity;
-import com.finance.onlinebanking.domain.product.entity.ProductEntity;
 import com.finance.onlinebanking.domain.product.repository.PassbookProductRepository;
-import com.finance.onlinebanking.domain.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,8 +18,6 @@ public class ProductService {
     private final BankRepository bankRepository;
 
     private final PassbookProductRepository passbookProductRepository;
-
-    private final ProductRepository productRepository;
 
 
     @Transactional
@@ -36,7 +32,7 @@ public class ProductService {
                 .interestRate(productRequestDto.getInterestRate())
                 .benefit(productRequestDto.getBenefit())
                 .content(productRequestDto.getContent())
-                .condition(productRequestDto.getCondition())
+                .conditions(productRequestDto.getConditions())
                 .term(productRequestDto.getTerm())
                 .amount(productRequestDto.getAmount())
                 .build();
@@ -54,7 +50,7 @@ public class ProductService {
                 .interestRate(passbookProductEntity.getInterestRate())
                 .benefit(passbookProductEntity.getBenefit())
                 .content(passbookProductEntity.getContent())
-                .condition(passbookProductEntity.getCondition())
+                .conditions(passbookProductEntity.getConditions())
                 .term(passbookProductEntity.getTerm())
                 .amount(passbookProductEntity.getAmount())
                 .expiredAt(passbookProductEntity.getExpiredAt())
@@ -77,7 +73,7 @@ public class ProductService {
                 .interestRate(passbookProductEntity.getInterestRate())
                 .benefit(passbookProductEntity.getBenefit())
                 .content(passbookProductEntity.getContent())
-                .condition(passbookProductEntity.getCondition())
+                .conditions(passbookProductEntity.getConditions())
                 .term(passbookProductEntity.getTerm())
                 .amount(passbookProductEntity.getAmount())
                 .expiredAt(passbookProductEntity.getExpiredAt())

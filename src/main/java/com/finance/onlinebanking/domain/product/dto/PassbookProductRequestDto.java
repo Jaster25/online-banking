@@ -27,7 +27,7 @@ public class PassbookProductRequestDto {
 
     private String content;
 
-    private String condition;
+    private String conditions;
 
     private int term;
 
@@ -37,14 +37,14 @@ public class PassbookProductRequestDto {
 
 
     @Builder
-    public PassbookProductRequestDto(String name, LocalDateTime startedAt, LocalDateTime endedAt, BigDecimal interestRate, String benefit, String content, String condition, int term, Long amount, LocalDateTime expiredAt) {
+    public PassbookProductRequestDto(String name, LocalDateTime startedAt, LocalDateTime endedAt, BigDecimal interestRate, String benefit, String content, String conditions, int term, Long amount, LocalDateTime expiredAt) {
         this.name = name;
         this.startedAt = startedAt;
         this.endedAt = endedAt;
         this.interestRate = interestRate;
         this.benefit = benefit;
         this.content = content;
-        this.condition = condition;
+        this.conditions = conditions;
         this.term = term;
         this.amount = amount;
         this.expiredAt = expiredAt;
