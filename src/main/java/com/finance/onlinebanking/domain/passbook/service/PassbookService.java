@@ -67,7 +67,7 @@ public class PassbookService {
         UserEntity userEntity = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("존재하지 않는 유저 ID 입니다."));
 
-        if (passbookRequestDto.getPassbookType().equals(PassbookType.DW.toString())) {
+        if (passbookRequestDto.isDepositWithdrawPassbook()) {
             DepositWithdrawEntity depositWithdrawEntity = DepositWithdrawEntity.builder()
                     .accountNumber(new AccountNumberCreator().createAccountNumber(bankId, bankEntity.getCode()))
                     .password(passbookRequestDto.getPassword())
@@ -83,8 +83,8 @@ public class PassbookService {
 
             depositWithdrawRepository.save(depositWithdrawEntity);
 
-            return PassbookResponseDto.depositWithdrawBuilder(depositWithdrawEntity);
-        } else if (passbookRequestDto.getPassbookType().equals(PassbookType.FD.toString())) {
+            return PassbookResponseDto.of(depositWithdrawEntity);
+        } else if (passbookRequestDto.isFixedDepositPassbook()) {
             FixedDepositEntity fixedDepositEntity = FixedDepositEntity.builder()
                     .accountNumber(new AccountNumberCreator().createAccountNumber(bankId, bankEntity.getCode()))
                     .password(passbookRequestDto.getPassword())
@@ -100,8 +100,8 @@ public class PassbookService {
 
             fixedDepositRepository.save(fixedDepositEntity);
 
-            return PassbookResponseDto.fixedDepositBuilder(fixedDepositEntity);
-        } else if (passbookRequestDto.getPassbookType().equals(PassbookType.FI.toString())) {
+            return PassbookResponseDto.of(fixedDepositEntity);
+        } else if (passbookRequestDto.isFreeInstallmentPassbook()) {
             FreeInstallmentEntity freeInstallmentEntity = FreeInstallmentEntity.builder()
                     .accountNumber(new AccountNumberCreator().createAccountNumber(bankId, bankEntity.getCode()))
                     .password(passbookRequestDto.getPassword())
@@ -117,8 +117,8 @@ public class PassbookService {
 
             freeInstallmentRepository.save(freeInstallmentEntity);
 
-            return PassbookResponseDto.freeInstallmentBuilder(freeInstallmentEntity);
-        } else if (passbookRequestDto.getPassbookType().equals(PassbookType.RI.toString())) {
+            return PassbookResponseDto.of(freeInstallmentEntity);
+        } else if (passbookRequestDto.isRegularInstallmentPassbook()) {
             RegularInstallmentEntity regularInstallmentEntity = RegularInstallmentEntity.builder()
                     .accountNumber(new AccountNumberCreator().createAccountNumber(bankId, bankEntity.getCode()))
                     .password(passbookRequestDto.getPassword())
@@ -136,7 +136,7 @@ public class PassbookService {
 
             regularInstallmentRepository.save(regularInstallmentEntity);
 
-            return PassbookResponseDto.regularInstallmentBuilder(regularInstallmentEntity);
+            return PassbookResponseDto.of(regularInstallmentEntity);
         }
         return null;
     }
@@ -174,19 +174,19 @@ public class PassbookService {
         if (passbookEntity.isDepositWithdrawPassbook()) {
             DepositWithdrawEntity depositWithdrawEntity = depositWithdrawRepository.findById(passbookId)
                     .orElseThrow(() -> new RuntimeException("존재하지 않는 입출금 통장 ID 입니다."));
-            return PassbookResponseDto.depositWithdrawBuilder(depositWithdrawEntity);
+            return PassbookResponseDto.of(depositWithdrawEntity);
         } else if (passbookEntity.isFixedDepositPassbook()) {
             FixedDepositEntity fixedDepositEntity = fixedDepositRepository.findById(passbookId)
                     .orElseThrow(() -> new RuntimeException("존재하지 않는 예금 통장 ID 입니다."));
-            return PassbookResponseDto.fixedDepositBuilder(fixedDepositEntity);
+            return PassbookResponseDto.of(fixedDepositEntity);
         } else if (passbookEntity.isFreeInstallmentPassbook()) {
             FreeInstallmentEntity freeInstallmentEntity = freeInstallmentRepository.findById(passbookId)
                     .orElseThrow(() -> new RuntimeException("존재하지 않는 자유 적금 통장 ID 입니다."));
-            return PassbookResponseDto.freeInstallmentBuilder(freeInstallmentEntity);
+            return PassbookResponseDto.of(freeInstallmentEntity);
         } else if (passbookEntity.isRegularInstallmentPassbook()) {
             RegularInstallmentEntity regularInstallmentEntity = regularInstallmentRepository.findById(passbookId)
                     .orElseThrow(() -> new RuntimeException("존재하지 않는 정기 적금 통장 ID 입니다."));
-            return PassbookResponseDto.regularInstallmentBuilder(regularInstallmentEntity);
+            return PassbookResponseDto.of(regularInstallmentEntity);
         }
         return null;
     }
@@ -217,7 +217,7 @@ public class PassbookService {
         PassbookEntity passbookEntity = passbookRepository.findById(passbookId)
                 .orElseThrow(() -> new RuntimeException("존재하지 않는 통장 ID 입니다."));
 
-        if (!passbookEntity.getDtype().equals(PassbookType.DW.toString())) {
+        if (!passbookEntity.isDepositWithdrawPassbook()) {
             return null;
         }
 

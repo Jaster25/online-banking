@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.finance.onlinebanking.domain.passbook.entity.DepositWithdrawEntity;
 import com.finance.onlinebanking.domain.passbook.entity.FixedDepositEntity;
 import com.finance.onlinebanking.domain.passbook.entity.PassbookEntity;
-import com.finance.onlinebanking.domain.passbook.entity.installment.FreeInstallmentEntity;
 import com.finance.onlinebanking.domain.passbook.entity.installment.InstallmentEntity;
 import com.finance.onlinebanking.domain.passbook.entity.installment.RegularInstallmentEntity;
 import lombok.Builder;
@@ -67,71 +66,6 @@ public class PassbookResponseDto {
         this.updatedAt = updatedAt;
     }
 
-    public static PassbookResponseDto depositWithdrawBuilder(DepositWithdrawEntity depositWithdrawEntity) {
-        return PassbookResponseDto.builder()
-                .id(depositWithdrawEntity.getId())
-                .dtype(depositWithdrawEntity.getDtype())
-                .accountNumber(depositWithdrawEntity.getAccountNumber())
-                .balance(depositWithdrawEntity.getBalance())
-                .interestRate(depositWithdrawEntity.getInterestRate())
-                .transferLimit(depositWithdrawEntity.getTransferLimit())
-                .userId(depositWithdrawEntity.getUser().getId())
-                .bankId(depositWithdrawEntity.getBank().getId())
-                .passbookProductId(depositWithdrawEntity.getPassbookProduct().getId())
-                .createdAt(depositWithdrawEntity.getCreatedAt())
-                .updatedAt(depositWithdrawEntity.getUpdatedAt())
-                .build();
-    }
-
-    public static PassbookResponseDto fixedDepositBuilder(FixedDepositEntity fixedDepositEntity) {
-        return PassbookResponseDto.builder()
-                .id(fixedDepositEntity.getId())
-                .dtype(fixedDepositEntity.getDtype())
-                .accountNumber(fixedDepositEntity.getAccountNumber())
-                .balance(fixedDepositEntity.getBalance())
-                .interestRate(fixedDepositEntity.getInterestRate())
-                .userId(fixedDepositEntity.getUser().getId())
-                .bankId(fixedDepositEntity.getBank().getId())
-                .passbookProductId(fixedDepositEntity.getPassbookProduct().getId())
-                .expiredAt(fixedDepositEntity.getExpiredAt())
-                .createdAt(fixedDepositEntity.getCreatedAt())
-                .updatedAt(fixedDepositEntity.getUpdatedAt())
-                .build();
-    }
-
-    public static PassbookResponseDto regularInstallmentBuilder(RegularInstallmentEntity regularInstallmentEntity) {
-        return PassbookResponseDto.builder()
-                .id(regularInstallmentEntity.getId())
-                .dtype(regularInstallmentEntity.getDtype())
-                .accountNumber(regularInstallmentEntity.getAccountNumber())
-                .balance(regularInstallmentEntity.getBalance())
-                .interestRate(regularInstallmentEntity.getInterestRate())
-                .userId(regularInstallmentEntity.getUser().getId())
-                .bankId(regularInstallmentEntity.getBank().getId())
-                .passbookProductId(regularInstallmentEntity.getPassbookProduct().getId())
-                .expiredAt(regularInstallmentEntity.getExpiredAt())
-                .depositDate(regularInstallmentEntity.getDepositDate())
-                .amount(regularInstallmentEntity.getAmount())
-                .createdAt(regularInstallmentEntity.getCreatedAt())
-                .updatedAt(regularInstallmentEntity.getUpdatedAt())
-                .build();
-    }
-
-    public static PassbookResponseDto freeInstallmentBuilder(FreeInstallmentEntity freeInstallmentEntity) {
-        return PassbookResponseDto.builder()
-                .id(freeInstallmentEntity.getId())
-                .dtype(freeInstallmentEntity.getDtype())
-                .accountNumber(freeInstallmentEntity.getAccountNumber())
-                .balance(freeInstallmentEntity.getBalance())
-                .interestRate(freeInstallmentEntity.getInterestRate())
-                .userId(freeInstallmentEntity.getUser().getId())
-                .bankId(freeInstallmentEntity.getBank().getId())
-                .passbookProductId(freeInstallmentEntity.getPassbookProduct().getId())
-                .expiredAt(freeInstallmentEntity.getExpiredAt())
-                .createdAt(freeInstallmentEntity.getCreatedAt())
-                .updatedAt(freeInstallmentEntity.getUpdatedAt())
-                .build();
-    }
 
     public static PassbookResponseDto of(PassbookEntity passbookEntity) {
         return PassbookResponseDto.builder()
