@@ -1,6 +1,7 @@
 package com.finance.onlinebanking.domain.passbook.entity;
 
 import com.finance.onlinebanking.domain.bank.entity.BankEntity;
+import com.finance.onlinebanking.domain.passbook.utils.PassbookType;
 import com.finance.onlinebanking.domain.product.entity.PassbookProductEntity;
 import com.finance.onlinebanking.domain.transactionhistory.entity.TransactionHistoryEntity;
 import com.finance.onlinebanking.domain.user.entity.UserEntity;
@@ -27,7 +28,7 @@ import static javax.persistence.FetchType.LAZY;
 public abstract class PassbookEntity extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "passbook_id")
     private Long id;
 
@@ -69,6 +70,26 @@ public abstract class PassbookEntity extends BaseEntity {
     public void transfer(PassbookEntity depositPassbook, Long amount) {
         this.balance -= amount;
         depositPassbook.balance += amount;
+    }
+
+    public boolean isDepositWithdrawPassbook() {
+        return dtype.equals(PassbookType.DW.toString());
+    }
+
+    public boolean isFixedDepositPassbook() {
+        return dtype.equals(PassbookType.FD.toString());
+    }
+
+    public boolean isRegularInstallmentPassbook() {
+        return dtype.equals(PassbookType.RI.toString());
+    }
+
+    public boolean isInstallmentPassbook() {
+        return dtype.equals(PassbookType.I.toString());
+    }
+
+    public boolean isFreeInstallmentPassbook() {
+        return dtype.equals(PassbookType.FI.toString());
     }
 
 

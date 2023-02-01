@@ -1,5 +1,6 @@
 package com.finance.onlinebanking.domain.passbook.dto;
 
+import com.finance.onlinebanking.domain.passbook.utils.PassbookType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,5 +39,25 @@ public class PassbookRequestDto {
         this.depositDate = depositDate;
         this.amount = amount;
         this.passbookType = passbookType;
+    }
+
+    public boolean isDepositWithdrawPassbook() {
+        return passbookType.equals(PassbookType.DW.toString());
+    }
+
+    public boolean isFixedDepositPassbook() {
+        return passbookType.equals(PassbookType.FD.toString());
+    }
+
+    public boolean isRegularInstallmentPassbook() {
+        return passbookType.equals(PassbookType.RI.toString());
+    }
+
+    public boolean isInstallmentPassbook() {
+        return passbookType.equals(PassbookType.I.toString());
+    }
+
+    public boolean isFreeInstallmentPassbook() {
+        return passbookType.equals(PassbookType.FI.toString());
     }
 }
