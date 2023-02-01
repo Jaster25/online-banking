@@ -1,7 +1,7 @@
 package com.finance.onlinebanking.domain.product.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.finance.onlinebanking.domain.bank.entity.BankEntity;
+import com.finance.onlinebanking.domain.product.entity.PassbookProductEntity;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -11,42 +11,42 @@ import java.time.LocalDateTime;
 @Getter
 public class PassbookProductResponseDto {
 
-    private Long id;
+    private final Long id;
 
-    private Long bankId;
+    private final Long bankId;
 
-    private String name;
-
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime startedAt;
+    private final String name;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime endedAt;
+    private final LocalDateTime startedAt;
 
-    private BigDecimal interestRate;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private final LocalDateTime endedAt;
 
-    private String benefit;
+    private final BigDecimal interestRate;
 
-    private String content;
+    private final String benefit;
 
-    private String conditions;
+    private final String content;
 
-    private int term;
+    private final String conditions;
 
-    private Long amount;
+    private final int term;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
-    private LocalDateTime expiredAt;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
-    private LocalDateTime createdAt;
+    private final Long amount;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
-    private LocalDateTime updatedAt;
+    private final LocalDateTime expiredAt;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
+    private final LocalDateTime createdAt;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
+    private final LocalDateTime updatedAt;
 
 
     @Builder
-    public PassbookProductResponseDto(Long id, Long bankId, String name, LocalDateTime startedAt, LocalDateTime endedAt, BigDecimal interestRate, String benefit, String content, String conditions, int term, Long amount, LocalDateTime expiredAt, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    private PassbookProductResponseDto(Long id, Long bankId, String name, LocalDateTime startedAt, LocalDateTime endedAt, BigDecimal interestRate, String benefit, String content, String conditions, int term, Long amount, LocalDateTime expiredAt, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.bankId = bankId;
         this.name = name;
@@ -61,5 +61,25 @@ public class PassbookProductResponseDto {
         this.expiredAt = expiredAt;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+    }
+
+
+    public static PassbookProductResponseDto of(PassbookProductEntity passbookProductEntity) {
+        return PassbookProductResponseDto.builder()
+                .id(passbookProductEntity.getId())
+                .bankId(passbookProductEntity.getBank().getId())
+                .name(passbookProductEntity.getName())
+                .startedAt(passbookProductEntity.getStartedAt())
+                .endedAt(passbookProductEntity.getEndedAt())
+                .interestRate(passbookProductEntity.getInterestRate())
+                .benefit(passbookProductEntity.getBenefit())
+                .content(passbookProductEntity.getContent())
+                .conditions(passbookProductEntity.getConditions())
+                .term(passbookProductEntity.getTerm())
+                .amount(passbookProductEntity.getAmount())
+                .expiredAt(passbookProductEntity.getExpiredAt())
+                .createdAt(passbookProductEntity.getCreatedAt())
+                .updatedAt(passbookProductEntity.getUpdatedAt())
+                .build();
     }
 }

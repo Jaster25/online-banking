@@ -4,9 +4,16 @@ import com.finance.onlinebanking.domain.bank.dto.BankRequestDto;
 import com.finance.onlinebanking.domain.bank.dto.BankResponseDto;
 import com.finance.onlinebanking.domain.bank.entity.BankEntity;
 import com.finance.onlinebanking.domain.bank.repository.BankRepository;
+import com.finance.onlinebanking.domain.product.dto.PassbookProductResponseDto;
+import com.finance.onlinebanking.domain.product.dto.ProductsResponseDto;
+import com.finance.onlinebanking.domain.product.entity.PassbookProductEntity;
+import com.finance.onlinebanking.domain.product.repository.PassbookProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -14,6 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class BankService {
 
     private final BankRepository bankRepository;
+
+    private final PassbookProductRepository passbookProductRepository;
 
     @Transactional
     public BankResponseDto createBank(BankRequestDto bankRequestDto) {
@@ -48,6 +57,21 @@ public class BankService {
                 .branch(bankEntity.getBranch())
                 .createdAt(bankEntity.getCreatedAt())
                 .updatedAt(bankEntity.getUpdatedAt())
+                .build();
+    }
+
+    public ProductsResponseDto getProducts(Long bankId) {
+        BankEntity bankEntity = bankRepository.findById(bankId)
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 은행 ID입니다."));
+
+        List<PassbookProductEntity> passbookProducts = passbookProductRepository.findAllByBank(bankEntity);
+
+        List<PassbookProductResponseDto> passbookProductResponseDtos = passbookProducts.stream()
+                .map(PassbookProductResponseDto::of)
+                .collect(Collectors.toList());
+
+        return ProductsResponseDto.builder()
+                .passbookProducts(passbookProductResponseDtos)
                 .build();
     }
 }
