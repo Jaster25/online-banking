@@ -22,7 +22,7 @@ import static javax.persistence.FetchType.LAZY;
 public abstract class ProductEntity extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
     private Long id;
 
