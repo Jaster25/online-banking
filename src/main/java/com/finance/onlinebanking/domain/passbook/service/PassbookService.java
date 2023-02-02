@@ -237,11 +237,8 @@ public class PassbookService {
 
     @Transactional
     public TransferResponseDto createTransfer(Long passbookId, Long depositPassbookId, TransferRequestDto transferRequestDto) {
-        PassbookEntity withdrawPassbook = passbookRepository.findById(passbookId)
-                .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_WITHDRAW_PASSBOOK));
-
-        PassbookEntity depositPassbook = passbookRepository.findById(depositPassbookId)
-                .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_DEPOSIT_PASSBOOK));
+        PassbookEntity withdrawPassbook = passbookRepository.findByIdForUpdate(passbookId);
+        PassbookEntity depositPassbook = passbookRepository.findByIdForUpdate(depositPassbookId);
 
         // TODO: 유효성 검사, 출금 통장 잔액 확인, 출금 통장 이체 한도 확인
         withdrawPassbook.transfer(depositPassbook, transferRequestDto.getAmount());

@@ -7,7 +7,11 @@ spring:
     url: jdbc:mysql://localhost:3306/online_banking?serverTimezone=UTC&characterEncoding=UTF-8 # ${DB_MYSQL_URL}
     username: root # ${DB_MYSQL_USERNAME}
     password: 1234 # ${DB_MYSQL_PASSWORD}
-#  datasource:
+    hikari:
+      connection-timeout: 3000
+      maximum-pool-size: 60
+      max-lifetime: 30000
+  #  datasource:
 #    url: jdbc:h2:tcp://localhost/~/online_banking
 #    username: sa
 #    password:
