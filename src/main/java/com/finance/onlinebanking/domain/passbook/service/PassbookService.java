@@ -19,6 +19,9 @@ import com.finance.onlinebanking.domain.transactionhistory.dto.TransactionsHisto
 import com.finance.onlinebanking.domain.transactionhistory.service.TransactionHistoryService;
 import com.finance.onlinebanking.domain.user.entity.UserEntity;
 import com.finance.onlinebanking.domain.user.repository.UserRepository;
+import com.finance.onlinebanking.global.exception.ErrorCode;
+import com.finance.onlinebanking.global.exception.custom.InvalidValueException;
+import com.finance.onlinebanking.global.exception.custom.NonExistentException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,13 +62,13 @@ public class PassbookService {
          * 2. 은행별 계좌번호 생성 규칙에 의한 계좌번호 생성 및 중복 검증
          */
         BankEntity bankEntity = bankRepository.findById(bankId)
-                .orElseThrow(() -> new RuntimeException("존재하지 않는 은행 ID 입니다."));
+                .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_BANK));
 
         PassbookProductEntity passbookProductEntity = passbookProductRepository.findById(productId)
-                .orElseThrow(() -> new RuntimeException("존재하지 않는 통장 상품 ID 입니다."));
+                .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_PASSBOOK_PRODUCT));
 
         UserEntity userEntity = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("존재하지 않는 유저 ID 입니다."));
+                .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_USER));
 
         if (passbookRequestDto.getPassbookType().equals(PassbookType.DW.toString())) {
             DepositWithdrawEntity depositWithdrawEntity = DepositWithdrawEntity.builder()
@@ -145,10 +148,10 @@ public class PassbookService {
     public void deletePassbook(Long passbookId) {
         //TODO: 유효성 검증
         PassbookEntity passbookEntity = passbookRepository.findById(passbookId)
-                .orElseThrow(() -> new RuntimeException("존재하지 않는 통장 ID 입니다."));
+                .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_PASSBOOK));
 
         if (passbookEntity.isDeleted()) {
-            throw new RuntimeException("이미 삭제된 통장입니다.");
+            throw new InvalidValueException(ErrorCode.ALREADY_DELETED_PASSBOOK);
         }
 
         passbookEntity.delete();
@@ -157,7 +160,7 @@ public class PassbookService {
     public PassbookBalanceResponseDto getBalance(Long passbookId) {
         // TODO: 사용자 검증
         PassbookEntity passbookEntity = passbookRepository.findById(passbookId)
-                .orElseThrow(() -> new RuntimeException("존재하지 않는 통장 ID 입니다."));
+                .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_PASSBOOK));
 
         return PassbookBalanceResponseDto.builder()
                 .id(passbookEntity.getId())
@@ -169,23 +172,23 @@ public class PassbookService {
     public PassbookResponseDto getPassbook(Long passbookId) {
         // TODO: 통장 유효성 검증
         PassbookEntity passbookEntity = passbookRepository.findById(passbookId)
-                .orElseThrow(() -> new RuntimeException("존재하지 않는 통장 ID 입니다."));
+                .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_PASSBOOK));
 
         if (passbookEntity.getDtype().equals(PassbookType.DW.toString())) {
             DepositWithdrawEntity depositWithdrawEntity = depositWithdrawRepository.findById(passbookId)
-                    .orElseThrow(() -> new RuntimeException("존재하지 않는 입출금 통장 ID 입니다."));
+                    .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_DW_PASSBOOK));
             return PassbookResponseDto.depositWithdrawBuilder(depositWithdrawEntity);
         } else if (passbookEntity.getDtype().equals(PassbookType.FD.toString())) {
             FixedDepositEntity fixedDepositEntity = fixedDepositRepository.findById(passbookId)
-                    .orElseThrow(() -> new RuntimeException("존재하지 않는 예금 통장 ID 입니다."));
+                    .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_FD_PASSBOOK));
             return PassbookResponseDto.fixedDepositBuilder(fixedDepositEntity);
         } else if (passbookEntity.getDtype().equals(PassbookType.FI.toString())) {
             FreeInstallmentEntity freeInstallmentEntity = freeInstallmentRepository.findById(passbookId)
-                    .orElseThrow(() -> new RuntimeException("존재하지 않는 자유 적금 통장 ID 입니다."));
+                    .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_FI_PASSBOOK));
             return PassbookResponseDto.freeInstallmentBuilder(freeInstallmentEntity);
         } else if (passbookEntity.getDtype().equals(PassbookType.RI.toString())) {
             RegularInstallmentEntity regularInstallmentEntity = regularInstallmentRepository.findById(passbookId)
-                    .orElseThrow(() -> new RuntimeException("존재하지 않는 정기 적금 통장 ID 입니다."));
+                    .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_RI_PASSBOOK));
             return PassbookResponseDto.regularInstallmentBuilder(regularInstallmentEntity);
         }
         return null;
@@ -194,7 +197,7 @@ public class PassbookService {
     @Transactional
     public void updatePassword(Long passbookId, PasswordRequestDto passwordRequestDto) {
         PassbookEntity passbookEntity = passbookRepository.findById(passbookId)
-                .orElseThrow(()->new RuntimeException("존재하지 않는 통장 ID 입니다."));
+                .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_PASSBOOK));
 
         passbookEntity.updatePassword(passwordRequestDto.getPassword());
     }
@@ -202,14 +205,13 @@ public class PassbookService {
     @Transactional
     public TransferLimitResponseDto updateTransferLimit(Long passbookId, TransferLimitRequestDto transferLimitRequestDto) {
         PassbookEntity passbookEntity = passbookRepository.findById(passbookId)
-                .orElseThrow(() -> new RuntimeException("존재하지 않는 통장 ID 입니다."));
-
+                .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_PASSBOOK));
         if (!passbookEntity.getDtype().equals(PassbookType.DW.toString())) {
             return null;
         }
 
         DepositWithdrawEntity depositWithdrawEntity = depositWithdrawRepository.findById(passbookEntity.getId())
-                .orElseThrow(() -> new RuntimeException("존재하지 않는 입출금 통장 ID 입니다."));
+                .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_DW_PASSBOOK));
 
         depositWithdrawEntity.updateTransferLimit(transferLimitRequestDto.getTransferLimit());
 
@@ -223,10 +225,10 @@ public class PassbookService {
     @Transactional
     public TransferResponseDto createTransfer(Long passbookId, Long depositPassbookId, TransferRequestDto transferRequestDto) {
         PassbookEntity withdrawPassbook = passbookRepository.findById(passbookId)
-                .orElseThrow(() -> new RuntimeException("존재하지 않는 출금 통장 ID 입니다."));
+                .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_WITHDRAW_PASSBOOK));
 
         PassbookEntity depositPassbook = passbookRepository.findById(depositPassbookId)
-                .orElseThrow(() -> new RuntimeException("존재하지 않는 입금 통장 ID 입니다."));
+                .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_DEPOSIT_PASSBOOK));
 
         // TODO: 유효성 검사, 출금 통장 잔액 확인, 출금 통장 이체 한도 확인
         withdrawPassbook.transfer(depositPassbook, transferRequestDto.getAmount());
@@ -256,7 +258,7 @@ public class PassbookService {
     public TransactionsHistoryResponseDto getPassbookTransactions(Long passbookId) {
         // TODO: 유효성 검사
         PassbookEntity passbookEntity = passbookRepository.findById(passbookId)
-                .orElseThrow(() -> new RuntimeException("존재하지 않는 통장 ID 입니다."));
+                .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_PASSBOOK));
 
         List<TransactionHistoryResponseDto> dtoList =
                 Stream.concat(passbookEntity.getWithdrawTransactionHistories()

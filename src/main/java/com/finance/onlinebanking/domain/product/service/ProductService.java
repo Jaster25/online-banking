@@ -6,6 +6,8 @@ import com.finance.onlinebanking.domain.product.dto.PassbookProductRequestDto;
 import com.finance.onlinebanking.domain.product.dto.PassbookProductResponseDto;
 import com.finance.onlinebanking.domain.product.entity.PassbookProductEntity;
 import com.finance.onlinebanking.domain.product.repository.PassbookProductRepository;
+import com.finance.onlinebanking.global.exception.ErrorCode;
+import com.finance.onlinebanking.global.exception.custom.NonExistentException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +25,7 @@ public class ProductService {
     @Transactional
     public PassbookProductResponseDto createProduct(Long bankId, PassbookProductRequestDto productRequestDto) {
         BankEntity bankEntity = bankRepository.findById(bankId)
-                .orElseThrow(() -> new RuntimeException("존재하지 않는 은행 ID 입니다."));
+                .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_BANK));
 
         PassbookProductEntity passbookProductEntity = PassbookProductEntity.builder()
                 .name(productRequestDto.getName())
@@ -62,7 +64,7 @@ public class ProductService {
     public PassbookProductResponseDto getProduct(Long productId) {
 
         PassbookProductEntity passbookProductEntity = passbookProductRepository.findById(productId)
-                .orElseThrow(() -> new RuntimeException("존재하지 않는 상품 ID 입니다."));
+                .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_PRODUCT));
 
         return PassbookProductResponseDto.builder()
                 .id(passbookProductEntity.getId())
