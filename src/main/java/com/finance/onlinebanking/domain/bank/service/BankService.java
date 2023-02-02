@@ -4,6 +4,8 @@ import com.finance.onlinebanking.domain.bank.dto.BankRequestDto;
 import com.finance.onlinebanking.domain.bank.dto.BankResponseDto;
 import com.finance.onlinebanking.domain.bank.entity.BankEntity;
 import com.finance.onlinebanking.domain.bank.repository.BankRepository;
+import com.finance.onlinebanking.global.exception.ErrorCode;
+import com.finance.onlinebanking.global.exception.custom.NonExistentException;
 import com.finance.onlinebanking.domain.product.dto.PassbookProductResponseDto;
 import com.finance.onlinebanking.domain.product.dto.ProductsResponseDto;
 import com.finance.onlinebanking.domain.product.entity.PassbookProductEntity;
@@ -48,7 +50,7 @@ public class BankService {
 
     public BankResponseDto getBank(Long bankId) {
         BankEntity bankEntity = bankRepository.findById(bankId)
-                .orElseThrow(() -> new RuntimeException("존재하지 않는 은행 ID입니다."));
+                .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_BANK));
 
         return BankResponseDto.builder()
                 .id(bankEntity.getId())
@@ -62,7 +64,7 @@ public class BankService {
 
     public ProductsResponseDto getProducts(Long bankId) {
         BankEntity bankEntity = bankRepository.findById(bankId)
-                .orElseThrow(() -> new RuntimeException("존재하지 않는 은행 ID입니다."));
+                .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_BANK));
 
         List<PassbookProductEntity> passbookProducts = passbookProductRepository.findAllByBank(bankEntity);
 
