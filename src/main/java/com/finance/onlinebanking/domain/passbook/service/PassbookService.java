@@ -10,7 +10,6 @@ import com.finance.onlinebanking.domain.passbook.entity.installment.FreeInstallm
 import com.finance.onlinebanking.domain.passbook.entity.installment.RegularInstallmentEntity;
 import com.finance.onlinebanking.domain.passbook.repository.*;
 import com.finance.onlinebanking.domain.passbook.utils.AccountNumberCreator;
-import com.finance.onlinebanking.domain.passbook.utils.PassbookType;
 import com.finance.onlinebanking.domain.product.entity.PassbookProductEntity;
 import com.finance.onlinebanking.domain.product.repository.PassbookProductRepository;
 import com.finance.onlinebanking.domain.transactionhistory.dto.TransactionHistoryRequestDto;
@@ -70,7 +69,7 @@ public class PassbookService {
         UserEntity userEntity = userRepository.findById(userId)
                 .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_USER));
 
-        if (passbookRequestDto.getPassbookType().equals(PassbookType.DW.toString())) {
+        if (passbookRequestDto.isDepositWithdrawPassbook()) {
             DepositWithdrawEntity depositWithdrawEntity = DepositWithdrawEntity.builder()
                     .accountNumber(new AccountNumberCreator().createAccountNumber(bankId, bankEntity.getCode()))
                     .password(passbookRequestDto.getPassword())
@@ -86,8 +85,8 @@ public class PassbookService {
 
             depositWithdrawRepository.save(depositWithdrawEntity);
 
-            return PassbookResponseDto.depositWithdrawBuilder(depositWithdrawEntity);
-        } else if (passbookRequestDto.getPassbookType().equals(PassbookType.FD.toString())) {
+            return PassbookResponseDto.of(depositWithdrawEntity);
+        } else if (passbookRequestDto.isFixedDepositPassbook()) {
             FixedDepositEntity fixedDepositEntity = FixedDepositEntity.builder()
                     .accountNumber(new AccountNumberCreator().createAccountNumber(bankId, bankEntity.getCode()))
                     .password(passbookRequestDto.getPassword())
@@ -103,8 +102,8 @@ public class PassbookService {
 
             fixedDepositRepository.save(fixedDepositEntity);
 
-            return PassbookResponseDto.fixedDepositBuilder(fixedDepositEntity);
-        } else if (passbookRequestDto.getPassbookType().equals(PassbookType.FI.toString())) {
+            return PassbookResponseDto.of(fixedDepositEntity);
+        } else if (passbookRequestDto.isFreeInstallmentPassbook()) {
             FreeInstallmentEntity freeInstallmentEntity = FreeInstallmentEntity.builder()
                     .accountNumber(new AccountNumberCreator().createAccountNumber(bankId, bankEntity.getCode()))
                     .password(passbookRequestDto.getPassword())
@@ -120,8 +119,8 @@ public class PassbookService {
 
             freeInstallmentRepository.save(freeInstallmentEntity);
 
-            return PassbookResponseDto.freeInstallmentBuilder(freeInstallmentEntity);
-        } else if (passbookRequestDto.getPassbookType().equals(PassbookType.RI.toString())) {
+            return PassbookResponseDto.of(freeInstallmentEntity);
+        } else if (passbookRequestDto.isRegularInstallmentPassbook()) {
             RegularInstallmentEntity regularInstallmentEntity = RegularInstallmentEntity.builder()
                     .accountNumber(new AccountNumberCreator().createAccountNumber(bankId, bankEntity.getCode()))
                     .password(passbookRequestDto.getPassword())
@@ -139,7 +138,7 @@ public class PassbookService {
 
             regularInstallmentRepository.save(regularInstallmentEntity);
 
-            return PassbookResponseDto.regularInstallmentBuilder(regularInstallmentEntity);
+            return PassbookResponseDto.of(regularInstallmentEntity);
         }
         return null;
     }
@@ -174,24 +173,37 @@ public class PassbookService {
         PassbookEntity passbookEntity = passbookRepository.findById(passbookId)
                 .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_PASSBOOK));
 
-        if (passbookEntity.getDtype().equals(PassbookType.DW.toString())) {
+        if (passbookEntity.isDepositWithdrawPassbook()) {
             DepositWithdrawEntity depositWithdrawEntity = depositWithdrawRepository.findById(passbookId)
                     .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_DW_PASSBOOK));
-            return PassbookResponseDto.depositWithdrawBuilder(depositWithdrawEntity);
-        } else if (passbookEntity.getDtype().equals(PassbookType.FD.toString())) {
+            return PassbookResponseDto.of(depositWithdrawEntity);
+        } else if (passbookEntity.isFixedDepositPassbook()) {
             FixedDepositEntity fixedDepositEntity = fixedDepositRepository.findById(passbookId)
                     .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_FD_PASSBOOK));
-            return PassbookResponseDto.fixedDepositBuilder(fixedDepositEntity);
-        } else if (passbookEntity.getDtype().equals(PassbookType.FI.toString())) {
+            return PassbookResponseDto.of(fixedDepositEntity);
+        } else if (passbookEntity.isFreeInstallmentPassbook()) {
             FreeInstallmentEntity freeInstallmentEntity = freeInstallmentRepository.findById(passbookId)
                     .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_FI_PASSBOOK));
-            return PassbookResponseDto.freeInstallmentBuilder(freeInstallmentEntity);
-        } else if (passbookEntity.getDtype().equals(PassbookType.RI.toString())) {
+            return PassbookResponseDto.of(freeInstallmentEntity);
+        } else if (passbookEntity.isRegularInstallmentPassbook()) {
             RegularInstallmentEntity regularInstallmentEntity = regularInstallmentRepository.findById(passbookId)
                     .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_RI_PASSBOOK));
-            return PassbookResponseDto.regularInstallmentBuilder(regularInstallmentEntity);
+            return PassbookResponseDto.of(regularInstallmentEntity);
         }
         return null;
+    }
+
+    public PassbooksResponseDto getPassbooks(Long userId) {
+        UserEntity user = userRepository.findById(userId)
+                .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_USER));
+
+        List<PassbookEntity> passbooks = passbookRepository.findAllByUser(user);
+
+        return PassbooksResponseDto.builder()
+                .passbooks(passbooks.stream()
+                        .map(PassbookResponseDto::of)
+                        .collect(Collectors.toList()))
+                .build();
     }
 
     @Transactional
@@ -206,7 +218,8 @@ public class PassbookService {
     public TransferLimitResponseDto updateTransferLimit(Long passbookId, TransferLimitRequestDto transferLimitRequestDto) {
         PassbookEntity passbookEntity = passbookRepository.findById(passbookId)
                 .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_PASSBOOK));
-        if (!passbookEntity.getDtype().equals(PassbookType.DW.toString())) {
+
+        if (!passbookEntity.isDepositWithdrawPassbook()) {
             return null;
         }
 

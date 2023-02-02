@@ -43,22 +43,7 @@ public class ProductService {
 
         passbookProductRepository.save(passbookProductEntity);
 
-        return PassbookProductResponseDto.builder()
-                .id(passbookProductEntity.getId())
-                .bankId(passbookProductEntity.getBank().getId())
-                .name(passbookProductEntity.getName())
-                .startedAt(passbookProductEntity.getStartedAt())
-                .endedAt(passbookProductEntity.getEndedAt())
-                .interestRate(passbookProductEntity.getInterestRate())
-                .benefit(passbookProductEntity.getBenefit())
-                .content(passbookProductEntity.getContent())
-                .conditions(passbookProductEntity.getConditions())
-                .term(passbookProductEntity.getTerm())
-                .amount(passbookProductEntity.getAmount())
-                .expiredAt(passbookProductEntity.getExpiredAt())
-                .createdAt(passbookProductEntity.getCreatedAt())
-                .updatedAt(passbookProductEntity.getUpdatedAt())
-                .build();
+        return PassbookProductResponseDto.of(passbookProductEntity);
     }
 
     public PassbookProductResponseDto getProduct(Long productId) {
@@ -66,21 +51,6 @@ public class ProductService {
         PassbookProductEntity passbookProductEntity = passbookProductRepository.findById(productId)
                 .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_PRODUCT));
 
-        return PassbookProductResponseDto.builder()
-                .id(passbookProductEntity.getId())
-                .bankId(passbookProductEntity.getBank().getId())
-                .name(passbookProductEntity.getName())
-                .startedAt(passbookProductEntity.getStartedAt())
-                .endedAt(passbookProductEntity.getEndedAt())
-                .interestRate(passbookProductEntity.getInterestRate())
-                .benefit(passbookProductEntity.getBenefit())
-                .content(passbookProductEntity.getContent())
-                .conditions(passbookProductEntity.getConditions())
-                .term(passbookProductEntity.getTerm())
-                .amount(passbookProductEntity.getAmount())
-                .expiredAt(passbookProductEntity.getExpiredAt())
-                .createdAt(passbookProductEntity.getCreatedAt())
-                .updatedAt(passbookProductEntity.getUpdatedAt())
-                .build();
+        return PassbookProductResponseDto.of(passbookProductEntity);
     }
 }

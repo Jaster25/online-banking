@@ -3,6 +3,7 @@ package com.finance.onlinebanking.domain.bank.controller;
 import com.finance.onlinebanking.domain.bank.dto.BankRequestDto;
 import com.finance.onlinebanking.domain.bank.dto.BankResponseDto;
 import com.finance.onlinebanking.domain.bank.service.BankService;
+import com.finance.onlinebanking.domain.product.dto.ProductsResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,5 +26,11 @@ public class BankController {
     public ResponseEntity<BankResponseDto> getBankApi(@PathVariable Long bankId) {
         BankResponseDto bankResponseDto = bankService.getBank(bankId);
         return ResponseEntity.status(HttpStatus.OK).body(bankResponseDto);
+    }
+
+    @GetMapping("/{bankId}/products")
+    public ResponseEntity<ProductsResponseDto> getProductsApi(@PathVariable Long bankId) {
+        ProductsResponseDto productsResponseDto = bankService.getProducts(bankId);
+        return ResponseEntity.status(HttpStatus.OK).body(productsResponseDto);
     }
 }

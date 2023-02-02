@@ -6,6 +6,7 @@ import com.finance.onlinebanking.domain.user.entity.UserEntity;
 import com.finance.onlinebanking.domain.user.repository.UserRepository;
 import com.finance.onlinebanking.global.exception.ErrorCode;
 import com.finance.onlinebanking.global.exception.custom.DuplicatedValueException;
+import com.finance.onlinebanking.global.exception.custom.InvalidValueException;
 import com.finance.onlinebanking.global.exception.custom.NonExistentException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -53,7 +54,7 @@ public class UserService {
                 .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_USER));
 
         if (userEntity.isDeleted()) {
-            throw new RuntimeException("이미 탈퇴한 사용자입니다.");
+            throw new InvalidValueException(ErrorCode.ALREADY_DELETED_USER);
         }
 
         userEntity.delete();

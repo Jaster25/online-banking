@@ -18,7 +18,7 @@ import static javax.persistence.FetchType.LAZY;
 public class TransactionHistoryEntity extends BaseEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "transaction_history_id")
     private Long id;
 

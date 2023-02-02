@@ -1,5 +1,7 @@
 package com.finance.onlinebanking.domain.user.controller;
 
+import com.finance.onlinebanking.domain.passbook.dto.PassbooksResponseDto;
+import com.finance.onlinebanking.domain.passbook.service.PassbookService;
 import com.finance.onlinebanking.domain.user.dto.PasswordRequestDto;
 import com.finance.onlinebanking.domain.user.dto.UserRequestDto;
 import com.finance.onlinebanking.domain.user.dto.UserResponseDto;
@@ -15,11 +17,18 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
+    private final PassbookService passbookService;
 
     @PostMapping
     public ResponseEntity<UserResponseDto> createUserApi(@RequestBody UserRequestDto userRequestDto) {
         UserResponseDto userResponseDto = userService.createUser(userRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(userResponseDto);
+    }
+
+    @GetMapping("/passbooks")
+    public ResponseEntity<PassbooksResponseDto> getUserPassbooksApi() {
+        PassbooksResponseDto passbooksResponseDto = passbookService.getPassbooks(1L);
+        return ResponseEntity.status(HttpStatus.OK).body(passbooksResponseDto);
     }
 
     @PutMapping("/password")

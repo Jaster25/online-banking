@@ -19,10 +19,12 @@ public enum ErrorCode {
     // 유효성 확인
     NOT_NULL_USER_ID("U101", "아이디는 필수입니다."),
     NOT_NULL_USER_PASSWORD("U102", "비밀번호는 필수입니다."),
+    // 삭제
+    ALREADY_DELETED_USER("U201", "이미 삭제된 사용자입니다."),
     // 회원 가입
-    DUPLICATED_USER_ID("U201", "이미 존재하는 사용자 아이디입니다."),
+    DUPLICATED_USER_ID("U301", "이미 존재하는 사용자 아이디입니다."),
     // 로그인
-    LOGIN_FAILURE("U301", "아이디 또는 비밀번호가 잘못 입력되었습니다."),
+    LOGIN_FAILURE("U401", "아이디 또는 비밀번호가 잘못 입력되었습니다."),
 
     /**
      * P: Passbook
@@ -62,7 +64,6 @@ public enum ErrorCode {
      * T: Transaction
      */
     NONEXISTENT_TRANSACTION("T001", "존재하지 않는 거래내역입니다."),
-
     ;
 
     private final String code;

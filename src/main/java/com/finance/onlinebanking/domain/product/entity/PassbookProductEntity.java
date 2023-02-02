@@ -20,7 +20,7 @@ import java.util.List;
 public class PassbookProductEntity extends ProductEntity{
 
     @OneToMany(mappedBy = "passbookProduct")
-    private List<PassbookEntity> passbooks = new ArrayList<PassbookEntity>();
+    private List<PassbookEntity> passbooks = new ArrayList<>();
 
     private int term;
 
