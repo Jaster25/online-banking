@@ -5,6 +5,8 @@ import com.finance.onlinebanking.domain.transactionhistory.dto.TransactionHistor
 import com.finance.onlinebanking.domain.transactionhistory.dto.TransactionHistoryResponseDto;
 import com.finance.onlinebanking.domain.transactionhistory.entity.TransactionHistoryEntity;
 import com.finance.onlinebanking.domain.transactionhistory.repository.TransactionHistoryRepository;
+import com.finance.onlinebanking.global.exception.ErrorCode;
+import com.finance.onlinebanking.global.exception.custom.NonExistentException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,7 +47,7 @@ public class TransactionHistoryService {
 
     public TransactionHistoryResponseDto getTransactionHistory(Long transactionId) {
         TransactionHistoryEntity transactionHistoryEntity = transactionHistoryRepository.findById(transactionId)
-                .orElseThrow(() -> new RuntimeException("존재하지 않는 거래내역 ID입니다."));
+                .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_TRANSACTION));
 
         // TODO: 본인 인증
 
