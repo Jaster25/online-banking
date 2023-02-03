@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -13,6 +16,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PassbookProductRequestDto {
 
+    @NotBlank
     private String name;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
@@ -21,16 +25,22 @@ public class PassbookProductRequestDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime endedAt;
 
+    @NotNull
     private BigDecimal interestRate;
 
+    @NotEmpty
     private String benefit;
 
+    @NotEmpty
     private String content;
 
+    @NotEmpty
     private String conditions;
 
+    @NotNull
     private int term;
 
+    @NotNull
     private Long amount;
 
     private LocalDateTime expiredAt;
