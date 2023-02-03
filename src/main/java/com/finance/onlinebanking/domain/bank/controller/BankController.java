@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/banks")
@@ -17,7 +19,7 @@ public class BankController {
     private final BankService bankService;
 
     @PostMapping
-    public ResponseEntity<BankResponseDto> createBankApi(@RequestBody BankRequestDto bankRequestDto) {
+    public ResponseEntity<BankResponseDto> createBankApi(@Valid @RequestBody BankRequestDto bankRequestDto) {
         BankResponseDto bankResponseDto = bankService.createBank(bankRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(bankResponseDto);
     }
