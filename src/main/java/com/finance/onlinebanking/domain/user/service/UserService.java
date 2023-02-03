@@ -44,6 +44,8 @@ public class UserService {
         UserEntity userEntity = userRepository.findByUsername("user1")
                 .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_USER));
 
+        // TODO: 기존 비밀번호와 다른지 확인
+
         userEntity.updatePassword(password);
     }
 

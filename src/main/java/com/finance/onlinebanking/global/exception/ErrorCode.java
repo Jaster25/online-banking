@@ -17,8 +17,14 @@ public enum ErrorCode {
      */
     NONEXISTENT_USER("U001", "존재하지 않는 사용자입니다."),
     // 유효성 확인
+    // 아이디
     NOT_NULL_USER_ID("U101", "아이디는 필수입니다."),
-    NOT_NULL_USER_PASSWORD("U102", "비밀번호는 필수입니다."),
+    INVALID_USER_ID("U102", "아이디는 영문 대소문자와 숫자 4자 ~ 10자로 이루어져야 합니다."),
+    // 비밀번호
+    NOT_NULL_USER_PASSWORD("U111", "비밀번호는 필수입니다."),
+    INVALID_USER_PASSWORD("U112", "비밀번호는 영문 대소문자, 숫자, 특수기호가 적어도 1개 이상씩 포함된 4자 ~ 20자로 이루어져야 합니다."),
+    // 이름
+    NOT_NULL_USER_NAME("U121", "이름은 필수입니다."),
     // 삭제
     ALREADY_DELETED_USER("U201", "이미 삭제된 사용자입니다."),
     // 회원 가입
