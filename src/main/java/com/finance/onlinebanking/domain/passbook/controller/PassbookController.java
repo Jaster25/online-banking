@@ -25,6 +25,42 @@ public class PassbookController {
         return ResponseEntity.status(HttpStatus.CREATED).body(passbookResponseDto);
     }
 
+    @PostMapping("/deposit-withdraw/banks/{bankId}/products/{productId}/users/{userId}")
+    public ResponseEntity<PassbookResponseDto> createDepositWithdrawPassbookApi(@PathVariable("bankId") Long bankId,
+                                                                                @PathVariable("productId") Long productId,
+                                                                                @PathVariable("userId") Long userId,
+                                                                                @RequestBody DepositWithdrawPassbookRequestDto depositWithdrawPassbookRequestDto) {
+        PassbookResponseDto passbookResponseDto = passbookService.createDepositWithdrawPassbook(bankId, productId, userId, depositWithdrawPassbookRequestDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(passbookResponseDto);
+    }
+
+    @PostMapping("/fixed-deposit/banks/{bankId}/products/{productId}/users/{userId}")
+    public ResponseEntity<PassbookResponseDto> createFixedDepositPassbookApi(@PathVariable("bankId") Long bankId,
+                                                                                @PathVariable("productId") Long productId,
+                                                                                @PathVariable("userId") Long userId,
+                                                                                @RequestBody FixedDepositPassbookRequestDto fixedDepositPassbookRequestDto ) {
+        PassbookResponseDto passbookResponseDto = passbookService.createFixedDepositPassbook(bankId, productId, userId, fixedDepositPassbookRequestDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(passbookResponseDto);
+    }
+
+    @PostMapping("/regular-installment/banks/{bankId}/products/{productId}/users/{userId}")
+    public ResponseEntity<PassbookResponseDto> createRegularInstallmentPassbookApi(@PathVariable("bankId") Long bankId,
+                                                                             @PathVariable("productId") Long productId,
+                                                                             @PathVariable("userId") Long userId,
+                                                                             @RequestBody RegularInstallmentPassbookRequestDto regularInstallmentPassbookRequestDto ) {
+        PassbookResponseDto passbookResponseDto = passbookService.createRegularInstallmentPassbook(bankId, productId, userId, regularInstallmentPassbookRequestDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(passbookResponseDto);
+    }
+
+    @PostMapping("/free-installment/banks/{bankId}/products/{productId}/users/{userId}")
+    public ResponseEntity<PassbookResponseDto> createRegularInstallmentPassbookApi(@PathVariable("bankId") Long bankId,
+                                                                                   @PathVariable("productId") Long productId,
+                                                                                   @PathVariable("userId") Long userId,
+                                                                                   @RequestBody FreeInstallmentPassbookRequestDto freeInstallmentPassbookRequestDto ) {
+        PassbookResponseDto passbookResponseDto = passbookService.createFreeInstallmentPassbook(bankId, productId, userId, freeInstallmentPassbookRequestDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(passbookResponseDto);
+    }
+
     @DeleteMapping("/{passbookId}")
     public ResponseEntity<Void> deletePassbookApi(@PathVariable("passbookId") Long passbookId) {
         passbookService.deletePassbook(passbookId);
