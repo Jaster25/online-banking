@@ -144,6 +144,122 @@ public class PassbookService {
     }
 
     @Transactional
+    public PassbookResponseDto createDepositWithdrawPassbook(Long bankId, Long productId, Long userId, DepositWithdrawPassbookRequestDto depositWithdrawPassbookRequestDto) {
+        BankEntity bankEntity = bankRepository.findById(bankId)
+                .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_BANK));
+
+        PassbookProductEntity passbookProductEntity = passbookProductRepository.findById(productId)
+                .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_PASSBOOK_PRODUCT));
+
+        UserEntity userEntity = userRepository.findById(userId)
+                .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_USER));
+
+        DepositWithdrawEntity depositWithdrawEntity = DepositWithdrawEntity.builder()
+                .accountNumber(new AccountNumberCreator().createAccountNumber(bankId, bankEntity.getCode()))
+                .password(depositWithdrawPassbookRequestDto.getPassword())
+                .balance(depositWithdrawPassbookRequestDto.getBalance())
+                .interestRate(depositWithdrawPassbookRequestDto.getInterestRate())
+                .transferLimit(depositWithdrawPassbookRequestDto.getTransferLimit())
+                .dtype("DW")
+                .build();
+
+            depositWithdrawEntity.setBank(bankEntity);
+            depositWithdrawEntity.setPassbookProduct(passbookProductEntity);
+            depositWithdrawEntity.setUser(userEntity);
+
+            depositWithdrawRepository.save(depositWithdrawEntity);
+
+        return PassbookResponseDto.of(depositWithdrawEntity);
+    }
+
+    @Transactional
+    public PassbookResponseDto createFixedDepositPassbook(Long bankId, Long productId, Long userId, FixedDepositPassbookRequestDto fixedDepositPassbookRequestDto  ) {
+        BankEntity bankEntity = bankRepository.findById(bankId)
+                .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_BANK));
+
+        PassbookProductEntity passbookProductEntity = passbookProductRepository.findById(productId)
+                .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_PASSBOOK_PRODUCT));
+
+        UserEntity userEntity = userRepository.findById(userId)
+                .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_USER));
+
+        FixedDepositEntity fixedDepositEntity = FixedDepositEntity.builder()
+                .accountNumber(new AccountNumberCreator().createAccountNumber(bankId, bankEntity.getCode()))
+                .password(fixedDepositPassbookRequestDto.getPassword())
+                .balance(fixedDepositPassbookRequestDto.getBalance())
+                .interestRate(fixedDepositPassbookRequestDto.getInterestRate())
+                .expiredAt(fixedDepositPassbookRequestDto.getExpiredAt())
+                .dtype("FD")
+                .build();
+
+        fixedDepositEntity.setBank(bankEntity);
+        fixedDepositEntity.setPassbookProduct(passbookProductEntity);
+        fixedDepositEntity.setUser(userEntity);
+
+        fixedDepositRepository.save(fixedDepositEntity);
+
+        return PassbookResponseDto.of(fixedDepositEntity);
+    }
+
+    @Transactional
+    public PassbookResponseDto createRegularInstallmentPassbook(Long bankId, Long productId, Long userId, RegularInstallmentPassbookRequestDto regularInstallmentPassbookRequestDto) {
+        BankEntity bankEntity = bankRepository.findById(bankId)
+                .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_BANK));
+
+        PassbookProductEntity passbookProductEntity = passbookProductRepository.findById(productId)
+                .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_PASSBOOK_PRODUCT));
+
+        UserEntity userEntity = userRepository.findById(userId)
+                .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_USER));
+
+        RegularInstallmentEntity regularInstallmentEntity = RegularInstallmentEntity.builder()
+                .accountNumber(new AccountNumberCreator().createAccountNumber(bankId, bankEntity.getCode()))
+                .password(regularInstallmentPassbookRequestDto.getPassword())
+                .balance(regularInstallmentPassbookRequestDto.getBalance())
+                .interestRate(regularInstallmentPassbookRequestDto.getInterestRate())
+                .depositDate(regularInstallmentPassbookRequestDto.getDepositDate())
+                .amount(regularInstallmentPassbookRequestDto.getAmount())
+                .dtype("RI")
+                .build();
+
+        regularInstallmentEntity.setBank(bankEntity);
+        regularInstallmentEntity.setPassbookProduct(passbookProductEntity);
+        regularInstallmentEntity.setUser(userEntity);
+
+        regularInstallmentRepository.save(regularInstallmentEntity);
+
+        return PassbookResponseDto.of(regularInstallmentEntity);
+    }
+
+    @Transactional
+    public PassbookResponseDto createFreeInstallmentPassbook(Long bankId, Long productId, Long userId, FreeInstallmentPassbookRequestDto freeInstallmentPassbookRequestDto) {
+        BankEntity bankEntity = bankRepository.findById(bankId)
+                .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_BANK));
+
+        PassbookProductEntity passbookProductEntity = passbookProductRepository.findById(productId)
+                .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_PASSBOOK_PRODUCT));
+
+        UserEntity userEntity = userRepository.findById(userId)
+                .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_USER));
+
+        FreeInstallmentEntity freeInstallmentEntity = FreeInstallmentEntity.builder()
+                .accountNumber(new AccountNumberCreator().createAccountNumber(bankId, bankEntity.getCode()))
+                .password(freeInstallmentPassbookRequestDto.getPassword())
+                .balance(freeInstallmentPassbookRequestDto.getBalance())
+                .interestRate(freeInstallmentPassbookRequestDto.getInterestRate())
+                .dtype("FI")
+                .build();
+
+        freeInstallmentEntity.setBank(bankEntity);
+        freeInstallmentEntity.setPassbookProduct(passbookProductEntity);
+        freeInstallmentEntity.setUser(userEntity);
+
+        freeInstallmentRepository.save(freeInstallmentEntity);
+
+        return PassbookResponseDto.of(freeInstallmentEntity);
+    }
+
+    @Transactional
     public void deletePassbook(Long passbookId) {
         //TODO: 유효성 검증
         PassbookEntity passbookEntity = passbookRepository.findById(passbookId)
