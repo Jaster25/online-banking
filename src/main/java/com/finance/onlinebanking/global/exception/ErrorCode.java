@@ -84,6 +84,25 @@ public enum ErrorCode {
     NONEXISTENT_PASSBOOK_PRODUCT("R002", "존재하지 않는 통장 상품입니다."),
     // 유효성 확인
     NOT_NULL_COMMENT_PRODUCT("R101", "상품 내용은 필수입니다."),
+    NOT_NULL_PASSBOOK_PRODUCT_NAME("R102", "통장 상품 이름은 필수입니다."),
+    NOT_NULL_PASSBOOK_PRODUCT_STARTED_AT("R103", "통장 상품 시작일은 필수입니다."),
+    NOT_NULL_PASSBOOK_PRODUCT_ENDED_AT("R104", "통장 상품 종료일은 필수입니다."),
+    NOT_NULL_PASSBOOK_PRODUCT_INTEREST_RATE("R105", "통장 상품 금리는 필수입니다."),
+    NOT_NULL_PASSBOOK_PRODUCT_BENEFIT("R106", "통장 상품 혜택은 필수입니다."),
+    NOT_NULL_PASSBOOK_PRODUCT_CONTENT("R107", "통장 상품 내용 필수입니다."),
+    NOT_NULL_PASSBOOK_PRODUCT_CONDITIONS("R108", "통장 상품 조건은 필수입니다."),
+    NOT_NULL_PASSBOOK_PRODUCT_TERM("R109", "통장 상품 기간은 필수입니다."),
+    NOT_NULL_PASSBOOK_PRODUCT_AMOUNT("R110", "통장 상품 월 납입금은 필수입니다."),
+    NOT_NULL_PASSBOOK_PRODUCT_EXPIRED_AT("R111", "통장 상품 만기일은 필수입니다."),
+    INVALID_PASSBOOK_PRODUCT_STARTED_AT("R112", "통장 상품 시작일이 유효하지 않습니다."),
+    INVALID_PASSBOOK_PRODUCT_ENDED_AT("R113", "통장 상품 종료일이 유효하지 않습니다."),
+    INVALID_PASSBOOK_PRODUCT_INTEREST_RATE("R114", "통장 상품 금리가 유효하지 않습니다."),
+    INVALID_PASSBOOK_PRODUCT_TERM("R115", "통장 상품 기간이 유효하지 않습니다."),
+    INVALID_PASSBOOK_PRODUCT_AMOUNT("R116", "통장 상품 월 납입금이 유효하지 않습니다."),
+    INVALID_PASSBOOK_PRODUCT_EXPIRED_AT("R117", "통장 상품 만기일이 유효하지 않습니다."),
+
+
+
 
     /**
      * T: Transaction
