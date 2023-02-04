@@ -43,11 +43,30 @@ public enum ErrorCode {
     // 입금, 출금
     NONEXISTENT_WITHDRAW_PASSBOOK("P006", "존재하지 않는 출금 통장입니다."),
     NONEXISTENT_DEPOSIT_PASSBOOK("P007", "존재하지 않는 입금 통장입니다."),
+    LACK_OF_WITHDRAW_PASSBOOK_BALANCE("P008", "출금 통장의 잔액이 부족합니다."),
+    LACK_OF_WITHDRAW_PASSBOOK_TRANSFER_LIMIT("P009", "출금 통장의 이체 한도가 부족합니다."),
     // 유효성 확인
     NOT_NULL_PASSBOOK_TYPE("P101", "통장 종류 필수입니다."),
     NOT_NULL_PASSBOOK_CONTENT("P102", "통장 내용은 필수입니다."),
+    NOT_NULL_PASSBOOK_BALANCE("P103", "잔액은 필수입니다."),
+    NOT_NULL_PASSBOOK_INTEREST_RATE("P104", "금리는 필수입니다."),
+    NOT_NULL_PASSBOOK_TRANSFER_LIMIT("P105", "이체한도는 필수입니다."),
+    NOT_NULL_PASSBOOK_EXPIRED_AT("P106", "만기일은 필수입니다."),
+    NOT_NULL_PASSBOOK_PASSWORD("P107", "비밀번호는 필수입니다."),
+    NOT_NULL_PASSBOOK_DEPOSIT_DATE("P108", "입금 예정일은 필수입니다."),
+    NOT_NULL_PASSBOOK_AMOUNT("P109", "금액은 필수입니다."),
+    INVALID_PASSBOOK_BALANCE("P110", "잔액은 음수일 수 없습니다."),
+    INVALID_PASSBOOK_INTEREST_RATE("P111", "금리는 양수여야 없습니다."),
+    INVALID_PASSBOOK_TRANSFER_LIMIT("P112", "이체한도는 음수일 수 없습니다."),
+    INVALID_PASSBOOK_EXPIRED_AT("P113","만기일은 과거일 수 없습니다."),
+    INVALID_PASSBOOK_PASSWORD("P114", "통장 비밀번호는 숫자로만 이루어져야 합니다."),
+    INVALID_PASSBOOK_DEPOSIT_DATE("P115", "입금 예정일은 과거일 수 없습니다."),
+    INVALID_PASSBOOK_AMOUNT("P116", "금액은 양수여야 합니다."),
+    INVALID_PASSBOOK_TYPE("P117", "유효하지 않은 통장 종류입니다."),
     // 삭제
     ALREADY_DELETED_PASSBOOK("P201", "이미 삭제된 통장입니다."),
+    // 중복
+    DUPLICATED_PASSBOOK_ACCOUNT_NUMBER("P301", "중복된 계좌번호 입니다."),
 
     /**
      * B: Bank
@@ -70,6 +89,12 @@ public enum ErrorCode {
      * T: Transaction
      */
     NONEXISTENT_TRANSACTION("T001", "존재하지 않는 거래내역입니다."),
+    // 유효성 확인
+    NOT_NULL_TRANSFER_AMOUNT("T101","이체 금액은 필수입니다."),
+    NOT_NULL_TRANSFER_MEMO("T102","이체 내용은 필수입니다."),
+    NOT_NULL_TRANSFER_COMMISSION("T103", "이체 수수료는 필수입니다."),
+    INVALID_TRANSFER_AMOUNT("T104", "이체 금액은 양수여야 합니다."),
+    INVALID_TRANSFER_COMMISSION("T105", "이체 수수료는 양수여야 합니다.")
     ;
 
     private final String code;

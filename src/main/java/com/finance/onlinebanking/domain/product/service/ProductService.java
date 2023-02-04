@@ -47,7 +47,8 @@ public class ProductService {
     }
 
     public PassbookProductResponseDto getProduct(Long productId) {
-        PassbookProductEntity passbookProductEntity = passbookProductRepository.findByIdAndIsDeletedFalse(productId);
+        PassbookProductEntity passbookProductEntity = passbookProductRepository.findByIdAndIsDeletedFalse(productId)
+                .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_PRODUCT));
         return PassbookProductResponseDto.of(passbookProductEntity);
     }
 }

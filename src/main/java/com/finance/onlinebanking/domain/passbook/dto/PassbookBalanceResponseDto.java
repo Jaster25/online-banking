@@ -1,5 +1,6 @@
 package com.finance.onlinebanking.domain.passbook.dto;
 
+import com.finance.onlinebanking.domain.passbook.entity.PassbookEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,5 +20,14 @@ public class PassbookBalanceResponseDto {
         this.id = id;
         this.accountNumber = accountNumber;
         this.balance = balance;
+    }
+
+
+    public static PassbookBalanceResponseDto of(PassbookEntity passbookEntity) {
+        return PassbookBalanceResponseDto.builder()
+                .id(passbookEntity.getId())
+                .accountNumber(passbookEntity.getAccountNumber())
+                .balance(passbookEntity.getBalance())
+                .build();
     }
 }

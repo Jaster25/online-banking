@@ -15,4 +15,10 @@ public class TransactionsHistoryResponseDto {
     public TransactionsHistoryResponseDto(List<TransactionHistoryResponseDto> transactions) {
         this.transactions = transactions;
     }
+
+    public static TransactionsHistoryResponseDto of(List<TransactionHistoryResponseDto> dtoList) {
+        return TransactionsHistoryResponseDto.builder()
+                .transactions(dtoList)
+                .build();
+    }
 }

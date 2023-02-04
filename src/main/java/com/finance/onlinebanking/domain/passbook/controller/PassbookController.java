@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/passbooks")
@@ -29,25 +31,26 @@ public class PassbookController {
     public ResponseEntity<PassbookResponseDto> createDepositWithdrawPassbookApi(@PathVariable("bankId") Long bankId,
                                                                                 @PathVariable("productId") Long productId,
                                                                                 @PathVariable("userId") Long userId,
-                                                                                @RequestBody DepositWithdrawPassbookRequestDto depositWithdrawPassbookRequestDto) {
+                                                                                @Valid @RequestBody DepositWithdrawPassbookRequestDto depositWithdrawPassbookRequestDto) {
         PassbookResponseDto passbookResponseDto = passbookService.createDepositWithdrawPassbook(bankId, productId, userId, depositWithdrawPassbookRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(passbookResponseDto);
     }
 
     @PostMapping("/fixed-deposit/banks/{bankId}/products/{productId}/users/{userId}")
     public ResponseEntity<PassbookResponseDto> createFixedDepositPassbookApi(@PathVariable("bankId") Long bankId,
-                                                                                @PathVariable("productId") Long productId,
-                                                                                @PathVariable("userId") Long userId,
-                                                                                @RequestBody FixedDepositPassbookRequestDto fixedDepositPassbookRequestDto ) {
+                                                                             @PathVariable("productId") Long productId,
+                                                                             @PathVariable("userId") Long userId,
+                                                                             @Valid @RequestBody FixedDepositPassbookRequestDto fixedDepositPassbookRequestDto) {
         PassbookResponseDto passbookResponseDto = passbookService.createFixedDepositPassbook(bankId, productId, userId, fixedDepositPassbookRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(passbookResponseDto);
     }
 
     @PostMapping("/regular-installment/banks/{bankId}/products/{productId}/users/{userId}")
     public ResponseEntity<PassbookResponseDto> createRegularInstallmentPassbookApi(@PathVariable("bankId") Long bankId,
-                                                                             @PathVariable("productId") Long productId,
-                                                                             @PathVariable("userId") Long userId,
-                                                                             @RequestBody RegularInstallmentPassbookRequestDto regularInstallmentPassbookRequestDto ) {
+                                                                                   @PathVariable("productId") Long productId,
+                                                                                   @PathVariable("userId") Long userId,
+                                                                                   @Valid @RequestBody RegularInstallmentPassbookRequestDto regularInstallmentPassbookRequestDto) {
+
         PassbookResponseDto passbookResponseDto = passbookService.createRegularInstallmentPassbook(bankId, productId, userId, regularInstallmentPassbookRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(passbookResponseDto);
     }
@@ -56,7 +59,7 @@ public class PassbookController {
     public ResponseEntity<PassbookResponseDto> createRegularInstallmentPassbookApi(@PathVariable("bankId") Long bankId,
                                                                                    @PathVariable("productId") Long productId,
                                                                                    @PathVariable("userId") Long userId,
-                                                                                   @RequestBody FreeInstallmentPassbookRequestDto freeInstallmentPassbookRequestDto ) {
+                                                                                   @Valid @RequestBody FreeInstallmentPassbookRequestDto freeInstallmentPassbookRequestDto ) {
         PassbookResponseDto passbookResponseDto = passbookService.createFreeInstallmentPassbook(bankId, productId, userId, freeInstallmentPassbookRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(passbookResponseDto);
     }
@@ -80,13 +83,13 @@ public class PassbookController {
     }
 
     @PutMapping("/{passbookId}/password")
-    public ResponseEntity<Void> updatePassbookPasswordApi(@PathVariable("passbookId") Long passbookId, @RequestBody PasswordRequestDto passwordRequestDto) {
+    public ResponseEntity<Void> updatePassbookPasswordApi(@PathVariable("passbookId") Long passbookId, @Valid @RequestBody PasswordRequestDto passwordRequestDto) {
         passbookService.updatePassword(passbookId, passwordRequestDto);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
 
     @PutMapping("/{passbookId}/transfer-limit")
-    public ResponseEntity<TransferLimitResponseDto> updateTransferLimitApi(@PathVariable("passbookId") Long passbookId, @RequestBody TransferLimitRequestDto transferLimitRequestDto) {
+    public ResponseEntity<TransferLimitResponseDto> updateTransferLimitApi(@PathVariable("passbookId") Long passbookId, @Valid @RequestBody TransferLimitRequestDto transferLimitRequestDto) {
         TransferLimitResponseDto transferLimitResponseDto = passbookService.updateTransferLimit(passbookId, transferLimitRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(transferLimitResponseDto);
     }
@@ -94,7 +97,7 @@ public class PassbookController {
     @PostMapping("/{passbookId}/transfer/{depositPassbookId}")
     public ResponseEntity<TransferResponseDto> createTransferApi(@PathVariable("passbookId") Long passbookId,
                                                                  @PathVariable("depositPassbookId") Long depositPassbookId,
-                                                                 @RequestBody TransferRequestDto transferRequestDto) {
+                                                                 @Valid @RequestBody TransferRequestDto transferRequestDto) {
         TransferResponseDto transferResponseDto = passbookService.createTransfer(passbookId, depositPassbookId, transferRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(transferResponseDto);
     }
