@@ -10,13 +10,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserRequestDto {
 
-    @Schema(description = "아이디")
+    @Schema(description = "아이디", defaultValue = "testId1")
     private String id;
 
-    @Schema(description = "비밀번호")
+    @Schema(description = "비밀번호", defaultValue = "1234Aa!")
     private String password;
 
-    @Schema(description = "사용자 이름")
+    @Schema(description = "사용자 이름", defaultValue = "김테스트")
     private String name;
 
 

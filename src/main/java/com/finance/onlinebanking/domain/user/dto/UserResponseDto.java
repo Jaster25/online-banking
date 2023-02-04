@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 public class UserResponseDto {
 
-    @Schema(description = "아이디", defaultValue = "testId1")
+    @Schema(description = "아이디")
     private final String id;
 
 

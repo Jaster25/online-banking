@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PasswordRequestDto {
 
-    @Schema(description = "변경할 비밀번호")
+    @Schema(description = "변경할 비밀번호", defaultValue = "New1234!")
     private String password;
 
 
