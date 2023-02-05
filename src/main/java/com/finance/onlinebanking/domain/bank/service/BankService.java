@@ -5,6 +5,7 @@ import com.finance.onlinebanking.domain.bank.dto.BankResponseDto;
 import com.finance.onlinebanking.domain.bank.entity.BankEntity;
 import com.finance.onlinebanking.domain.bank.repository.BankRepository;
 import com.finance.onlinebanking.global.exception.ErrorCode;
+import com.finance.onlinebanking.global.exception.custom.InvalidValueException;
 import com.finance.onlinebanking.global.exception.custom.NonExistentException;
 import com.finance.onlinebanking.domain.product.dto.PassbookProductResponseDto;
 import com.finance.onlinebanking.domain.product.dto.ProductsResponseDto;
@@ -49,7 +50,7 @@ public class BankService {
     }
 
     public BankResponseDto getBank(Long bankId) {
-        BankEntity bankEntity = bankRepository.findById(bankId)
+        BankEntity bankEntity = bankRepository.findByIdAndIsDeletedFalse(bankId)
                 .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_BANK));
 
         return BankResponseDto.builder()
@@ -63,10 +64,10 @@ public class BankService {
     }
 
     public ProductsResponseDto getProducts(Long bankId) {
-        BankEntity bankEntity = bankRepository.findById(bankId)
+        BankEntity bankEntity = bankRepository.findByIdAndIsDeletedFalse(bankId)
                 .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_BANK));
 
-        List<PassbookProductEntity> passbookProducts = passbookProductRepository.findAllByBank(bankEntity);
+        List<PassbookProductEntity> passbookProducts = passbookProductRepository.findAllByBankAndIsDeletedFalse(bankEntity);
 
         List<PassbookProductResponseDto> passbookProductResponseDtos = passbookProducts.stream()
                 .map(PassbookProductResponseDto::of)

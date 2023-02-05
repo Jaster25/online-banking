@@ -23,20 +23,20 @@ public class ProductService {
 
 
     @Transactional
-    public PassbookProductResponseDto createProduct(Long bankId, PassbookProductRequestDto productRequestDto) {
+    public PassbookProductResponseDto createProduct(Long bankId, PassbookProductRequestDto passbookProductRequestDto) {
         BankEntity bankEntity = bankRepository.findById(bankId)
                 .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_BANK));
 
         PassbookProductEntity passbookProductEntity = PassbookProductEntity.builder()
-                .name(productRequestDto.getName())
-                .startedAt(productRequestDto.getStartedAt())
-                .endedAt(productRequestDto.getEndedAt())
-                .interestRate(productRequestDto.getInterestRate())
-                .benefit(productRequestDto.getBenefit())
-                .content(productRequestDto.getContent())
-                .conditions(productRequestDto.getConditions())
-                .term(productRequestDto.getTerm())
-                .amount(productRequestDto.getAmount())
+                .name(passbookProductRequestDto.getName())
+                .startedAt(passbookProductRequestDto.getStartedAt())
+                .endedAt(passbookProductRequestDto.getEndedAt())
+                .interestRate(passbookProductRequestDto.getInterestRate())
+                .benefit(passbookProductRequestDto.getBenefit())
+                .content(passbookProductRequestDto.getContent())
+                .conditions(passbookProductRequestDto.getConditions())
+                .term(passbookProductRequestDto.getTerm())
+                .amount(passbookProductRequestDto.getAmount())
                 .build();
 
         passbookProductEntity.setBank(bankEntity);
@@ -47,10 +47,8 @@ public class ProductService {
     }
 
     public PassbookProductResponseDto getProduct(Long productId) {
-
-        PassbookProductEntity passbookProductEntity = passbookProductRepository.findById(productId)
+        PassbookProductEntity passbookProductEntity = passbookProductRepository.findByIdAndIsDeletedFalse(productId)
                 .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_PRODUCT));
-
         return PassbookProductResponseDto.of(passbookProductEntity);
     }
 }

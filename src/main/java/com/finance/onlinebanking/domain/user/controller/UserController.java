@@ -11,16 +11,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/users")
 public class UserController {
 
     private final UserService userService;
+
     private final PassbookService passbookService;
 
     @PostMapping
-    public ResponseEntity<UserResponseDto> createUserApi(@RequestBody UserRequestDto userRequestDto) {
+    public ResponseEntity<UserResponseDto> createUserApi(@Valid @RequestBody UserRequestDto userRequestDto) {
         UserResponseDto userResponseDto = userService.createUser(userRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(userResponseDto);
     }
@@ -32,7 +35,7 @@ public class UserController {
     }
 
     @PutMapping("/password")
-    public ResponseEntity<UserResponseDto> updatePasswordApi(@RequestBody PasswordRequestDto passwordRequestDto) {
+    public ResponseEntity<UserResponseDto> updatePasswordApi(@Valid @RequestBody PasswordRequestDto passwordRequestDto) {
         userService.updatePassword(passwordRequestDto.getPassword());
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
