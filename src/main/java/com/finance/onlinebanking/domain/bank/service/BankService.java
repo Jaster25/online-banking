@@ -50,12 +50,8 @@ public class BankService {
     }
 
     public BankResponseDto getBank(Long bankId) {
-        BankEntity bankEntity = bankRepository.findById(bankId)
+        BankEntity bankEntity = bankRepository.findByIdAndIsDeletedFalse(bankId)
                 .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_BANK));
-
-        if (bankEntity.isDeleted()) {
-            throw new InvalidValueException(ErrorCode.ALREADY_DELETED_BANK);
-        }
 
         return BankResponseDto.builder()
                 .id(bankEntity.getId())
@@ -68,12 +64,8 @@ public class BankService {
     }
 
     public ProductsResponseDto getProducts(Long bankId) {
-        BankEntity bankEntity = bankRepository.findById(bankId)
+        BankEntity bankEntity = bankRepository.findByIdAndIsDeletedFalse(bankId)
                 .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_BANK));
-
-        if (bankEntity.isDeleted()) {
-            throw new InvalidValueException(ErrorCode.ALREADY_DELETED_BANK);
-        }
 
         List<PassbookProductEntity> passbookProducts = passbookProductRepository.findAllByBankAndIsDeletedFalse(bankEntity);
 

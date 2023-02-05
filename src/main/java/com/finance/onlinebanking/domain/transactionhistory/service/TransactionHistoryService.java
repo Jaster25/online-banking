@@ -47,12 +47,8 @@ public class TransactionHistoryService {
     }
 
     public TransactionHistoryResponseDto getTransactionHistory(Long transactionId) {
-        TransactionHistoryEntity transactionHistoryEntity = transactionHistoryRepository.findById(transactionId)
+        TransactionHistoryEntity transactionHistoryEntity = transactionHistoryRepository.findByIdAndIsDeletedFalse(transactionId)
                 .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_TRANSACTION));
-
-        if (transactionHistoryEntity.isDeleted()) {
-            throw new InvalidValueException(ErrorCode.ALREADY_DELETED_TRANSACTION);
-        }
 
         // TODO: 본인 인증
 

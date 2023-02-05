@@ -63,10 +63,8 @@ public enum ErrorCode {
     INVALID_PASSBOOK_DEPOSIT_DATE("P115", "입금 예정일은 과거일 수 없습니다."),
     INVALID_PASSBOOK_AMOUNT("P116", "금액은 양수여야 합니다."),
     INVALID_PASSBOOK_TYPE("P117", "유효하지 않은 통장 종류입니다."),
-    // 삭제
-    ALREADY_DELETED_PASSBOOK("P201", "이미 삭제된 통장입니다."),
     // 중복
-    DUPLICATED_PASSBOOK_ACCOUNT_NUMBER("P301", "중복된 계좌번호 입니다."),
+    DUPLICATED_PASSBOOK_ACCOUNT_NUMBER("P201", "중복된 계좌번호 입니다."),
 
     /**
      * B: Bank
@@ -76,8 +74,6 @@ public enum ErrorCode {
     NOT_NULL_BANK_NAME("B101", "은행 이름은 필수입니다."),
     NOT_NULL_BANK_CODE("B102", "은행 코드는 필수입니다."),
     NOT_NULL_BANK_BRANCH("B103", "은행 지점은 필수입니다."),
-    // 삭제
-    ALREADY_DELETED_BANK("B201", "이미 삭제된 은행입니다."),
 
     /**
      * R: Product
@@ -103,9 +99,6 @@ public enum ErrorCode {
     INVALID_PASSBOOK_PRODUCT_AMOUNT("R116", "통장 상품 월 납입금이 유효하지 않습니다."),
     INVALID_PASSBOOK_PRODUCT_EXPIRED_AT("R117", "통장 상품 만기일이 유효하지 않습니다."),
 
-
-
-
     /**
      * T: Transaction
      */
@@ -116,8 +109,6 @@ public enum ErrorCode {
     NOT_NULL_TRANSFER_COMMISSION("T103", "이체 수수료는 필수입니다."),
     INVALID_TRANSFER_AMOUNT("T104", "이체 금액은 양수여야 합니다."),
     INVALID_TRANSFER_COMMISSION("T105", "이체 수수료는 양수여야 합니다."),
-    // 삭제
-    ALREADY_DELETED_TRANSACTION("T201", "이미 삭제된 거래내역입니다."),
     ;
 
     private final String code;
