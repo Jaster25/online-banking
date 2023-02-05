@@ -19,7 +19,7 @@ public class ProductController {
 
 
     @PostMapping("/{bankId}")
-    public ResponseEntity<PassbookProductResponseDto> createProductApi(@PathVariable("bankId") Long bankId,@Valid @RequestBody PassbookProductRequestDto passbookProductRequestDto) {
+    public ResponseEntity<PassbookProductResponseDto> createProductApi(@PathVariable("bankId") Long bankId, @Valid @RequestBody PassbookProductRequestDto passbookProductRequestDto) {
         PassbookProductResponseDto passbookProductResponseDto = productService.createProduct(bankId, passbookProductRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(passbookProductResponseDto);
     }
