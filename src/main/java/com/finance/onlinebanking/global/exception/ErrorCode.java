@@ -74,6 +74,7 @@ public enum ErrorCode {
     NOT_NULL_BANK_NAME("B101", "은행 이름은 필수입니다."),
     NOT_NULL_BANK_CODE("B102", "은행 코드는 필수입니다."),
     NOT_NULL_BANK_BRANCH("B103", "은행 지점은 필수입니다."),
+    INVALID_BANK_CODE("B111", "은행 코드는 숫자 3자로 이루어져야 합니다."),
 
     /**
      * R: Product
