@@ -18,15 +18,6 @@ public class PassbookController {
     private final PassbookService passbookService;
 
 
-    @PostMapping("/banks/{bankId}/products/{productId}/users/{userId}")
-    public ResponseEntity<PassbookResponseDto> createPassbookApi(@PathVariable("bankId") Long bankId,
-                                                                 @PathVariable("productId") Long productId,
-                                                                 @PathVariable("userId") Long userId,
-                                                                 @RequestBody PassbookRequestDto passbookRequestDto) {
-        PassbookResponseDto passbookResponseDto = passbookService.createPassbook(bankId, productId, userId, passbookRequestDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(passbookResponseDto);
-    }
-
     @PostMapping("/deposit-withdraw/banks/{bankId}/products/{productId}/users/{userId}")
     public ResponseEntity<PassbookResponseDto> createDepositWithdrawPassbookApi(@PathVariable("bankId") Long bankId,
                                                                                 @PathVariable("productId") Long productId,
