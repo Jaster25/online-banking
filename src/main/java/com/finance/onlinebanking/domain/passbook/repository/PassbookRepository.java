@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface PassbookRepository extends JpaRepository<PassbookEntity, Long> {
 
-    List<PassbookEntity> findAllByUser(UserEntity user);
+    List<PassbookEntity> findAllByUserAndIsDeletedFalse(UserEntity user);
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select p from PassbookEntity p where p.id = :passbook_id")

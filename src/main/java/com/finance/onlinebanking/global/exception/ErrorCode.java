@@ -57,6 +57,8 @@ public enum ErrorCode {
     NOT_NULL_BANK_NAME("B101", "은행 이름은 필수입니다."),
     NOT_NULL_BANK_CODE("B102", "은행 코드는 필수입니다."),
     NOT_NULL_BANK_BRANCH("B103", "은행 지점은 필수입니다."),
+    // 삭제
+    ALREADY_DELETED_BANK("B201", "이미 삭제된 은행입니다."),
 
     /**
      * R: Product
@@ -70,6 +72,8 @@ public enum ErrorCode {
      * T: Transaction
      */
     NONEXISTENT_TRANSACTION("T001", "존재하지 않는 거래내역입니다."),
+    // 삭제
+    ALREADY_DELETED_TRANSACTION("T101", "이미 삭제된 거래내역입니다."),
     ;
 
     private final String code;

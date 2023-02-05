@@ -313,7 +313,7 @@ public class PassbookService {
         UserEntity user = userRepository.findById(userId)
                 .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_USER));
 
-        List<PassbookEntity> passbooks = passbookRepository.findAllByUser(user);
+        List<PassbookEntity> passbooks = passbookRepository.findAllByUserAndIsDeletedFalse(user);
 
         return PassbooksResponseDto.builder()
                 .passbooks(passbooks.stream()
