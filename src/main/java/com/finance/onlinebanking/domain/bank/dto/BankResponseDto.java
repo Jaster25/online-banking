@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 public class BankResponseDto {
 
-    @Schema(description = "은행 아이디")
+    @Schema(description = "은행 ID")
     private final Long id;
 
     @Schema(description = "은행 이름")

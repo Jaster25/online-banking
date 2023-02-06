@@ -37,7 +37,7 @@ public class BankController {
     @ApiResponse(responseCode = "200", description = "successful operation",
             content = @Content(schema = @Schema(implementation = BankResponseDto.class)))
     @GetMapping("/{bankId}")
-    public ResponseEntity<BankResponseDto> getBankApi(@Parameter(description = "은행 아이디") @PathVariable Long bankId) {
+    public ResponseEntity<BankResponseDto> getBankApi(@Parameter(description = "은행 ID") @PathVariable Long bankId) {
         BankResponseDto bankResponseDto = bankService.getBank(bankId);
         return ResponseEntity.status(HttpStatus.OK).body(bankResponseDto);
     }
@@ -46,7 +46,7 @@ public class BankController {
     @ApiResponse(responseCode = "200", description = "successful operation",
             content = @Content(schema = @Schema(implementation = ProductsResponseDto.class)))
     @GetMapping("/{bankId}/products")
-    public ResponseEntity<ProductsResponseDto> getProductsApi(@Parameter(description = "은행 아이디") @PathVariable Long bankId) {
+    public ResponseEntity<ProductsResponseDto> getProductsApi(@Parameter(description = "은행 ID") @PathVariable Long bankId) {
         ProductsResponseDto productsResponseDto = bankService.getProducts(bankId);
         return ResponseEntity.status(HttpStatus.OK).body(productsResponseDto);
     }

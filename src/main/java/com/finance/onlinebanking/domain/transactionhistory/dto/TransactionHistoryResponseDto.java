@@ -1,5 +1,6 @@
 package com.finance.onlinebanking.domain.transactionhistory.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.finance.onlinebanking.domain.transactionhistory.entity.TransactionHistoryEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
@@ -10,7 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 public class TransactionHistoryResponseDto {
 
-    @Schema(description = "거래내역 아이디")
+    @Schema(description = "거래내역 ID")
     private final Long id;
 
     @Schema(description = "출금 계좌 번호")
@@ -29,9 +30,11 @@ public class TransactionHistoryResponseDto {
     private final Long commission;
 
     @Schema(description = "생성일")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
     private final LocalDateTime createdAt;
 
     @Schema(description = "수정일")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
     private final LocalDateTime updatedAt;
 
 

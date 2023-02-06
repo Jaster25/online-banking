@@ -28,7 +28,7 @@ public class TransactionHistoryController {
     @ApiResponse(responseCode = "200", description = "successful operation",
             content = @Content(schema = @Schema(implementation = TransactionHistoryResponseDto.class)))
     @GetMapping("/{transactionId}")
-    public ResponseEntity<TransactionHistoryResponseDto> getTransactionHistoryApi(@Parameter(description = "거래내역 아이디") @PathVariable Long transactionId) {
+    public ResponseEntity<TransactionHistoryResponseDto> getTransactionHistoryApi(@Parameter(description = "거래내역 ID") @PathVariable Long transactionId) {
         TransactionHistoryResponseDto transactionHistoryResponseDto = transactionHistoryService.getTransactionHistory(transactionId);
         return ResponseEntity.status(HttpStatus.OK).body(transactionHistoryResponseDto);
     }

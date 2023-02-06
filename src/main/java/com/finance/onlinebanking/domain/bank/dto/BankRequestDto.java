@@ -13,7 +13,7 @@ public class BankRequestDto {
     @Schema(description = "은행 이름", defaultValue = "A은행")
     private String name;
 
-    @Schema(description = "은행 코드", defaultValue = "A001")
+    @Schema(description = "은행 코드", defaultValue = "001")
     private String code;
 
     @Schema(description = "은행 지점", defaultValue = "군자역")
