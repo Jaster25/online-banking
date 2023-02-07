@@ -100,7 +100,6 @@ public abstract class PassbookEntity extends BaseEntity {
         return ((DepositWithdrawEntity) this).getTransferLimit() < amount ? false : true;
     }
 
-
     public void setUser(UserEntity user) {
         if (this.user != null) {
             this.user.getPassbooks().remove(this);

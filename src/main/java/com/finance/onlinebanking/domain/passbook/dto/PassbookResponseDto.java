@@ -50,9 +50,8 @@ public class PassbookResponseDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
     private final LocalDateTime expiredAt;
 
-    @Schema(description = "입금일")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
-    private final LocalDateTime depositDate;
+    @Schema(description = "입금 날짜")
+    private final int depositDate;
 
     @Schema(description = "생성일")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
@@ -64,7 +63,7 @@ public class PassbookResponseDto {
 
 
     @Builder
-    public PassbookResponseDto(Long id, String accountNumber, Long balance, BigDecimal interestRate, Long userId, Long bankId, Long passbookProductId, Long transferLimit, Long amount, String dtype, LocalDateTime expiredAt, LocalDateTime depositDate, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public PassbookResponseDto(Long id, String accountNumber, Long balance, BigDecimal interestRate, Long userId, Long bankId, Long passbookProductId, Long transferLimit, Long amount, String dtype, LocalDateTime expiredAt, int depositDate, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.accountNumber = accountNumber;
         this.balance = balance;

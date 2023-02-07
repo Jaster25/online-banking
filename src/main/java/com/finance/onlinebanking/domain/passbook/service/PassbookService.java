@@ -25,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -100,7 +101,7 @@ public class PassbookService {
                 .password(fixedDepositPassbookRequestDto.getPassword())
                 .balance(fixedDepositPassbookRequestDto.getBalance())
                 .interestRate(fixedDepositPassbookRequestDto.getInterestRate())
-                .expiredAt(fixedDepositPassbookRequestDto.getExpiredAt())
+                .expiredAt(LocalDateTime.now().plusDays(passbookProductEntity.getTerm()))
                 .dtype("FD")
                 .build();
 
@@ -131,7 +132,7 @@ public class PassbookService {
                 .interestRate(regularInstallmentPassbookRequestDto.getInterestRate())
                 .depositDate(regularInstallmentPassbookRequestDto.getDepositDate())
                 .amount(regularInstallmentPassbookRequestDto.getAmount())
-                .expiredAt((regularInstallmentPassbookRequestDto.getExpiredAt()))
+                .expiredAt(LocalDateTime.now().plusDays(passbookProductEntity.getTerm()))
                 .dtype("RI")
                 .build();
 
@@ -160,7 +161,7 @@ public class PassbookService {
                 .password(freeInstallmentPassbookRequestDto.getPassword())
                 .balance(freeInstallmentPassbookRequestDto.getBalance())
                 .interestRate(freeInstallmentPassbookRequestDto.getInterestRate())
-                .expiredAt(freeInstallmentPassbookRequestDto.getExpiredAt())
+                .expiredAt(LocalDateTime.now().plusDays(passbookProductEntity.getTerm()))
                 .dtype("FI")
                 .build();
 

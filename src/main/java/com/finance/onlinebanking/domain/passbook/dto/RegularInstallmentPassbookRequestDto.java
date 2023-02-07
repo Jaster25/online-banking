@@ -29,27 +29,22 @@ public class RegularInstallmentPassbookRequestDto {
     private BigDecimal interestRate;
     @Schema(description = "입금일", defaultValue = "2024-12-20T02:17:35")
     @NotNull(message = "NOT_NULL_PASSBOOK_DEPOSIT_DATE")
-    @Future(message = "INVALID_PASSBOOK_DEPOSIT_DATE")
-    private LocalDateTime depositDate;
+    @Min(value = 1, message = "INVALID_PASSBOOK_DEPOSIT_DATE")
+    @Max(value = 28, message = "INVALID_PASSBOOK_DEPOSIT_DATE")
+    private int depositDate;
 
     @Schema(description = "금액", defaultValue = "0")
     @NotNull(message = "NOT_NULL_PASSBOOK_AMOUNT")
     @Positive(message = "INVALID_PASSBOOK_AMOUNT")
     private Long amount;
 
-    @Schema(description = "만기일", defaultValue = "2024-12-20T02:17:35")
-    @NotNull(message = "NOT_NULL_PASSBOOK_EXPIRED_AT")
-    @Future(message = "INVALID_PASSBOOK_EXPIRED_AT")
-    private LocalDateTime expiredAt;
-
 
     @Builder
-    public RegularInstallmentPassbookRequestDto(String password, Long balance, BigDecimal interestRate, LocalDateTime depositDate, Long amount, LocalDateTime expiredAt) {
+    public RegularInstallmentPassbookRequestDto(String password, Long balance, BigDecimal interestRate, int depositDate, Long amount) {
         this.password = password;
         this.balance = balance;
         this.interestRate = interestRate;
         this.depositDate = depositDate;
         this.amount = amount;
-        this.expiredAt = expiredAt;
     }
 }

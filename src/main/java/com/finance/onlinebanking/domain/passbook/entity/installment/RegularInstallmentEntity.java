@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @DiscriminatorValue("RI")
 public class RegularInstallmentEntity extends InstallmentEntity {
 
-    private LocalDateTime depositDate;
+    private int depositDate;
     private Long amount;
 
 

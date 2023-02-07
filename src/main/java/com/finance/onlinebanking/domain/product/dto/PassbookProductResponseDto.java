@@ -92,7 +92,6 @@ public class PassbookProductResponseDto {
                 .conditions(passbookProductEntity.getConditions())
                 .term(passbookProductEntity.getTerm())
                 .amount(passbookProductEntity.getAmount())
-                .expiredAt(passbookProductEntity.getExpiredAt())
                 .createdAt(passbookProductEntity.getCreatedAt())
                 .updatedAt(passbookProductEntity.getUpdatedAt())
                 .build();

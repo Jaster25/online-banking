@@ -27,16 +27,10 @@ public class FixedDepositPassbookRequestDto {
     @Positive(message = "INVALID_PASSBOOK_INTEREST_RATE")
     private BigDecimal interestRate;
 
-    @Schema(description = "만기일", defaultValue = "2024-12-20T02:17:35")
-    @NotNull(message = "NOT_NULL_PASSBOOK_EXPIRED_AT")
-    @Future(message = "INVALID_PASSBOOK_EXPIRED_AT")
-    private LocalDateTime expiredAt;
 
-
-    public FixedDepositPassbookRequestDto(String password, Long balance, BigDecimal interestRate, LocalDateTime expiredAt) {
+    public FixedDepositPassbookRequestDto(String password, Long balance, BigDecimal interestRate) {
         this.password = password;
         this.balance = balance;
         this.interestRate = interestRate;
-        this.expiredAt = expiredAt;
     }
 }
