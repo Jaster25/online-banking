@@ -25,6 +25,4 @@ public class PassbookProductEntity extends ProductEntity{
     private int term;
 
     private Long amount;
-
-    private LocalDateTime expiredAt;
 }

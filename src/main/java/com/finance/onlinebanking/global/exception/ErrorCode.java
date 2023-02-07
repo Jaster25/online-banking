@@ -60,7 +60,7 @@ public enum ErrorCode {
     INVALID_PASSBOOK_TRANSFER_LIMIT("P112", "이체한도는 음수일 수 없습니다."),
     INVALID_PASSBOOK_EXPIRED_AT("P113","만기일은 과거일 수 없습니다."),
     INVALID_PASSBOOK_PASSWORD("P114", "통장 비밀번호는 숫자로만 이루어져야 합니다."),
-    INVALID_PASSBOOK_DEPOSIT_DATE("P115", "입금 예정일은 과거일 수 없습니다."),
+    INVALID_PASSBOOK_DEPOSIT_DATE("P115", "유효하지 않은 입금 예정일입니다."),
     INVALID_PASSBOOK_AMOUNT("P116", "금액은 양수여야 합니다."),
     INVALID_PASSBOOK_TYPE("P117", "유효하지 않은 통장 종류입니다."),
     // 중복
