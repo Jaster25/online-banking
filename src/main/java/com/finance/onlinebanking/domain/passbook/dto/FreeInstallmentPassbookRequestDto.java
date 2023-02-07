@@ -24,15 +24,11 @@ public class FreeInstallmentPassbookRequestDto {
     @Positive(message = "INVALID_PASSBOOK_INTEREST_RATE")
     private BigDecimal interestRate;
 
-    @NotNull(message = "NOT_NULL_PASSBOOK_EXPIRED_AT")
-    @Future(message = "INVALID_PASSBOOK_EXPIRED_AT")
-    private LocalDateTime expiredAt;
 
     @Builder
-    public FreeInstallmentPassbookRequestDto(String password, Long balance, BigDecimal interestRate, LocalDateTime expiredAt) {
+    public FreeInstallmentPassbookRequestDto(String password, Long balance, BigDecimal interestRate) {
         this.password = password;
         this.balance = balance;
         this.interestRate = interestRate;
-        this.expiredAt = expiredAt;
     }
 }
