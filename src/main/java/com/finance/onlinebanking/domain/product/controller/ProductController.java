@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/products")
@@ -17,7 +19,7 @@ public class ProductController {
 
 
     @PostMapping("/{bankId}")
-    public ResponseEntity<PassbookProductResponseDto> createProductApi(@PathVariable("bankId") Long bankId, @RequestBody PassbookProductRequestDto passbookProductRequestDto) {
+    public ResponseEntity<PassbookProductResponseDto> createProductApi(@PathVariable("bankId") Long bankId, @Valid @RequestBody PassbookProductRequestDto passbookProductRequestDto) {
         PassbookProductResponseDto passbookProductResponseDto = productService.createProduct(bankId, passbookProductRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(passbookProductResponseDto);
     }

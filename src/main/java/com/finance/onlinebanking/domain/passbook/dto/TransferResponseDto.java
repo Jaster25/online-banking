@@ -1,5 +1,6 @@
 package com.finance.onlinebanking.domain.passbook.dto;
 
+import com.finance.onlinebanking.domain.transactionhistory.dto.TransactionHistoryResponseDto;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -29,5 +30,16 @@ public class TransferResponseDto {
         this.memo = memo;
         this.commission = commission;
         this.createdAt = createdAt;
+    }
+
+    public static TransferResponseDto of(TransactionHistoryResponseDto transactionHistoryResponseDto) {
+        return TransferResponseDto.builder()
+                .withdrawAccountNumber(transactionHistoryResponseDto.getWithdrawAccountNumber())
+                .depositAccountNumber(transactionHistoryResponseDto.getDepositAccountNumber())
+                .amount(transactionHistoryResponseDto.getAmount())
+                .memo(transactionHistoryResponseDto.getMemo())
+                .commission(transactionHistoryResponseDto.getCommission())
+                .createdAt(transactionHistoryResponseDto.getCreatedAt())
+                .build();
     }
 }

@@ -92,6 +92,14 @@ public abstract class PassbookEntity extends BaseEntity {
         return dtype.equals(PassbookType.FI.toString());
     }
 
+    public boolean checkBalance(Long amount) {
+        return this.balance - amount < 0 ? false : true;
+    }
+
+    public boolean checkTransferLimit(Long amount) {
+        return ((DepositWithdrawEntity) this).getTransferLimit() < amount ? false : true;
+    }
+
 
     public void setUser(UserEntity user) {
         if (this.user != null) {

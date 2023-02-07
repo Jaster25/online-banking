@@ -1,5 +1,6 @@
 package com.finance.onlinebanking.domain.passbook.dto;
 
+import com.finance.onlinebanking.domain.passbook.entity.DepositWithdrawEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,5 +20,14 @@ public class TransferLimitResponseDto {
         this.id = id;
         this.accountNumber = accountNumber;
         this.transferLimit = transferLimit;
+    }
+
+
+    public static TransferLimitResponseDto of(DepositWithdrawEntity depositWithdrawEntity) {
+        return TransferLimitResponseDto.builder()
+                .id(depositWithdrawEntity.getId())
+                .accountNumber(depositWithdrawEntity.getAccountNumber())
+                .transferLimit(depositWithdrawEntity.getTransferLimit())
+                .build();
     }
 }

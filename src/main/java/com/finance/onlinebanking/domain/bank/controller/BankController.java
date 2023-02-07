@@ -16,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @Tag(name = "은행 API")
 @RestController
 @RequiredArgsConstructor
@@ -28,7 +30,7 @@ public class BankController {
     @ApiResponse(responseCode = "201", description = "successful operation",
             content = @Content(schema = @Schema(implementation = BankResponseDto.class)))
     @PostMapping
-    public ResponseEntity<BankResponseDto> createBankApi(@RequestBody BankRequestDto bankRequestDto) {
+    public ResponseEntity<BankResponseDto> createBankApi(@Valid @RequestBody BankRequestDto bankRequestDto) {
         BankResponseDto bankResponseDto = bankService.createBank(bankRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(bankResponseDto);
     }

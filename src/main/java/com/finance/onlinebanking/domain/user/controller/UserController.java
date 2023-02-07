@@ -16,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @Tag(name = "사용자 API")
 @RestController
 @RequiredArgsConstructor
@@ -30,7 +32,7 @@ public class UserController {
     @ApiResponse(responseCode = "201", description = "successful operation",
             content = @Content(schema = @Schema(implementation = UserResponseDto.class)))
     @PostMapping
-    public ResponseEntity<UserResponseDto> createUserApi(@RequestBody UserRequestDto userRequestDto) {
+    public ResponseEntity<UserResponseDto> createUserApi(@Valid @RequestBody UserRequestDto userRequestDto) {
         UserResponseDto userResponseDto = userService.createUser(userRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(userResponseDto);
     }
@@ -47,7 +49,7 @@ public class UserController {
     @Operation(summary = "사용자 비밀번호 변경", description = "로그인 사용자의 비밀번호를 변경한다.")
     @ApiResponse(responseCode = "204", description = "successful operation")
     @PutMapping("/password")
-    public ResponseEntity<Void> updatePasswordApi(@RequestBody PasswordRequestDto passwordRequestDto) {
+    public ResponseEntity<UserResponseDto> updatePasswordApi(@Valid @RequestBody PasswordRequestDto passwordRequestDto) {
         userService.updatePassword(passwordRequestDto.getPassword());
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
