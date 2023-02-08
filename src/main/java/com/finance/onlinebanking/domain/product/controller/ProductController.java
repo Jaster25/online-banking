@@ -36,7 +36,7 @@ public class ProductController {
 
 
     @Operation(summary = "상품 상세 조회", description = "로그인 사용자가 상품을 상세 조회한다.")
-    @ApiResponse(responseCode = "201", description = "successful operation",
+    @ApiResponse(responseCode = "200", description = "successful operation",
             content = @Content(schema = @Schema(implementation = PassbookProductResponseDto.class)))
     @GetMapping("/{productId}")
     public ResponseEntity<PassbookProductResponseDto> getProductApi(@PathVariable("productId") Long productId) {
