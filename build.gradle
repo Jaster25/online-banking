@@ -25,6 +25,9 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testCompileOnly 'org.projectlombok:lombok'
 	testAnnotationProcessor 'org.projectlombok:lombok'
+	// Swagger
+	implementation 'org.springdoc:springdoc-openapi-ui:1.6.11'
+
 
 	/**
 	 * Database

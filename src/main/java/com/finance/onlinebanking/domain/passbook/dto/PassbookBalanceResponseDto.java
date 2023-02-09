@@ -1,6 +1,7 @@
 package com.finance.onlinebanking.domain.passbook.dto;
 
 import com.finance.onlinebanking.domain.passbook.entity.PassbookEntity;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,10 +9,13 @@ import lombok.NoArgsConstructor;
 @Getter
 public class PassbookBalanceResponseDto {
 
+    @Schema(description = "통장 ID")
     private final Long id;
 
+    @Schema(description = "계좌 번호")
     private final String accountNumber;
 
+    @Schema(description = "잔액")
     private final Long balance;
 
 

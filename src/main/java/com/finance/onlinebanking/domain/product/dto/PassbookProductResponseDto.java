@@ -2,6 +2,7 @@ package com.finance.onlinebanking.domain.product.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.finance.onlinebanking.domain.product.entity.PassbookProductEntity;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -11,36 +12,50 @@ import java.time.LocalDateTime;
 @Getter
 public class PassbookProductResponseDto {
 
+    @Schema(description = "통장 상품 ID")
     private final Long id;
 
+    @Schema(description = "은행 ID")
     private final Long bankId;
 
+    @Schema(description = "상품 이름")
     private final String name;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Schema(description = "시작일")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
     private final LocalDateTime startedAt;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Schema(description = "종료일")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
     private final LocalDateTime endedAt;
 
+    @Schema(description = "금리")
     private final BigDecimal interestRate;
 
+    @Schema(description = "혜택")
     private final String benefit;
 
+    @Schema(description = "내용")
     private final String content;
 
+    @Schema(description = "조건")
     private final String conditions;
 
+    @Schema(description = "기간")
     private final int term;
 
+    @Schema(description = "금액")
     private final Long amount;
 
+    @Schema(description = "만기일")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
     private final LocalDateTime expiredAt;
 
+    @Schema(description = "생성일")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
     private final LocalDateTime createdAt;
 
+    @Schema(description = "수정일")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
     private final LocalDateTime updatedAt;
 

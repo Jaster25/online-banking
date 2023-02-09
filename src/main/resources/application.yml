@@ -2,20 +2,20 @@ server:
   port: 8080
 
 spring:
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/online_banking?serverTimezone=UTC&characterEncoding=UTF-8 # ${DB_MYSQL_URL}
+#    username: root # ${DB_MYSQL_USERNAME}
+#    password: 1234 # ${DB_MYSQL_PASSWORD}
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/online_banking?serverTimezone=UTC&characterEncoding=UTF-8 # ${DB_MYSQL_URL}
-    username: root # ${DB_MYSQL_USERNAME}
-    password: 1234 # ${DB_MYSQL_PASSWORD}
-    hikari:
-      connection-timeout: 3000
-      maximum-pool-size: 60
-      max-lifetime: 30000
-  #  datasource:
-#    url: jdbc:h2:tcp://localhost/~/online_banking
-#    username: sa
-#    password:
-#    driver-class-name: org.h2.Driver
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:online_banking
+    username: sa
+    password:
 
   jpa:
     hibernate:
@@ -24,6 +24,24 @@ spring:
       hibernate:
         format_sql: true
         default_batch_fetch_size: 100
+
+
+springdoc:
+  version: v1.0
+  packages-to-scan: com.finance.onlinebanking.domain
+  swagger-ui:
+    path: /swagger-ui
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /swagger-ui/json
+    groups:
+      enabled: true
+  cache:
+    disabled: true
+  default-consumes-media-type: application/json;charset=UTF-8
+  default-produces-media-type: application/json;charset=UTF-8
+
 
 logging:
   level:

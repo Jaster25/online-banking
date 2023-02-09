@@ -6,6 +6,7 @@ import com.finance.onlinebanking.domain.passbook.entity.FixedDepositEntity;
 import com.finance.onlinebanking.domain.passbook.entity.PassbookEntity;
 import com.finance.onlinebanking.domain.passbook.entity.installment.InstallmentEntity;
 import com.finance.onlinebanking.domain.passbook.entity.installment.RegularInstallmentEntity;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -15,34 +16,48 @@ import java.time.LocalDateTime;
 @Getter
 public class PassbookResponseDto {
 
+    @Schema(description = "통장 ID")
     private final Long id;
 
+    @Schema(description = "계좌번호")
     private final String accountNumber;
 
+    @Schema(description = "잔액")
     private final Long balance;
 
+    @Schema(description = "금리")
     private final BigDecimal interestRate;
 
+    @Schema(description = "회원 ID")
     private final Long userId;
 
+    @Schema(description = "은행 ID")
     private final Long bankId;
 
+    @Schema(description = "통장 상품 ID")
     private final Long passbookProductId;
 
+    @Schema(description = "이체 한도")
     private final Long transferLimit;
 
+    @Schema(description = "금액")
     private final Long amount;
 
+    @Schema(description = "통장 종류")
     private final String dtype;
 
+    @Schema(description = "만기일")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
     private final LocalDateTime expiredAt;
 
+    @Schema(description = "입금 날짜")
     private final int depositDate;
 
+    @Schema(description = "생성일")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
     private final LocalDateTime createdAt;
 
+    @Schema(description = "수정일")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
     private final LocalDateTime updatedAt;
 
