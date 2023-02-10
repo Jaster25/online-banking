@@ -10,7 +10,9 @@ import lombok.experimental.SuperBuilder;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -34,11 +36,23 @@ public class UserEntity extends BaseEntity {
 
     private String password;
 
-    private String role;
+    @Builder.Default
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Enumerated(EnumType.STRING)
+    private Set<Role> roles = new HashSet<>();
 
 
     public void updatePassword(String password) {
         this.password = password;
         updatedAt = LocalDateTime.now();
+    }
+
+    public void addRole(Role role) {
+        this.roles.add(role);
+    }
+
+    public boolean isAdmin() {
+        return roles.contains(Role.ADMIN);
     }
 }
