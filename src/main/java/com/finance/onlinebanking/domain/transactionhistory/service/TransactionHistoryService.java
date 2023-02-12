@@ -5,9 +5,10 @@ import com.finance.onlinebanking.domain.transactionhistory.dto.TransactionHistor
 import com.finance.onlinebanking.domain.transactionhistory.dto.TransactionHistoryResponseDto;
 import com.finance.onlinebanking.domain.transactionhistory.entity.TransactionHistoryEntity;
 import com.finance.onlinebanking.domain.transactionhistory.repository.TransactionHistoryRepository;
+import com.finance.onlinebanking.domain.user.entity.UserEntity;
 import com.finance.onlinebanking.global.exception.ErrorCode;
-import com.finance.onlinebanking.global.exception.custom.InvalidValueException;
 import com.finance.onlinebanking.global.exception.custom.NonExistentException;
+import com.finance.onlinebanking.global.exception.custom.UnAuthorizedException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +22,6 @@ public class TransactionHistoryService {
 
     @Transactional
     public TransactionHistoryResponseDto createTransactionHistory(TransactionHistoryRequestDto transactionHistoryRequestDto, PassbookEntity withdrawPassbook, PassbookEntity depositPassbook) {
-        // TODO: 유효성 검사
         TransactionHistoryEntity transactionHistoryEntity = TransactionHistoryEntity.builder()
                 .withdrawAccountNumber(transactionHistoryRequestDto.getWithdrawAccountNumber())
                 .depositAccountNumber(transactionHistoryRequestDto.getDepositAccountNumber())
@@ -46,11 +46,16 @@ public class TransactionHistoryService {
                 .build();
     }
 
-    public TransactionHistoryResponseDto getTransactionHistory(Long transactionId) {
+    public TransactionHistoryResponseDto getTransactionHistory(UserEntity user, Long transactionId) {
         TransactionHistoryEntity transactionHistoryEntity = transactionHistoryRepository.findByIdAndIsDeletedFalse(transactionId)
                 .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_TRANSACTION));
 
-        // TODO: 본인 인증
+        UserEntity depositPassbookOwner = transactionHistoryEntity.getDepositPassbook().getUser();
+        UserEntity withdrawPassbookOwner = transactionHistoryEntity.getWithdrawPassbook().getUser();
+
+        if (!user.equals(depositPassbookOwner) && !user.equals(withdrawPassbookOwner) && !user.isAdmin()) {
+            throw new UnAuthorizedException(ErrorCode.NONEXISTENT_AUTHORIZATION);
+        }
 
         return TransactionHistoryResponseDto.builder()
                 .id(transactionHistoryEntity.getId())
