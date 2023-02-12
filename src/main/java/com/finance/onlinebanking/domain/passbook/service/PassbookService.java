@@ -197,10 +197,7 @@ public class PassbookService {
         return PassbookResponseDto.of(passbookEntity);
     }
 
-    public PassbooksResponseDto getPassbooks(Long userId) {
-        UserEntity user = userRepository.findByIdAndIsDeletedFalse(userId)
-                .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_USER));
-
+    public PassbooksResponseDto getPassbooks(UserEntity user) {
         List<PassbookEntity> passbooks = passbookRepository.findAllByUserAndIsDeletedFalse(user);
 
         return PassbooksResponseDto.builder()
