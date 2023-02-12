@@ -4,7 +4,6 @@ import com.finance.onlinebanking.domain.bank.dto.BankRequestDto;
 import com.finance.onlinebanking.domain.bank.dto.BankResponseDto;
 import com.finance.onlinebanking.domain.bank.service.BankService;
 import com.finance.onlinebanking.domain.product.dto.ProductsResponseDto;
-import com.finance.onlinebanking.domain.user.dto.UserResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
