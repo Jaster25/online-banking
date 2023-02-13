@@ -84,7 +84,7 @@ public class PassbookService {
     }
 
     @Transactional
-    public PassbookResponseDto createFixedDepositPassbook(  UserEntity userEntity, Long bankId, Long productId, FixedDepositPassbookRequestDto fixedDepositPassbookRequestDto  ) {
+    public PassbookResponseDto createFixedDepositPassbook(UserEntity userEntity, Long bankId, Long productId, FixedDepositPassbookRequestDto fixedDepositPassbookRequestDto  ) {
         BankEntity bankEntity = bankRepository.findByIdAndIsDeletedFalse(bankId)
                 .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_BANK));
 

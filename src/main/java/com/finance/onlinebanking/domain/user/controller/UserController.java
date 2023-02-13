@@ -9,6 +9,7 @@ import com.finance.onlinebanking.domain.user.entity.UserEntity;
 import com.finance.onlinebanking.domain.user.service.UserService;
 import com.finance.onlinebanking.global.common.CurrentUser;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -43,7 +44,7 @@ public class UserController {
     @ApiResponse(responseCode = "200", description = "successful operation",
             content = @Content(schema = @Schema(implementation = PassbooksResponseDto.class)))
     @GetMapping("/passbooks")
-    public ResponseEntity<PassbooksResponseDto> getUserPassbooksApi(@CurrentUser UserEntity user) {
+    public ResponseEntity<PassbooksResponseDto> getUserPassbooksApi(@Parameter(hidden = true) @CurrentUser UserEntity user) {
         PassbooksResponseDto passbooksResponseDto = passbookService.getPassbooks(user);
         return ResponseEntity.status(HttpStatus.OK).body(passbooksResponseDto);
     }
@@ -51,7 +52,7 @@ public class UserController {
     @Operation(summary = "사용자 비밀번호 변경", description = "로그인 사용자의 비밀번호를 변경한다.")
     @ApiResponse(responseCode = "204", description = "successful operation")
     @PutMapping("/password")
-    public ResponseEntity<UserResponseDto> updatePasswordApi(@CurrentUser UserEntity user,
+    public ResponseEntity<UserResponseDto> updatePasswordApi(@Parameter(hidden = true) @CurrentUser UserEntity user,
                                                              @Valid @RequestBody PasswordRequestDto passwordRequestDto) {
         userService.updatePassword(user, passwordRequestDto.getPassword());
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
@@ -60,7 +61,7 @@ public class UserController {
     @Operation(summary = "회원 탈퇴", description = "로그인 사용자가 계정을 탈퇴한다.")
     @ApiResponse(responseCode = "204", description = "successful operation")
     @DeleteMapping
-    public ResponseEntity<Void> deleteUserApi(@CurrentUser UserEntity user) {
+    public ResponseEntity<Void> deleteUserApi(@Parameter(hidden = true) @CurrentUser UserEntity user) {
         userService.deleteUser(user);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
