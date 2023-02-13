@@ -21,13 +21,13 @@ import com.finance.onlinebanking.global.exception.ErrorCode;
 import com.finance.onlinebanking.global.exception.custom.DuplicatedValueException;
 import com.finance.onlinebanking.global.exception.custom.InvalidValueException;
 import com.finance.onlinebanking.global.exception.custom.NonExistentException;
+import com.finance.onlinebanking.global.exception.custom.UnAuthorizedException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -57,15 +57,12 @@ public class PassbookService {
 
 
     @Transactional
-    public PassbookResponseDto createDepositWithdrawPassbook(Long bankId, Long productId, Long userId, DepositWithdrawPassbookRequestDto depositWithdrawPassbookRequestDto) {
+    public PassbookResponseDto createDepositWithdrawPassbook(UserEntity userEntity, Long bankId, Long productId, DepositWithdrawPassbookRequestDto depositWithdrawPassbookRequestDto) {
         BankEntity bankEntity = bankRepository.findByIdAndIsDeletedFalse(bankId)
                 .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_BANK));
 
         PassbookProductEntity passbookProductEntity = passbookProductRepository.findByIdAndIsDeletedFalse(productId)
                 .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_PASSBOOK_PRODUCT));
-
-        UserEntity userEntity = userRepository.findByIdAndIsDeletedFalse(userId)
-                .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_USER));
 
         DepositWithdrawEntity depositWithdrawEntity = DepositWithdrawEntity.builder()
                 .accountNumber(createAccountNumber(bankId, bankEntity.getCode()))
@@ -76,25 +73,23 @@ public class PassbookService {
                 .dtype("DW")
                 .build();
 
-            depositWithdrawEntity.setBank(bankEntity);
-            depositWithdrawEntity.setPassbookProduct(passbookProductEntity);
-            depositWithdrawEntity.setUser(userEntity);
+        depositWithdrawEntity.setBank(bankEntity);
+        depositWithdrawEntity.setPassbookProduct(passbookProductEntity);
+        depositWithdrawEntity.setUser(userEntity);
 
-            depositWithdrawRepository.save(depositWithdrawEntity);
+        depositWithdrawRepository.save(depositWithdrawEntity);
+        userRepository.save(userEntity);
 
         return PassbookResponseDto.of(depositWithdrawEntity);
     }
 
     @Transactional
-    public PassbookResponseDto createFixedDepositPassbook(Long bankId, Long productId, Long userId, FixedDepositPassbookRequestDto fixedDepositPassbookRequestDto  ) {
+    public PassbookResponseDto createFixedDepositPassbook(  UserEntity userEntity, Long bankId, Long productId, FixedDepositPassbookRequestDto fixedDepositPassbookRequestDto  ) {
         BankEntity bankEntity = bankRepository.findByIdAndIsDeletedFalse(bankId)
                 .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_BANK));
 
         PassbookProductEntity passbookProductEntity = passbookProductRepository.findByIdAndIsDeletedFalse(productId)
                 .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_PASSBOOK_PRODUCT));
-
-        UserEntity userEntity = userRepository.findByIdAndIsDeletedFalse(userId)
-                .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_USER));
 
         FixedDepositEntity fixedDepositEntity = FixedDepositEntity.builder()
                 .accountNumber(createAccountNumber(bankId, bankEntity.getCode()))
@@ -110,20 +105,18 @@ public class PassbookService {
         fixedDepositEntity.setUser(userEntity);
 
         fixedDepositRepository.save(fixedDepositEntity);
+        userRepository.save(userEntity);
 
         return PassbookResponseDto.of(fixedDepositEntity);
     }
 
     @Transactional
-    public PassbookResponseDto createRegularInstallmentPassbook(Long bankId, Long productId, Long userId, RegularInstallmentPassbookRequestDto regularInstallmentPassbookRequestDto) {
+    public PassbookResponseDto createRegularInstallmentPassbook(UserEntity userEntity, Long bankId, Long productId, RegularInstallmentPassbookRequestDto regularInstallmentPassbookRequestDto) {
         BankEntity bankEntity = bankRepository.findByIdAndIsDeletedFalse(bankId)
                 .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_BANK));
 
         PassbookProductEntity passbookProductEntity = passbookProductRepository.findByIdAndIsDeletedFalse(productId)
                 .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_PASSBOOK_PRODUCT));
-
-        UserEntity userEntity = userRepository.findByIdAndIsDeletedFalse(userId)
-                .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_USER));
 
         RegularInstallmentEntity regularInstallmentEntity = RegularInstallmentEntity.builder()
                 .accountNumber(createAccountNumber(bankId, bankEntity.getCode()))
@@ -141,20 +134,18 @@ public class PassbookService {
         regularInstallmentEntity.setUser(userEntity);
 
         regularInstallmentRepository.save(regularInstallmentEntity);
+        userRepository.save(userEntity);
 
         return PassbookResponseDto.of(regularInstallmentEntity);
     }
 
     @Transactional
-    public PassbookResponseDto createFreeInstallmentPassbook(Long bankId, Long productId, Long userId, FreeInstallmentPassbookRequestDto freeInstallmentPassbookRequestDto) {
+    public PassbookResponseDto createFreeInstallmentPassbook(UserEntity userEntity, Long bankId, Long productId, FreeInstallmentPassbookRequestDto freeInstallmentPassbookRequestDto) {
         BankEntity bankEntity = bankRepository.findByIdAndIsDeletedFalse(bankId)
                 .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_BANK));
 
         PassbookProductEntity passbookProductEntity = passbookProductRepository.findByIdAndIsDeletedFalse(productId)
                 .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_PASSBOOK_PRODUCT));
-
-        UserEntity userEntity = userRepository.findByIdAndIsDeletedFalse(userId)
-                .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_USER));
 
         FreeInstallmentEntity freeInstallmentEntity = FreeInstallmentEntity.builder()
                 .accountNumber(createAccountNumber(bankId, bankEntity.getCode()))
@@ -170,29 +161,41 @@ public class PassbookService {
         freeInstallmentEntity.setUser(userEntity);
 
         freeInstallmentRepository.save(freeInstallmentEntity);
+        userRepository.save(userEntity);
 
         return PassbookResponseDto.of(freeInstallmentEntity);
     }
 
     @Transactional
-    public void deletePassbook(Long passbookId) {
+    public void deletePassbook(UserEntity userEntity, Long passbookId) {
         PassbookEntity passbookEntity = passbookRepository.findByIdAndIsDeletedFalse(passbookId)
                 .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_PASSBOOK));
+
+        if (!userEntity.equals(passbookEntity.getUser()) && !userEntity.isAdmin()) {
+            throw new UnAuthorizedException(ErrorCode.NONEXISTENT_AUTHORIZATION);
+        }
 
         passbookEntity.delete();
     }
 
-    public PassbookBalanceResponseDto getBalance(Long passbookId) {
-        // TODO: 사용자 검증
+    public PassbookBalanceResponseDto getBalance(UserEntity userEntity, Long passbookId) {
         PassbookEntity passbookEntity = passbookRepository.findByIdAndIsDeletedFalse(passbookId)
                 .orElseThrow(()->new NonExistentException(ErrorCode.NONEXISTENT_PASSBOOK));
+
+        if (!userEntity.equals(passbookEntity.getUser()) && !userEntity.isAdmin()) {
+            throw new UnAuthorizedException(ErrorCode.NONEXISTENT_AUTHORIZATION);
+        }
 
         return PassbookBalanceResponseDto.of(passbookEntity);
     }
 
-    public PassbookResponseDto getPassbook(Long passbookId) {
+    public PassbookResponseDto getPassbook(UserEntity userEntity, Long passbookId) {
         PassbookEntity passbookEntity = passbookRepository.findByIdAndIsDeletedFalse(passbookId)
                 .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_PASSBOOK));
+
+        if (!userEntity.equals(passbookEntity.getUser()) && !userEntity.isAdmin()) {
+            throw new UnAuthorizedException(ErrorCode.NONEXISTENT_AUTHORIZATION);
+        }
 
         return PassbookResponseDto.of(passbookEntity);
     }
@@ -208,20 +211,28 @@ public class PassbookService {
     }
 
     @Transactional
-    public void updatePassword(Long passbookId, PasswordRequestDto passwordRequestDto) {
+    public void updatePassword(UserEntity userEntity, Long passbookId, PasswordRequestDto passwordRequestDto) {
         PassbookEntity passbookEntity = passbookRepository.findByIdAndIsDeletedFalse(passbookId)
                 .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_PASSBOOK));
+
+        if (!userEntity.equals(passbookEntity.getUser()) && !userEntity.isAdmin()) {
+            throw new UnAuthorizedException(ErrorCode.NONEXISTENT_AUTHORIZATION);
+        }
 
         passbookEntity.updatePassword(passwordRequestDto.getPassword());
     }
 
     @Transactional
-    public TransferLimitResponseDto updateTransferLimit(Long passbookId, TransferLimitRequestDto transferLimitRequestDto) {
+    public TransferLimitResponseDto updateTransferLimit(UserEntity userEntity, Long passbookId, TransferLimitRequestDto transferLimitRequestDto) {
         PassbookEntity passbookEntity = passbookRepository.findByIdAndIsDeletedFalse(passbookId)
                 .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_PASSBOOK));
 
         if (!passbookEntity.isDepositWithdrawPassbook()) {
             throw new InvalidValueException(ErrorCode.INVALID_PASSBOOK_TYPE);
+        }
+
+        if (!userEntity.equals(passbookEntity.getUser()) && !userEntity.isAdmin()) {
+            throw new UnAuthorizedException(ErrorCode.NONEXISTENT_AUTHORIZATION);
         }
 
         DepositWithdrawEntity depositWithdrawEntity = (DepositWithdrawEntity) passbookEntity;
@@ -231,11 +242,15 @@ public class PassbookService {
     }
 
     @Transactional
-    public TransferResponseDto createTransfer(Long passbookId, Long depositPassbookId, TransferRequestDto transferRequestDto) {
+    public TransferResponseDto createTransfer(UserEntity userEntity, Long passbookId, Long depositPassbookId, TransferRequestDto transferRequestDto) {
         PassbookEntity withdrawPassbook = passbookRepository.findByIdAndIsDeletedFalseForUpdate(passbookId)
                 .orElseThrow(()-> new NonExistentException(ErrorCode.NONEXISTENT_PASSBOOK));
         PassbookEntity depositPassbook = passbookRepository.findByIdAndIsDeletedFalseForUpdate(depositPassbookId)
                 .orElseThrow(()-> new NonExistentException(ErrorCode.NONEXISTENT_PASSBOOK));
+
+        if (!userEntity.equals(withdrawPassbook.getUser()) && !userEntity.isAdmin()) {
+            throw new UnAuthorizedException(ErrorCode.NONEXISTENT_AUTHORIZATION);
+        }
 
         if (!withdrawPassbook.checkBalance(transferRequestDto.getAmount())) {
             throw new InvalidValueException(ErrorCode.LACK_OF_WITHDRAW_PASSBOOK_BALANCE);
@@ -264,9 +279,13 @@ public class PassbookService {
         return TransferResponseDto.of(transactionHistoryResponseDto);
     }
 
-    public TransactionsHistoryResponseDto getPassbookTransactions(Long passbookId) {
+    public TransactionsHistoryResponseDto getPassbookTransactions(UserEntity userEntity, Long passbookId) {
         PassbookEntity passbookEntity = passbookRepository.findByIdAndIsDeletedFalse(passbookId)
                 .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_PASSBOOK));
+
+        if (!userEntity.equals(passbookEntity.getUser()) && !userEntity.isAdmin()) {
+            throw new UnAuthorizedException(ErrorCode.NONEXISTENT_AUTHORIZATION);
+        }
 
         List<TransactionHistoryResponseDto> dtoList =
                 Stream.concat(passbookEntity.getWithdrawTransactionHistories()

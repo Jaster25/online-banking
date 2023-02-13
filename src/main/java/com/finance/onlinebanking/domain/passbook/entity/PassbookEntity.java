@@ -6,6 +6,7 @@ import com.finance.onlinebanking.domain.product.entity.PassbookProductEntity;
 import com.finance.onlinebanking.domain.transactionhistory.entity.TransactionHistoryEntity;
 import com.finance.onlinebanking.domain.user.entity.UserEntity;
 import com.finance.onlinebanking.global.common.BaseEntity;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -55,9 +56,11 @@ public abstract class PassbookEntity extends BaseEntity {
     @JoinColumn(name = "passbook_product_id")
     private PassbookProductEntity passbookProduct;
 
+    @Builder.Default
     @OneToMany(mappedBy = "withdrawPassbook")
     private List<TransactionHistoryEntity> withdrawTransactionHistories = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "depositPassbook")
     private List<TransactionHistoryEntity> depositTransactionHistories = new ArrayList<>();
 
