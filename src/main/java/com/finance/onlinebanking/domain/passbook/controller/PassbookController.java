@@ -32,8 +32,8 @@ public class PassbookController {
             content = @Content(schema = @Schema(implementation = PassbooksResponseDto.class)))
     @PostMapping("/deposit-withdraw/banks/{bankId}/products/{productId}")
     public ResponseEntity<PassbookResponseDto> createDepositWithdrawPassbookApi(@Parameter(hidden = true) @CurrentUser UserEntity user,
-                                                                                @PathVariable("bankId") Long bankId,
-                                                                                @PathVariable("productId") Long productId,
+                                                                                @Parameter(description = "은행 ID") @PathVariable("bankId") Long bankId,
+                                                                                @Parameter(description = "상품 ID") @PathVariable("productId") Long productId,
                                                                                 @Valid @RequestBody DepositWithdrawPassbookRequestDto depositWithdrawPassbookRequestDto) {
         PassbookResponseDto passbookResponseDto = passbookService.createDepositWithdrawPassbook(user, bankId, productId, depositWithdrawPassbookRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(passbookResponseDto);
@@ -44,8 +44,8 @@ public class PassbookController {
             content = @Content(schema = @Schema(implementation = PassbooksResponseDto.class)))
     @PostMapping("/fixed-deposit/banks/{bankId}/products/{productId}")
     public ResponseEntity<PassbookResponseDto> createFixedDepositPassbookApi(@Parameter(hidden = true) @CurrentUser UserEntity user,
-                                                                             @PathVariable("bankId") Long bankId,
-                                                                             @PathVariable("productId") Long productId,
+                                                                             @Parameter(description = "은행 ID") @PathVariable("bankId") Long bankId,
+                                                                             @Parameter(description = "상품 ID") @PathVariable("productId") Long productId,
                                                                              @Valid @RequestBody FixedDepositPassbookRequestDto fixedDepositPassbookRequestDto) {
         PassbookResponseDto passbookResponseDto = passbookService.createFixedDepositPassbook(user, bankId, productId, fixedDepositPassbookRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(passbookResponseDto);
@@ -56,8 +56,8 @@ public class PassbookController {
             content = @Content(schema = @Schema(implementation = PassbooksResponseDto.class)))
     @PostMapping("/regular-installment/banks/{bankId}/products/{productId}")
     public ResponseEntity<PassbookResponseDto> createRegularInstallmentPassbookApi(@Parameter(hidden = true) @CurrentUser UserEntity user,
-                                                                                   @PathVariable("bankId") Long bankId,
-                                                                                   @PathVariable("productId") Long productId,
+                                                                                   @Parameter(description = "은행 ID") @PathVariable("bankId") Long bankId,
+                                                                                   @Parameter(description = "상품 ID") @PathVariable("productId") Long productId,
                                                                                    @Valid @RequestBody RegularInstallmentPassbookRequestDto regularInstallmentPassbookRequestDto) {
         PassbookResponseDto passbookResponseDto = passbookService.createRegularInstallmentPassbook(user, bankId, productId, regularInstallmentPassbookRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(passbookResponseDto);
@@ -68,8 +68,8 @@ public class PassbookController {
             content = @Content(schema = @Schema(implementation = PassbooksResponseDto.class)))
     @PostMapping("/free-installment/banks/{bankId}/products/{productId}")
     public ResponseEntity<PassbookResponseDto> createFreeInstallmentPassbookApi(@Parameter(hidden = true) @CurrentUser UserEntity user,
-                                                                                @PathVariable("bankId") Long bankId,
-                                                                                @PathVariable("productId") Long productId,
+                                                                                @Parameter(description = "은행 ID") @PathVariable("bankId") Long bankId,
+                                                                                @Parameter(description = "상품 ID") @PathVariable("productId") Long productId,
                                                                                 @Valid @RequestBody FreeInstallmentPassbookRequestDto freeInstallmentPassbookRequestDto) {
         PassbookResponseDto passbookResponseDto = passbookService.createFreeInstallmentPassbook(user, bankId, productId, freeInstallmentPassbookRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(passbookResponseDto);
@@ -79,7 +79,7 @@ public class PassbookController {
     @ApiResponse(responseCode = "204", description = "successful operation")
     @DeleteMapping("/{passbookId}")
     public ResponseEntity<Void> deletePassbookApi(@Parameter(hidden = true) @CurrentUser UserEntity user,
-                                                  @PathVariable("passbookId") Long passbookId) {
+                                                  @Parameter(description = "통장 ID") @PathVariable("passbookId") Long passbookId) {
         passbookService.deletePassbook(user, passbookId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
@@ -89,7 +89,7 @@ public class PassbookController {
             content = @Content(schema = @Schema(implementation = PassbookBalanceResponseDto.class)))
     @GetMapping("/{passbookId}/balance")
     public ResponseEntity<PassbookBalanceResponseDto> getBalanceApi(@Parameter(hidden = true) @CurrentUser UserEntity user,
-                                                                    @PathVariable("passbookId") Long passbookId) {
+                                                                    @Parameter(description = "통장 ID") @PathVariable("passbookId") Long passbookId) {
         PassbookBalanceResponseDto passbookBalanceResponseDto = passbookService.getBalance(user, passbookId);
         return ResponseEntity.status(HttpStatus.OK).body(passbookBalanceResponseDto);
     }
@@ -99,7 +99,7 @@ public class PassbookController {
             content = @Content(schema = @Schema(implementation = PassbookResponseDto.class)))
     @GetMapping("/{passbookId}")
     public ResponseEntity<PassbookResponseDto> getPassbookApi(@Parameter(hidden = true) @CurrentUser UserEntity user,
-                                                              @PathVariable("passbookId") Long passbookId) {
+                                                              @Parameter(description = "통장 ID") @PathVariable("passbookId") Long passbookId) {
         PassbookResponseDto passbookResponseDto = passbookService.getPassbook(user, passbookId);
         return ResponseEntity.status(HttpStatus.OK).body(passbookResponseDto);
     }
@@ -108,7 +108,7 @@ public class PassbookController {
     @ApiResponse(responseCode = "204", description = "successful operation")
     @PutMapping("/{passbookId}/password")
     public ResponseEntity<Void> updatePassbookPasswordApi(@Parameter(hidden = true) @CurrentUser UserEntity user,
-                                                          @PathVariable("passbookId") Long passbookId,
+                                                          @Parameter(description = "통장 ID") @PathVariable("passbookId") Long passbookId,
                                                           @Valid @RequestBody PasswordRequestDto passwordRequestDto) {
         passbookService.updatePassword(user, passbookId, passwordRequestDto);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
@@ -119,7 +119,7 @@ public class PassbookController {
             content = @Content(schema = @Schema(implementation = TransferLimitResponseDto.class)))
     @PutMapping("/{passbookId}/transfer-limit")
     public ResponseEntity<TransferLimitResponseDto> updateTransferLimitApi(@Parameter(hidden = true) @CurrentUser UserEntity user,
-                                                                           @PathVariable("passbookId") Long passbookId,
+                                                                           @Parameter(description = "통장 ID") @PathVariable("passbookId") Long passbookId,
                                                                            @Valid @RequestBody TransferLimitRequestDto transferLimitRequestDto) {
         TransferLimitResponseDto transferLimitResponseDto = passbookService.updateTransferLimit(user, passbookId, transferLimitRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(transferLimitResponseDto);
@@ -130,8 +130,8 @@ public class PassbookController {
             content = @Content(schema = @Schema(implementation = TransferResponseDto.class)))
     @PostMapping("/{passbookId}/transfer/{depositPassbookId}")
     public ResponseEntity<TransferResponseDto> createTransferApi(@Parameter(hidden = true) @CurrentUser UserEntity user,
-                                                                 @PathVariable("passbookId") Long passbookId,
-                                                                 @PathVariable("depositPassbookId") Long depositPassbookId,
+                                                                 @Parameter(description = "통장 ID") @PathVariable("passbookId") Long passbookId,
+                                                                 @Parameter(description = "입금 통장 ID") @PathVariable("depositPassbookId") Long depositPassbookId,
                                                                  @Valid @RequestBody TransferRequestDto transferRequestDto) {
         TransferResponseDto transferResponseDto = passbookService.createTransfer(user, passbookId, depositPassbookId, transferRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(transferResponseDto);
@@ -142,7 +142,7 @@ public class PassbookController {
             content = @Content(schema = @Schema(implementation = TransactionsHistoryResponseDto.class)))
     @GetMapping("/{passbookId}/transactions")
     public ResponseEntity<TransactionsHistoryResponseDto> getPassbookTransactionsApi(@Parameter(hidden = true) @CurrentUser UserEntity user,
-                                                                                     @PathVariable("passbookId") Long passbookId) {
+                                                                                     @Parameter(description = "통장 ID") @PathVariable("passbookId") Long passbookId) {
         TransactionsHistoryResponseDto transactionsHistoryResponseDto = passbookService.getPassbookTransactions(user, passbookId);
         return ResponseEntity.status(HttpStatus.OK).body(transactionsHistoryResponseDto);
     }
