@@ -50,27 +50,26 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public void updatePassword(String password) {
-        // 스프링 시큐리티 도입 후 변경 예정
-        UserEntity userEntity = userRepository.findByUsername("user1")
-                .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_USER));
+    public void updatePassword(UserEntity user, String newPassword) {
+        String encodedNewPassword = passwordEncoder.encode(newPassword);
+        String originalPassword = user.getPassword();
 
-        // TODO: 기존 비밀번호와 다른지 확인
+        if (encodedNewPassword.equals(originalPassword)) {
+            throw new DuplicatedValueException(ErrorCode.DUPLICATED_USER_PASSWORD);
+        }
 
-        userEntity.updatePassword(password);
+        user.updatePassword(encodedNewPassword);
+        userRepository.save(user);
     }
 
     @Transactional
-    public void deleteUser() {
-        // 스프링 시큐리티 도입 후 변경 예정
-        UserEntity userEntity = userRepository.findByUsername("user1")
-                .orElseThrow(() -> new NonExistentException(ErrorCode.NONEXISTENT_USER));
-
-        if (userEntity.isDeleted()) {
+    public void deleteUser(UserEntity user) {
+        if (user.isDeleted()) {
             throw new InvalidValueException(ErrorCode.ALREADY_DELETED_USER);
         }
 
-        userEntity.delete();
+        user.delete();
+        userRepository.save(user);
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.finance.onlinebanking.domain.product.dto.PassbookProductRequestDto;
 import com.finance.onlinebanking.domain.product.dto.PassbookProductResponseDto;
 import com.finance.onlinebanking.domain.product.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -24,22 +25,21 @@ public class ProductController {
 
     private final ProductService productService;
 
-
-    @Operation(summary = "상품 등록", description = "은행이 상품을 등록한다.")
+    @Operation(summary = "상품 등록", description = "관리자가 은행에 상품을 등록한다.")
     @ApiResponse(responseCode = "201", description = "successful operation",
             content = @Content(schema = @Schema(implementation = PassbookProductResponseDto.class)))
     @PostMapping("/{bankId}")
-    public ResponseEntity<PassbookProductResponseDto> createProductApi(@PathVariable("bankId") Long bankId, @Valid @RequestBody PassbookProductRequestDto passbookProductRequestDto) {
+    public ResponseEntity<PassbookProductResponseDto> createProductApi(@Parameter(description = "은행 ID") @PathVariable("bankId") Long bankId,
+                                                                       @Valid @RequestBody PassbookProductRequestDto passbookProductRequestDto) {
         PassbookProductResponseDto passbookProductResponseDto = productService.createProduct(bankId, passbookProductRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(passbookProductResponseDto);
     }
 
-
-    @Operation(summary = "상품 상세 조회", description = "로그인 사용자가 상품을 상세 조회한다.")
+    @Operation(summary = "상품 상세 조회", description = "사용자가 상품을 상세 조회한다.")
     @ApiResponse(responseCode = "200", description = "successful operation",
             content = @Content(schema = @Schema(implementation = PassbookProductResponseDto.class)))
     @GetMapping("/{productId}")
-    public ResponseEntity<PassbookProductResponseDto> getProductApi(@PathVariable("productId") Long productId) {
+    public ResponseEntity<PassbookProductResponseDto> getProductApi(@Parameter(description = "상품 ID") @PathVariable("productId") Long productId) {
         PassbookProductResponseDto passbookProductResponseDto = productService.getProduct(productId);
         return ResponseEntity.status(HttpStatus.OK).body(passbookProductResponseDto);
     }

@@ -6,6 +6,7 @@ import com.finance.onlinebanking.domain.user.entity.UserEntity;
 import com.finance.onlinebanking.domain.user.service.AuthService;
 import com.finance.onlinebanking.global.common.CurrentUser;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -37,7 +38,7 @@ public class AuthController {
     @Operation(summary = "로그아웃", description = "로그인 사용자가 로그아웃을 한다.")
     @ApiResponse(responseCode = "204", description = "successful operation")
     @GetMapping("/logout")
-    public ResponseEntity<Void> logOutApi(@CurrentUser UserEntity user) {
+    public ResponseEntity<Void> logOutApi(@Parameter(hidden = true) @CurrentUser UserEntity user) {
         // TODO
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

@@ -104,7 +104,7 @@ public class PassbookResponseDto {
                         : null)
                 .depositDate(passbookEntity.isRegularInstallmentPassbook()
                         ? ((RegularInstallmentEntity) passbookEntity).getDepositDate()
-                        : null)
+                        : 0)
                 .createdAt(passbookEntity.getCreatedAt())
                 .updatedAt(passbookEntity.getUpdatedAt())
                 .build();

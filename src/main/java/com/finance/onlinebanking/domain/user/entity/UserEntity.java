@@ -3,6 +3,7 @@ package com.finance.onlinebanking.domain.user.entity;
 import com.finance.onlinebanking.domain.passbook.entity.PassbookEntity;
 import com.finance.onlinebanking.global.common.BaseEntity;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -18,6 +19,7 @@ import java.util.Set;
 @Getter
 @SuperBuilder
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = false, of = {"id", "username", "password"})
 @Table(name = "users")
 public class UserEntity extends BaseEntity {
 

@@ -2,6 +2,8 @@ package com.finance.onlinebanking.domain.transactionhistory.controller;
 
 import com.finance.onlinebanking.domain.transactionhistory.dto.TransactionHistoryResponseDto;
 import com.finance.onlinebanking.domain.transactionhistory.service.TransactionHistoryService;
+import com.finance.onlinebanking.domain.user.entity.UserEntity;
+import com.finance.onlinebanking.global.common.CurrentUser;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -28,8 +30,9 @@ public class TransactionHistoryController {
     @ApiResponse(responseCode = "200", description = "successful operation",
             content = @Content(schema = @Schema(implementation = TransactionHistoryResponseDto.class)))
     @GetMapping("/{transactionId}")
-    public ResponseEntity<TransactionHistoryResponseDto> getTransactionHistoryApi(@Parameter(description = "거래내역 ID") @PathVariable Long transactionId) {
-        TransactionHistoryResponseDto transactionHistoryResponseDto = transactionHistoryService.getTransactionHistory(transactionId);
+    public ResponseEntity<TransactionHistoryResponseDto> getTransactionHistoryApi(@Parameter(hidden = true) @CurrentUser UserEntity user,
+                                                                                  @Parameter(description = "거래내역 ID") @PathVariable Long transactionId) {
+        TransactionHistoryResponseDto transactionHistoryResponseDto = transactionHistoryService.getTransactionHistory(user, transactionId);
         return ResponseEntity.status(HttpStatus.OK).body(transactionHistoryResponseDto);
     }
 }
