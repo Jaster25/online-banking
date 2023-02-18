@@ -16,7 +16,7 @@ public class WithMockCustomUserSecurityContextFactory implements WithSecurityCon
         SecurityContext context = SecurityContextHolder.createEmptyContext();
 
         UserEntity user = UserEntity.builder()
-                .id(1L)
+                .id(2L)
                 .username("user1")
                 .password("{bcrypt}$2a$10$ghRpD3/D.kI0n/bbwN0EVuAHBgCBke9KVmjo/AncFeo/bDblzZAl.")
                 .build();
