@@ -49,6 +49,10 @@ values ('2023-02-13T15:24:31.970936', false, null, '오목교', '001', 'A은행'
 insert
 into bank (created_at, is_deleted, updated_at, branch, code, name)
 values ('2023-02-14T15:24:31.970936', false, null, '광진구', '001', 'B은행');
+-- C은행(삭제됨)
+insert
+into bank (created_at, is_deleted, updated_at, branch, code, name)
+values ('2022-02-14T15:24:31.970936', true, null, '여의도', '001', 'C은행');
 
 
 /*
