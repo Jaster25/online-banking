@@ -52,11 +52,6 @@ public class UserService implements UserDetailsService {
     @Transactional
     public void updatePassword(UserEntity user, String newPassword) {
         String encodedNewPassword = passwordEncoder.encode(newPassword);
-        String originalPassword = user.getPassword();
-
-        if (encodedNewPassword.equals(originalPassword)) {
-            throw new DuplicatedValueException(ErrorCode.DUPLICATED_USER_PASSWORD);
-        }
 
         user.updatePassword(encodedNewPassword);
         userRepository.save(user);
