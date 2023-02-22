@@ -16,9 +16,9 @@ public class WithMockCustomAdminSecurityContextFactory implements WithSecurityCo
         SecurityContext context = SecurityContextHolder.createEmptyContext();
 
         UserEntity admin = UserEntity.builder()
-                .id(1L)
+                .id(10L)
                 .username("admin1")
-                .password("{bcrypt}$2a$10$ghRpD3/D.kI0n/bbwN0EVuAHBgCBke9KVmjo/AncFeo/bDblzZAl.")
+                .password("{bcrypt}$2a$10$sjL4PxC.0Iz2nVqs0TGh4uI1XQODdfuV5LqpZeU35dxvx2h.v5U0i")
                 .build();
         admin.addRole(Role.USER);
         admin.addRole(Role.ADMIN);
