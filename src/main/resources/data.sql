@@ -173,3 +173,11 @@ into transaction_history(transaction_history_id, created_at, is_deleted, updated
 values (23, '2023-01-18T20:40:28.644832', false, null, 5000, 500, '4-502-40008003', 13,
         'user2 입출금 통장1 -> user4 입출금 통장1',
         '2-103-69208003', 12);
+-- user2 입출금 통장1 -> user4 입출금 통장1(삭제됨)
+insert
+into transaction_history(transaction_history_id, created_at, is_deleted, updated_at, amount, commission,
+                         deposit_account_number,
+                         deposit_passbook_id, memo, withdraw_account_number, withdraw_passbook_id)
+values (24, '2023-02-18T20:40:28.644832', true, null, 3000, 500, '4-502-40008003', 13,
+        'user2 입출금 통장1 -> user4 입출금 통장1',
+        '2-103-69208003', 12);
