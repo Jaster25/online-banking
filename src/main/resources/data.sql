@@ -96,6 +96,16 @@ values ('2023-02-14T11:08:29.628638', false, null, 1, '고금리', '30대', '30�
 insert
 into passbook_product (term, passbook_product_id)
 values (1500, 2);
+-- Bank1 passbook product3(삭제됨)
+insert
+into product (created_at, is_deleted, updated_at, bank_id, benefit, conditions, content, ended_at, interest_rate, name,
+              started_at,
+              dtype)
+values ('2023-02-04T11:08:29.628638', true, null, 1, '고금리2', '40대', '40대를 위한 고금리 상품', '2023-12-20T02:17:35', 7.5,
+        '40대를 위한 고금리 입출금 통장', '2023-09-10T02:17:35', 'PP');
+insert
+into passbook_product (term, passbook_product_id)
+values (1000, 3);
 
 /*
     Passbook
