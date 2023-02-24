@@ -66,7 +66,7 @@ public class SecurityConfig {
                 // Transaction
                 .antMatchers( PREFIX_URL + "/transactions/**").authenticated()
                 // Product
-                .antMatchers(HttpMethod.POST, PREFIX_URL + "/products/**").authenticated()
+                .antMatchers(HttpMethod.POST, PREFIX_URL + "/products/**").hasAuthority(Role.ADMIN.toString())
                 // Bank
                 .antMatchers(HttpMethod.POST, PREFIX_URL + "/banks/**").hasAuthority(Role.ADMIN.toString())
                 // Else
