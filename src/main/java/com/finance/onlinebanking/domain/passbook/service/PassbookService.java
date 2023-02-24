@@ -72,7 +72,7 @@ public class PassbookService {
                 .transferLimit(depositWithdrawPassbookRequestDto.getTransferLimit())
                 .dtype("DW")
                 .build();
-
+        
         depositWithdrawEntity.setBank(bankEntity);
         depositWithdrawEntity.setPassbookProduct(passbookProductEntity);
         depositWithdrawEntity.setUser(userEntity);
