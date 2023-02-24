@@ -23,7 +23,6 @@ public enum ErrorCode {
     // 비밀번호
     NOT_NULL_USER_PASSWORD("U111", "비밀번호는 필수입니다."),
     INVALID_USER_PASSWORD("U112", "비밀번호는 영문 대소문자, 숫자, 특수기호가 적어도 1개 이상씩 포함된 4자 ~ 20자로 이루어져야 합니다."),
-    DUPLICATED_USER_PASSWORD("U113", "변경할 비밀번호는 기존 비밀번호와 달라야 합니다."),
     // 이름
     NOT_NULL_USER_NAME("U121", "이름은 필수입니다."),
     // 삭제
