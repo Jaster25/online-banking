@@ -26,7 +26,11 @@ insert
 into users (user_id, created_at, is_deleted, updated_at, name, password, username)
 values (14, '2023-01-20T12:35:31.406332', false, null, '회원4',
         '{bcrypt}$2a$10$sjL4PxC.0Iz2nVqs0TGh4uI1XQODdfuV5LqpZeU35dxvx2h.v5U0i', 'user4');
-
+-- user5(해지된 통장만 소유한 사용자)
+insert
+into users (user_id, created_at, is_deleted, updated_at, name, password, username)
+values (15, '2023-01-20T12:35:31.406332', false, null, '회원5',
+        '{bcrypt}$2a$10$sjL4PxC.0Iz2nVqs0TGh4uI1XQODdfuV5LqpZeU35dxvx2h.v5U0i', 'user5');
 
 /*
     User Roles
@@ -146,7 +150,15 @@ values (13, '2023-02-01T10:11:52.900180', false, null, '4-502-40008003', 83500, 
 insert
 into deposit_withdraw (transfer_limit, deposit_withdraw_id)
 values (5000, 13);
-
+-- user5 해지된 입출금 통장3
+insert
+into passbook(passbook_id, created_at, is_deleted, updated_at, account_number, balance, bank_id, interest_rate,
+              passbook_product_id,
+              password, user_id, dtype)
+values (14, '2023-02-26T10:11:52.900180', true, null, '5-502-40008003', 100100, 2, 2.3, 1, 555511, 15, 'DW');
+insert
+into deposit_withdraw (transfer_limit, deposit_withdraw_id)
+values (500000, 14);
 
 /*
     Transaction
