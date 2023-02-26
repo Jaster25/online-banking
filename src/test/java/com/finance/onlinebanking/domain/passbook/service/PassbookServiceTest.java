@@ -5,12 +5,14 @@ import com.finance.onlinebanking.domain.bank.repository.BankRepository;
 import com.finance.onlinebanking.domain.passbook.dto.*;
 import com.finance.onlinebanking.domain.passbook.entity.DepositWithdrawEntity;
 import com.finance.onlinebanking.domain.passbook.entity.FixedDepositEntity;
-import com.finance.onlinebanking.domain.passbook.entity.PassbookEntity;
 import com.finance.onlinebanking.domain.passbook.entity.installment.FreeInstallmentEntity;
 import com.finance.onlinebanking.domain.passbook.entity.installment.RegularInstallmentEntity;
 import com.finance.onlinebanking.domain.passbook.repository.*;
 import com.finance.onlinebanking.domain.product.entity.PassbookProductEntity;
 import com.finance.onlinebanking.domain.product.repository.PassbookProductRepository;
+import com.finance.onlinebanking.domain.transactionhistory.dto.TransactionHistoryResponseDto;
+import com.finance.onlinebanking.domain.transactionhistory.dto.TransactionsHistoryResponseDto;
+import com.finance.onlinebanking.domain.transactionhistory.entity.TransactionHistoryEntity;
 import com.finance.onlinebanking.domain.transactionhistory.service.TransactionHistoryService;
 import com.finance.onlinebanking.domain.user.entity.Role;
 import com.finance.onlinebanking.domain.user.entity.UserEntity;
@@ -28,6 +30,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -356,8 +359,6 @@ class PassbookServiceTest {
             assertThrows(DuplicatedValueException.class,
                     () -> passbookService.createRegularInstallmentPassbook(userEntity, bankEntity.getId(), passbookProductEntity.getId(), regularInstallmentPassbookRequestDto));
         }
-
-
     }
 
     @DisplayName("자유 적금 통장 생성")
@@ -451,8 +452,6 @@ class PassbookServiceTest {
             assertThrows(DuplicatedValueException.class,
                     () -> passbookService.createFreeInstallmentPassbook(userEntity, bankEntity.getId(), passbookProductEntity.getId(), freeInstallmentPassbookRequestDto));
         }
-
-
     }
 
     @DisplayName("통장 해지")
@@ -460,7 +459,7 @@ class PassbookServiceTest {
     class DeletePassbookTest {
         @DisplayName("성공 - 통장 소유주의 해지")
         @Test
-        void success_byOwner() {
+        void success_byOwner() throws Exception {
             // given
             UserEntity userEntity = UserEntity.builder()
                     .id(11L)
@@ -486,7 +485,7 @@ class PassbookServiceTest {
 
         @DisplayName("성공 - 관리자의 통장 해지")
         @Test
-        void success_byAdmin() {
+        void success_byAdmin() throws Exception {
             // given
             // 통장의 원래 소유주
             UserEntity userEntity = UserEntity.builder()
@@ -520,7 +519,7 @@ class PassbookServiceTest {
 
         @DisplayName("실패 - 이미 해지된 통장")
         @Test
-        void failure_alreadyDeletedPassbook() {
+        void failure_alreadyDeletedPassbook() throws Exception {
             // given
             UserEntity userEntity = UserEntity.builder()
                     .id(11L)
@@ -536,7 +535,7 @@ class PassbookServiceTest {
 
         @DisplayName("실패 - 권한이 없는 일반 사용자")
         @Test
-        void failure_anAuthorizedUser() {
+        void failure_anAuthorizedUser() throws Exception {
             // given
             // 해당 통장의 원래 소유주인 사용자
             UserEntity userEntity1 = UserEntity.builder()
@@ -572,7 +571,7 @@ class PassbookServiceTest {
     class GetBalanceTest {
         @DisplayName("성공 - 통장 소유주에 의한 조회")
         @Test
-        void success_byOwner() {
+        void success_byOwner() throws Exception {
             // given
             UserEntity userEntity = UserEntity.builder()
                     .id(11L)
@@ -599,7 +598,7 @@ class PassbookServiceTest {
 
         @DisplayName("성공 - 관리자에 의한 조회")
         @Test
-        void success_byAdmin() {
+        void success_byAdmin() throws Exception {
             // given
             // 통장의 원래 소유주
             UserEntity userEntity = UserEntity.builder()
@@ -634,7 +633,7 @@ class PassbookServiceTest {
 
         @DisplayName("실패 - 해지된 통장에 대한 조회")
         @Test
-        void failure_alreadyDeletedPassbook() {
+        void failure_alreadyDeletedPassbook() throws Exception {
             // given
             UserEntity userEntity = UserEntity.builder()
                     .id(11L)
@@ -649,7 +648,7 @@ class PassbookServiceTest {
 
         @DisplayName("실패 - 권한이 없는 일반 사용자에 의한 조회")
         @Test
-        void failure_anAuthorizedUser() {
+        void failure_anAuthorizedUser() throws Exception {
             // given
             // 해당 통장의 원래 소유주인 사용자
             UserEntity userEntity1 = UserEntity.builder()
@@ -684,7 +683,7 @@ class PassbookServiceTest {
     class GetPassbookTest {
         @DisplayName("성공 - 통장 소유주에 의한 상세 조회")
         @Test
-        void success_byOwner() {
+        void success_byOwner() throws Exception {
             // given
             UserEntity userEntity = UserEntity.builder()
                     .id(11L)
@@ -719,7 +718,7 @@ class PassbookServiceTest {
 
         @DisplayName("성공 - 관리자에 의한 상세 조회")
         @Test
-        void success_byAdmin() {
+        void success_byAdmin() throws Exception {
             // given
             // 통장의 원래 소유주
             UserEntity userEntity = UserEntity.builder()
@@ -763,7 +762,7 @@ class PassbookServiceTest {
 
         @DisplayName("실패 - 해지된 통장에 대한 상세 조회")
         @Test
-        void failure_alreadyDeletedPassbook() {
+        void failure_alreadyDeletedPassbook() throws Exception {
             // given
             UserEntity userEntity = UserEntity.builder()
                     .id(11L)
@@ -778,7 +777,7 @@ class PassbookServiceTest {
 
         @DisplayName("실패 - 권한이 없는 일반 사용자에 의한 조회")
         @Test
-        void failure_anAuthorizedUser() {
+        void failure_anAuthorizedUser() throws Exception {
             // given
             // 해당 통장의 원래 소유주인 사용자
             UserEntity userEntity1 = UserEntity.builder()
@@ -984,5 +983,648 @@ class PassbookServiceTest {
             // then
             assertThrows(UnAuthorizedException.class, () -> passbookService.updatePassword(userEntity2, 1L, passwordRequestDto));
         }
+    }
+
+    @DisplayName("이체 한도 변경")
+    @Nested
+    class UpdateTransferLimitTest {
+        @DisplayName("성공 - 통장 소유주에 의한 변경")
+        @Test
+        void success_byOwner() throws Exception{
+            // given
+            UserEntity userEntity = UserEntity.builder()
+                    .username("user1")
+                    .build();
+
+            Long transferLimit = 100000L;
+            Long newTransferLimit = 50000L;
+            DepositWithdrawEntity depositWithdrawEntity = DepositWithdrawEntity.builder()
+                    .id(1L)
+                    .user(userEntity)
+                    .transferLimit(transferLimit)
+                    .dtype("DW")
+                    .build();
+
+            TransferLimitRequestDto transferLimitRequestDto = TransferLimitRequestDto.builder()
+                    .transferLimit(newTransferLimit)
+                    .build();
+
+            given(passbookRepository.findByIdAndIsDeletedFalse(anyLong()))
+                    .willReturn(Optional.of(depositWithdrawEntity));
+
+            // when
+            TransferLimitResponseDto transferLimitResponseDto = passbookService.updateTransferLimit(userEntity, depositWithdrawEntity.getId(), transferLimitRequestDto);
+
+            // then
+            assertEquals(newTransferLimit, transferLimitResponseDto.getTransferLimit());
+        }
+
+        @DisplayName("성공 - 관리자에 의한 변경")
+        @Test
+        void success_byAdmin() throws Exception{
+            // given
+            UserEntity userEntity = UserEntity.builder()
+                    .username("user1")
+                    .build();
+            userEntity.addRole(Role.USER);
+
+            UserEntity adminUserEntity = UserEntity.builder()
+                    .username("admin1")
+                    .build();
+            adminUserEntity.addRole(Role.ADMIN);
+
+            Long transferLimit = 100000L;
+            Long newTransferLimit = 50000L;
+            DepositWithdrawEntity depositWithdrawEntity = DepositWithdrawEntity.builder()
+                    .id(1L)
+                    .user(userEntity)
+                    .transferLimit(transferLimit)
+                    .dtype("DW")
+                    .build();
+
+            TransferLimitRequestDto transferLimitRequestDto = TransferLimitRequestDto.builder()
+                    .transferLimit(newTransferLimit)
+                    .build();
+
+            given(passbookRepository.findByIdAndIsDeletedFalse(anyLong()))
+                    .willReturn(Optional.of(depositWithdrawEntity));
+
+            // when
+            TransferLimitResponseDto transferLimitResponseDto = passbookService.updateTransferLimit(adminUserEntity, depositWithdrawEntity.getId(), transferLimitRequestDto);
+
+            // then
+            assertEquals(newTransferLimit, transferLimitResponseDto.getTransferLimit());
+        }
+
+        @DisplayName("실패 - 해지된 통장에 대한 변경")
+        @Test
+        void failure_alreadyDeletedPassbook() throws Exception{
+            // given
+            UserEntity userEntity = UserEntity.builder()
+                    .username("user1")
+                    .build();
+
+            TransferLimitRequestDto transferLimitRequestDto = TransferLimitRequestDto.builder()
+                    .transferLimit(50000L)
+                    .build();
+
+            given(passbookRepository.findByIdAndIsDeletedFalse(anyLong()))
+                    .willReturn(Optional.empty());
+
+            // when
+            // then
+            assertThrows(NonExistentException.class, () -> passbookService.updateTransferLimit(userEntity, 2L, transferLimitRequestDto));
+        }
+
+        @DisplayName("실패 - 권한 없는 일반 사용자에 의한 변경")
+        @Test
+        void failure_anAuthorized() throws Exception {
+            // given
+            // 통장 소유주
+            UserEntity userEntity1 = UserEntity.builder()
+                    .username("user1")
+                    .build();
+            userEntity1.addRole(Role.USER);
+
+            // 통장 소유주도 아니며 관리자도 아닌 사용자
+            UserEntity userEntity2 = UserEntity.builder()
+                    .username("user2")
+                    .build();
+            userEntity2.addRole(Role.USER);
+
+            Long transferLimit = 100000L;
+            Long newTransferLimit = 50000L;
+            DepositWithdrawEntity depositWithdrawEntity = DepositWithdrawEntity.builder()
+                    .id(1L)
+                    .user(userEntity1)
+                    .transferLimit(transferLimit)
+                    .dtype("DW")
+                    .build();
+
+            TransferLimitRequestDto transferLimitRequestDto = TransferLimitRequestDto.builder()
+                    .transferLimit(newTransferLimit)
+                    .build();
+
+            given(passbookRepository.findByIdAndIsDeletedFalse(anyLong()))
+                    .willReturn(Optional.of(depositWithdrawEntity));
+
+            // when
+            // then
+            assertThrows(UnAuthorizedException.class, () -> passbookService.updateTransferLimit(userEntity2, 1L, transferLimitRequestDto));
+        }
+    }
+
+    @DisplayName("이체")
+    @Nested
+    class CreateTransferTest {
+        @DisplayName("성공 - 통장 소유주에 의한 이체")
+        @Test
+        void success_byOwner() throws Exception{
+            // given
+            UserEntity userEntity = UserEntity.builder()
+                    .username("user1")
+                    .build();
+
+            DepositWithdrawEntity withdrawEntity = DepositWithdrawEntity.builder()
+                    .id(1L)
+                    .accountNumber("1-003-92834493")
+                    .user(userEntity)
+                    .balance(5000L)
+                    .transferLimit(10000L)
+                    .dtype("DW")
+                    .build();
+
+            FixedDepositEntity depositEntity = FixedDepositEntity.builder()
+                    .id(2L)
+                    .accountNumber("1-003-30032493")
+                    .user(userEntity)
+                    .balance(0L)
+                    .dtype("FW")
+                    .build();
+
+            TransferRequestDto transferRequestDto = TransferRequestDto.builder()
+                    .amount(3000L)
+                    .memo("이체 성공 테스트 메모")
+                    .commission(100L)
+                    .build();
+
+            TransactionHistoryResponseDto transactionHistoryResponseDto = TransactionHistoryResponseDto.builder()
+                    .id(1L)
+                    .withdrawAccountNumber(withdrawEntity.getAccountNumber())
+                    .depositAccountNumber(depositEntity.getAccountNumber())
+                    .amount(transferRequestDto.getAmount())
+                    .memo(transferRequestDto.getMemo())
+                    .commission(transferRequestDto.getCommission())
+                    .createdAt(LocalDateTime.now())
+                    .updatedAt(null)
+                    .build();
+
+            given(passbookRepository.findByIdAndIsDeletedFalseForUpdate(anyLong()))
+                    .willReturn(Optional.of(withdrawEntity), Optional.of(depositEntity));
+            given(transactionHistoryService.createTransactionHistory(any(), any(), any()))
+                    .willReturn(transactionHistoryResponseDto);
+
+            // when
+            TransferResponseDto transferResponseDto = passbookService.createTransfer(userEntity, 1L, 2L, transferRequestDto);
+
+            // then
+            assertEquals(3000L, transferResponseDto.getAmount());
+            assertEquals(2000L, withdrawEntity.getBalance());
+            assertEquals(3000L, depositEntity.getBalance());
+        }
+
+        @DisplayName("성공 - 관리자에 의한 이체")
+        @Test
+        void success_byAdmin() throws Exception{
+            // given
+            UserEntity userEntity = UserEntity.builder()
+                    .username("user1")
+                    .build();
+            userEntity.addRole(Role.USER);
+
+            UserEntity adminUserEntity = UserEntity.builder()
+                    .username("admin1")
+                    .build();
+            adminUserEntity.addRole(Role.ADMIN);
+
+            DepositWithdrawEntity withdrawEntity = DepositWithdrawEntity.builder()
+                    .id(1L)
+                    .accountNumber("1-003-92834493")
+                    .user(userEntity)
+                    .balance(5000L)
+                    .transferLimit(10000L)
+                    .dtype("DW")
+                    .build();
+
+            FixedDepositEntity depositEntity = FixedDepositEntity.builder()
+                    .id(2L)
+                    .accountNumber("1-003-30032493")
+                    .user(userEntity)
+                    .balance(0L)
+                    .dtype("FW")
+                    .build();
+
+            TransferRequestDto transferRequestDto = TransferRequestDto.builder()
+                    .amount(3000L)
+                    .memo("이체 성공 테스트 메모")
+                    .commission(100L)
+                    .build();
+
+            TransactionHistoryResponseDto transactionHistoryResponseDto = TransactionHistoryResponseDto.builder()
+                    .id(1L)
+                    .withdrawAccountNumber(withdrawEntity.getAccountNumber())
+                    .depositAccountNumber(depositEntity.getAccountNumber())
+                    .amount(transferRequestDto.getAmount())
+                    .memo(transferRequestDto.getMemo())
+                    .commission(transferRequestDto.getCommission())
+                    .createdAt(LocalDateTime.now())
+                    .updatedAt(null)
+                    .build();
+
+            given(passbookRepository.findByIdAndIsDeletedFalseForUpdate(anyLong()))
+                    .willReturn(Optional.of(withdrawEntity), Optional.of(depositEntity));
+            given(transactionHistoryService.createTransactionHistory(any(), any(), any()))
+                    .willReturn(transactionHistoryResponseDto);
+
+            // when
+            TransferResponseDto transferResponseDto = passbookService.createTransfer(userEntity, 1L, 2L, transferRequestDto);
+
+            // then
+            assertEquals(3000L, transferResponseDto.getAmount());
+            assertEquals(2000L, withdrawEntity.getBalance());
+            assertEquals(3000L, depositEntity.getBalance());
+        }
+
+        @DisplayName("실패 - 해지된 출금 통장을 사용한 이체")
+        @Test
+        void failure_alreadyDeletedWithdrawPassbook() throws Exception{
+            // given
+            UserEntity userEntity = UserEntity.builder()
+                    .username("user1")
+                    .build();
+
+            TransferRequestDto transferRequestDto = TransferRequestDto.builder()
+                    .amount(3000L)
+                    .memo("이체 성공 테스트 메모")
+                    .commission(100L)
+                    .build();
+
+            DepositWithdrawEntity withdrawEntity = DepositWithdrawEntity.builder()
+                    .id(1L)
+                    .accountNumber("1-003-92834493")
+                    .user(userEntity)
+                    .balance(5000L)
+                    .transferLimit(10000L)
+                    .dtype("DW")
+                    .build();
+
+            FixedDepositEntity depositEntity = FixedDepositEntity.builder()
+                    .id(2L)
+                    .accountNumber("1-003-30032493")
+                    .user(userEntity)
+                    .balance(0L)
+                    .dtype("FW")
+                    .build();
+
+            given(passbookRepository.findByIdAndIsDeletedFalseForUpdate(anyLong()))
+                    .willReturn(Optional.empty(), Optional.of(depositEntity));
+
+            // when
+            // then
+            assertThrows(NonExistentException.class, () -> passbookService.createTransfer(userEntity, 1L,2L, transferRequestDto));
+        }
+
+        @DisplayName("실패 - 해지된 입금 통장을 사용한 이체")
+        @Test
+        void failure_alreadyDeletedDepositPassbook() throws Exception{
+            // given
+            UserEntity userEntity = UserEntity.builder()
+                    .username("user1")
+                    .build();
+
+            TransferRequestDto transferRequestDto = TransferRequestDto.builder()
+                    .amount(3000L)
+                    .memo("이체 성공 테스트 메모")
+                    .commission(100L)
+                    .build();
+
+            DepositWithdrawEntity withdrawEntity = DepositWithdrawEntity.builder()
+                    .id(1L)
+                    .accountNumber("1-003-92834493")
+                    .user(userEntity)
+                    .balance(5000L)
+                    .transferLimit(10000L)
+                    .dtype("DW")
+                    .build();
+
+            FixedDepositEntity depositEntity = FixedDepositEntity.builder()
+                    .id(2L)
+                    .accountNumber("1-003-30032493")
+                    .user(userEntity)
+                    .balance(0L)
+                    .dtype("FW")
+                    .build();
+
+            given(passbookRepository.findByIdAndIsDeletedFalseForUpdate(anyLong()))
+                    .willReturn(Optional.of(withdrawEntity), Optional.empty());
+
+            // when
+            // then
+            assertThrows(NonExistentException.class, () -> passbookService.createTransfer(userEntity, 1L,2L, transferRequestDto));
+        }
+
+        @DisplayName("실패 - 권한 없는 일반 사용자에 의한 이체")
+        @Test
+        void failure_anAuthorized() throws Exception {
+            // 통장 소유주
+            UserEntity userEntity1 = UserEntity.builder()
+                    .username("user1")
+                    .build();
+            userEntity1.addRole(Role.USER);
+
+            // 통장 소유주도 아니며 관리자도 아닌 사용자
+            UserEntity userEntity2 = UserEntity.builder()
+                    .username("user2")
+                    .build();
+            userEntity2.addRole(Role.USER);
+
+            DepositWithdrawEntity withdrawEntity = DepositWithdrawEntity.builder()
+                    .id(1L)
+                    .accountNumber("1-003-92834493")
+                    .user(userEntity1)
+                    .balance(5000L)
+                    .transferLimit(10000L)
+                    .dtype("DW")
+                    .build();
+
+            FixedDepositEntity depositEntity = FixedDepositEntity.builder()
+                    .id(2L)
+                    .accountNumber("1-003-30032493")
+                    .user(userEntity1)
+                    .balance(0L)
+                    .dtype("FW")
+                    .build();
+
+            TransferRequestDto transferRequestDto = TransferRequestDto.builder()
+                    .amount(3000L)
+                    .memo("이체 성공 테스트 메모")
+                    .commission(100L)
+                    .build();
+
+            given(passbookRepository.findByIdAndIsDeletedFalseForUpdate(anyLong()))
+                    .willReturn(Optional.of(withdrawEntity), Optional.of(depositEntity));
+
+            // when
+            // then
+            assertThrows(UnAuthorizedException.class, () -> passbookService.createTransfer((userEntity2), 1L, 2L, transferRequestDto));
+        }
+
+        @DisplayName("실패 - 출금 계좌의 잔액 부족")
+        @Test
+        void failure_lackOfBalance() throws Exception{
+            // given
+            UserEntity userEntity = UserEntity.builder()
+                    .username("user1")
+                    .build();
+
+            DepositWithdrawEntity withdrawEntity = DepositWithdrawEntity.builder()
+                    .id(1L)
+                    .accountNumber("1-003-92834493")
+                    .user(userEntity)
+                    .balance(0L)
+                    .transferLimit(10000L)
+                    .dtype("DW")
+                    .build();
+
+            FixedDepositEntity depositEntity = FixedDepositEntity.builder()
+                    .id(2L)
+                    .accountNumber("1-003-30032493")
+                    .user(userEntity)
+                    .balance(0L)
+                    .dtype("FW")
+                    .build();
+
+            TransferRequestDto transferRequestDto = TransferRequestDto.builder()
+                    .amount(3000L)
+                    .memo("이체 성공 테스트 메모")
+                    .commission(100L)
+                    .build();
+
+            given(passbookRepository.findByIdAndIsDeletedFalseForUpdate(anyLong()))
+                    .willReturn(Optional.of(withdrawEntity), Optional.of(depositEntity));
+
+            // when
+            // then
+            assertThrows(InvalidValueException.class, () -> passbookService.createTransfer(userEntity, 1L, 2L, transferRequestDto));
+        }
+
+        @DisplayName("실패 - 출금 계좌의 이체 한도 초과")
+        @Test
+        void failure_excessTransferLimit() throws Exception{
+            // given
+            UserEntity userEntity = UserEntity.builder()
+                    .username("user1")
+                    .build();
+
+            DepositWithdrawEntity withdrawEntity = DepositWithdrawEntity.builder()
+                    .id(1L)
+                    .accountNumber("1-003-92834493")
+                    .user(userEntity)
+                    .balance(0L)
+                    .transferLimit(10000L)
+                    .dtype("DW")
+                    .build();
+
+            FixedDepositEntity depositEntity = FixedDepositEntity.builder()
+                    .id(2L)
+                    .accountNumber("1-003-30032493")
+                    .user(userEntity)
+                    .balance(0L)
+                    .dtype("FW")
+                    .build();
+
+            TransferRequestDto transferRequestDto = TransferRequestDto.builder()
+                    .amount(50000L)
+                    .memo("이체 성공 테스트 메모")
+                    .commission(100L)
+                    .build();
+
+            given(passbookRepository.findByIdAndIsDeletedFalseForUpdate(anyLong()))
+                    .willReturn(Optional.of(withdrawEntity), Optional.of(depositEntity));
+
+            // when
+            // then
+            assertThrows(InvalidValueException.class, () -> passbookService.createTransfer(userEntity, 1L, 2L, transferRequestDto));
+        }
+    }
+
+    @DisplayName("통장 거래내역 목록 조회")
+    @Nested
+    class GetPassbookTransactionsTest {
+        @DisplayName("성공 - 통장 소유주에 의한 조회")
+        @Test
+        void success_byOwner() throws Exception {
+            // given
+            UserEntity userEntity = UserEntity.builder()
+                    .username("user1")
+                    .build();
+
+            TransactionHistoryEntity transactionHistoryEntity1 = TransactionHistoryEntity.builder()
+                    .id(1L)
+                    .withdrawAccountNumber("1-003-92834493")
+                    .depositAccountNumber("1-003-30032493")
+                    .amount(1000L)
+                    .memo("거래 내역 1")
+                    .commission(100L)
+                    .build();
+
+            TransactionHistoryEntity transactionHistoryEntity2 = TransactionHistoryEntity.builder()
+                    .id(2L)
+                    .withdrawAccountNumber("1-003-92834493")
+                    .depositAccountNumber("1-003-30032493")
+                    .amount(2000L)
+                    .memo("거래 내역 2")
+                    .commission(100L)
+                    .build();
+
+            TransactionHistoryEntity transactionHistoryEntity3 = TransactionHistoryEntity.builder()
+                    .id(3L)
+                    .withdrawAccountNumber("1-003-92834493")
+                    .depositAccountNumber("1-003-30032493")
+                    .amount(3000L)
+                    .memo("거래 내역 3")
+                    .commission(100L)
+                    .build();
+
+            DepositWithdrawEntity depositWithdrawEntity = DepositWithdrawEntity.builder()
+                    .id(1L)
+                    .accountNumber("1-003-92834493")
+                    .dtype("DW")
+                    .user(userEntity)
+                    .withdrawTransactionHistories(List.of(transactionHistoryEntity1, transactionHistoryEntity2, transactionHistoryEntity3))
+                    .build();
+
+            given(passbookRepository.findByIdAndIsDeletedFalse(anyLong()))
+                    .willReturn(Optional.of(depositWithdrawEntity));
+
+            // when
+            TransactionsHistoryResponseDto transactionsHistoryResponseDto = passbookService.getPassbookTransactions(userEntity, 1L);
+
+            // then
+            assertEquals(3, transactionsHistoryResponseDto.getTransactions().size());
+        }
+
+        @DisplayName("성공 - 관리자에 의한 조회")
+        @Test
+        void success_byAdmin() throws Exception {
+            // given
+            UserEntity userEntity = UserEntity.builder()
+                    .username("user1")
+                    .build();
+            userEntity.addRole(Role.USER);
+
+            UserEntity adminEntity = UserEntity.builder()
+                    .username("admin1")
+                    .build();
+            adminEntity.addRole(Role.ADMIN);
+
+            TransactionHistoryEntity transactionHistoryEntity1 = TransactionHistoryEntity.builder()
+                    .id(1L)
+                    .withdrawAccountNumber("1-003-92834493")
+                    .depositAccountNumber("1-003-30032493")
+                    .amount(1000L)
+                    .memo("거래 내역 1")
+                    .commission(100L)
+                    .build();
+
+            TransactionHistoryEntity transactionHistoryEntity2 = TransactionHistoryEntity.builder()
+                    .id(2L)
+                    .withdrawAccountNumber("1-003-92834493")
+                    .depositAccountNumber("1-003-30032493")
+                    .amount(2000L)
+                    .memo("거래 내역 2")
+                    .commission(100L)
+                    .build();
+
+            TransactionHistoryEntity transactionHistoryEntity3 = TransactionHistoryEntity.builder()
+                    .id(3L)
+                    .withdrawAccountNumber("1-003-92834493")
+                    .depositAccountNumber("1-003-30032493")
+                    .amount(3000L)
+                    .memo("거래 내역 3")
+                    .commission(100L)
+                    .build();
+
+            DepositWithdrawEntity depositWithdrawEntity = DepositWithdrawEntity.builder()
+                    .id(1L)
+                    .accountNumber("1-003-92834493")
+                    .dtype("DW")
+                    .user(userEntity)
+                    .withdrawTransactionHistories(List.of(transactionHistoryEntity1, transactionHistoryEntity2, transactionHistoryEntity3))
+                    .build();
+
+            given(passbookRepository.findByIdAndIsDeletedFalse(anyLong()))
+                    .willReturn(Optional.of(depositWithdrawEntity));
+
+            // when
+            TransactionsHistoryResponseDto transactionsHistoryResponseDto = passbookService.getPassbookTransactions(adminEntity, 1L);
+
+            // then
+            assertEquals(3, transactionsHistoryResponseDto.getTransactions().size());
+        }
+
+        @DisplayName("실패 - 해지된 통장에 대한 조회")
+        @Test
+        void failure_alreadyDeletedPassbook() throws Exception {
+            // given
+            UserEntity userEntity = UserEntity.builder()
+                    .username("user1")
+                    .build();
+
+            given(passbookRepository.findByIdAndIsDeletedFalse(anyLong()))
+                    .willReturn(Optional.empty());
+
+            // when
+            // then
+            assertThrows(NonExistentException.class, () -> passbookService.getPassbookTransactions(userEntity, 1L));
+        }
+
+        @DisplayName("실패 - 권한 없는 일반 사용자에 의한 조회")
+        @Test
+        void failure_anAuthorized() throws Exception {
+            // given
+            UserEntity userEntity1 = UserEntity.builder()
+                    .username("user1")
+                    .build();
+            userEntity1.addRole(Role.USER);
+
+            UserEntity userEntity2 = UserEntity.builder()
+                    .username("user2")
+                    .build();
+            userEntity2.addRole(Role.USER);
+
+            TransactionHistoryEntity transactionHistoryEntity1 = TransactionHistoryEntity.builder()
+                    .id(1L)
+                    .withdrawAccountNumber("1-003-92834493")
+                    .depositAccountNumber("1-003-30032493")
+                    .amount(1000L)
+                    .memo("거래 내역 1")
+                    .commission(100L)
+                    .build();
+
+            TransactionHistoryEntity transactionHistoryEntity2 = TransactionHistoryEntity.builder()
+                    .id(2L)
+                    .withdrawAccountNumber("1-003-92834493")
+                    .depositAccountNumber("1-003-30032493")
+                    .amount(2000L)
+                    .memo("거래 내역 2")
+                    .commission(100L)
+                    .build();
+
+            TransactionHistoryEntity transactionHistoryEntity3 = TransactionHistoryEntity.builder()
+                    .id(3L)
+                    .withdrawAccountNumber("1-003-92834493")
+                    .depositAccountNumber("1-003-30032493")
+                    .amount(3000L)
+                    .memo("거래 내역 3")
+                    .commission(100L)
+                    .build();
+
+            DepositWithdrawEntity depositWithdrawEntity = DepositWithdrawEntity.builder()
+                    .id(1L)
+                    .accountNumber("1-003-92834493")
+                    .dtype("DW")
+                    .user(userEntity1)
+                    .withdrawTransactionHistories(List.of(transactionHistoryEntity1, transactionHistoryEntity2, transactionHistoryEntity3))
+                    .build();
+
+            given(passbookRepository.findByIdAndIsDeletedFalse(anyLong()))
+                    .willReturn(Optional.of(depositWithdrawEntity));
+
+            // when
+            // then
+            assertThrows(UnAuthorizedException.class, () -> passbookService.getPassbookTransactions(userEntity2, 1L));
+        }
+
     }
 }
