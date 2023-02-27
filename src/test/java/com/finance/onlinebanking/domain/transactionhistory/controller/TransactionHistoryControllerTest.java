@@ -55,11 +55,11 @@ class TransactionHistoryControllerTest {
         void success() throws Exception {
             // given
             // when
-            ResultActions result = mockMvc.perform(get(PREFIX_URL + "/20"));
+            ResultActions result = mockMvc.perform(get(PREFIX_URL + "/20000"));
 
             // then
             result.andExpect(status().isOk())
-                    .andExpect(jsonPath("$.id").value("20"))
+                    .andExpect(jsonPath("$.id").value("20000"))
                     .andExpect(jsonPath("$.withdrawAccountNumber").value("1-003-92834493"))
                     .andExpect(jsonPath("$.depositAccountNumber").value("1-003-30032493"))
                     .andExpect(jsonPath("$.amount").value(2000));
@@ -71,7 +71,7 @@ class TransactionHistoryControllerTest {
         void failure_otherUser() throws Exception {
             // given
             // when
-            ResultActions result = mockMvc.perform(get(PREFIX_URL + "/23"));
+            ResultActions result = mockMvc.perform(get(PREFIX_URL + "/20003"));
 
             // then
             result.andExpect(status().isForbidden())

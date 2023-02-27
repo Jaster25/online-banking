@@ -275,7 +275,6 @@ public class PassbookService {
                 .build();
 
         TransactionHistoryResponseDto transactionHistoryResponseDto = transactionHistoryService.createTransactionHistory(transactionHistoryRequestDto, withdrawPassbook, depositPassbook);
-
         return TransferResponseDto.of(transactionHistoryResponseDto);
     }
 

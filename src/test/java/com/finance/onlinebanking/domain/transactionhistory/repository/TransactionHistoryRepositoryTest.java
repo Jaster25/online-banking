@@ -26,7 +26,7 @@ class TransactionHistoryRepositoryTest {
         void success() throws Exception {
             // given
             // when
-            Optional<TransactionHistoryEntity> optionalTransactionHistoryEntity = transactionHistoryRepository.findByIdAndIsDeletedFalse(20L);
+            Optional<TransactionHistoryEntity> optionalTransactionHistoryEntity = transactionHistoryRepository.findByIdAndIsDeletedFalse(20000L);
 
             // then
             assertTrue(optionalTransactionHistoryEntity.isPresent());
