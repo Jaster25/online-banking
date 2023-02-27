@@ -35,7 +35,7 @@ class PassbookRepositoryTest {
             List<PassbookEntity> passbookEntityList = passbookRepository.findAllByUserAndIsDeletedFalse(userEntity);
 
             // then
-            assertEquals(2, passbookEntityList.size());
+            assertEquals(3, passbookEntityList.size());
         }
 
         @DisplayName("성공 - 삭제된 통장 조회")

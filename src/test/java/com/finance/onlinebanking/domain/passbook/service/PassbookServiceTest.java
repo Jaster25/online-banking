@@ -1625,6 +1625,5 @@ class PassbookServiceTest {
             // then
             assertThrows(UnAuthorizedException.class, () -> passbookService.getPassbookTransactions(userEntity2, 1L));
         }
-
     }
 }

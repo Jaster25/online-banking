@@ -58,6 +58,10 @@ values (13, 'USER');
 insert
 into user_roles (user_id, roles)
 values (14, 'USER');
+-- user5
+insert
+into user_roles (user_id, roles)
+values (15, 'USER');
 
 
 /*
@@ -132,6 +136,33 @@ values (11, '2023-03-01T10:11:52.900180', false, null, '1-003-30032493', 40000, 
 insert
 into deposit_withdraw (transfer_limit, deposit_withdraw_id)
 values (10000, 11);
+-- user1 예금 통장
+insert
+into passbook(passbook_id, created_at, is_deleted, updated_at, account_number, balance, bank_id, interest_rate,
+              passbook_product_id,
+              password, user_id, dtype)
+values (31, '2023-02-22T19:11:52.900180', false, null, '31-003-92834493', 150000, 1, 3.5, 1, 123456, 11, 'FD');
+insert
+into fixed_deposit (expired_at, fixed_deposit_id)
+values ('2025-02-22T19:11:52.900180', 31);
+-- user1 정기 적금 통장
+--insert
+--into passbook(passbook_id, created_at, is_deleted, updated_at, account_number, balance, bank_id, interest_rate,
+--              passbook_product_id,
+--              password, user_id, dtype)
+--values (32, '2023-02-22T19:11:52.900180', false, null, '32-003-92834493', 150000, 1, 3.5, 1, 123456, 11, 'RI');
+--insert
+--into regular_installment (deposit_date, amount, regular_installment_id)
+--values (28, 1000, 32);
+-- user1 자유 적금 통장
+--insert
+--into passbook(passbook_id, created_at, is_deleted, updated_at, account_number, balance, bank_id, interest_rate,
+--              passbook_product_id,
+--              password, user_id, dtype)
+--values (33, '2023-02-22T19:11:52.900180', false, null, '33-003-92834493', 150000, 1, 3.5, 1, 123456, 11, 'FI');
+--insert
+--into free_installment (free_installment_id)
+--values (33);
 -- user2 입출금 통장1
 insert
 into passbook(passbook_id, created_at, is_deleted, updated_at, account_number, balance, bank_id, interest_rate,
@@ -159,6 +190,7 @@ values (14, '2023-02-26T10:11:52.900180', true, null, '5-502-40008003', 100100, 
 insert
 into deposit_withdraw (transfer_limit, deposit_withdraw_id)
 values (500000, 14);
+
 
 /*
     Transaction

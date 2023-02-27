@@ -6,6 +6,7 @@ import lombok.experimental.SuperBuilder;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
@@ -13,6 +14,7 @@ import javax.persistence.Table;
 @SuperBuilder
 @NoArgsConstructor
 @Table(name = "free_installment")
+@PrimaryKeyJoinColumn(name = "free_installment_id")
 @DiscriminatorValue("FI")
 public class FreeInstallmentEntity extends InstallmentEntity {
 
