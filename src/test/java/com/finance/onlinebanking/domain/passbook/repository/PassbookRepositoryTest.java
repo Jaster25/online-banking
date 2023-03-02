@@ -68,9 +68,9 @@ class PassbookRepositoryTest {
             assertEquals("4-502-40008003", passbookEntity.get().getAccountNumber());
         }
 
-        @DisplayName("성공 - 존재하지 않는 통장 ID")
+        @DisplayName("실패 - 존재하지 않는 통장 ID")
         @Test
-        void success_deletedPassbook() throws Exception {
+        void failure_deletedPassbook() throws Exception {
             // given
             // when
             Optional<PassbookEntity> passbookEntity = passbookRepository.findByIdAndIsDeletedFalseForUpdate(14L);
@@ -94,9 +94,9 @@ class PassbookRepositoryTest {
             assertTrue(isExist);
         }
 
-        @DisplayName("성공 - 존재하지 않는 계좌번호로 조회")
+        @DisplayName("실패 - 존재하지 않는 계좌번호로 조회")
         @Test
-        void success_deletedPassbook() throws Exception {
+        void failure_deletedPassbook() throws Exception {
             // given
             // when
             Boolean isExist = passbookRepository.existsByAccountNumber("10-502-40008003");
@@ -120,9 +120,9 @@ class PassbookRepositoryTest {
             assertEquals("4-502-40008003", passbookEntity.get().getAccountNumber());
         }
 
-        @DisplayName("성공 - 존재하지 않는 통장 ID")
+        @DisplayName("실패 - 존재하지 않는 통장 ID")
         @Test
-        void success_deletedPassbook() throws Exception {
+        void failure_deletedPassbook() throws Exception {
             // given
             // when
             Optional<PassbookEntity> passbookEntity = passbookRepository.findByIdAndIsDeletedFalse(14L);

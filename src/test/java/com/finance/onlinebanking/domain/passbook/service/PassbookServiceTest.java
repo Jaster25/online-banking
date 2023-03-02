@@ -220,7 +220,7 @@ class PassbookServiceTest {
             verify(fixedDepositRepository, times(1)).save(any(FixedDepositEntity.class));
         }
 
-        @DisplayName("실패 - 이미 존재 하는 예금 통장 통장")
+        @DisplayName("실패 - 이미 존재 하는 예금 통장")
         @Test
         void failure_duplicatedDepositWithdrawPassbook() throws Exception {
             // given
@@ -316,7 +316,7 @@ class PassbookServiceTest {
             verify(regularInstallmentRepository, times(1)).save(any(RegularInstallmentEntity.class));
         }
 
-        @DisplayName("실패 - 이미 존재 하는 정기 적금 통장 통장")
+        @DisplayName("실패 - 이미 존재 하는 정기 적금 통장")
         @Test
         void failure_duplicatedDepositWithdrawPassbook() throws Exception {
             // given
@@ -411,7 +411,7 @@ class PassbookServiceTest {
             verify(freeInstallmentRepository, times(1)).save(any(FreeInstallmentEntity.class));
         }
 
-        @DisplayName("실패 - 이미 존재 하는 자유 적금 통장 통장")
+        @DisplayName("실패 - 이미 존재 하는 자유 적금 통장")
         @Test
         void failure_duplicatedDepositWithdrawPassbook() throws Exception {
             // given
@@ -535,7 +535,7 @@ class PassbookServiceTest {
 
         @DisplayName("실패 - 권한이 없는 일반 사용자")
         @Test
-        void failure_anAuthorizedUser() throws Exception {
+        void failure_unAuthorizedUser() throws Exception {
             // given
             // 해당 통장의 원래 소유주인 사용자
             UserEntity userEntity1 = UserEntity.builder()
@@ -648,7 +648,7 @@ class PassbookServiceTest {
 
         @DisplayName("실패 - 권한이 없는 일반 사용자에 의한 조회")
         @Test
-        void failure_anAuthorizedUser() throws Exception {
+        void failure_unAuthorizedUser() throws Exception {
             // given
             // 해당 통장의 원래 소유주인 사용자
             UserEntity userEntity1 = UserEntity.builder()
@@ -777,7 +777,7 @@ class PassbookServiceTest {
 
         @DisplayName("실패 - 권한이 없는 일반 사용자에 의한 조회")
         @Test
-        void failure_anAuthorizedUser() throws Exception {
+        void failure_unAuthorizedUser() throws Exception {
             // given
             // 해당 통장의 원래 소유주인 사용자
             UserEntity userEntity1 = UserEntity.builder()
@@ -951,7 +951,7 @@ class PassbookServiceTest {
 
         @DisplayName("실패 - 권한 없는 일반 사용자에 의한 변경")
         @Test
-        void failure_anAuthorized() throws Exception {
+        void failure_unAuthorizedUser() throws Exception {
             // 통장 소유주
             UserEntity userEntity1 = UserEntity.builder()
                     .username("user1")
@@ -1078,7 +1078,7 @@ class PassbookServiceTest {
 
         @DisplayName("실패 - 권한 없는 일반 사용자에 의한 변경")
         @Test
-        void failure_anAuthorized() throws Exception {
+        void failure_unAuthorizedUser() throws Exception {
             // given
             // 통장 소유주
             UserEntity userEntity1 = UserEntity.builder()
@@ -1315,7 +1315,7 @@ class PassbookServiceTest {
 
         @DisplayName("실패 - 권한 없는 일반 사용자에 의한 이체")
         @Test
-        void failure_anAuthorized() throws Exception {
+        void failure_unAuthorizedUser() throws Exception {
             // 통장 소유주
             UserEntity userEntity1 = UserEntity.builder()
                     .username("user1")
@@ -1571,7 +1571,7 @@ class PassbookServiceTest {
 
         @DisplayName("실패 - 권한 없는 일반 사용자에 의한 조회")
         @Test
-        void failure_anAuthorized() throws Exception {
+        void failure_unAuthorizedUser() throws Exception {
             // given
             UserEntity userEntity1 = UserEntity.builder()
                     .username("user1")
