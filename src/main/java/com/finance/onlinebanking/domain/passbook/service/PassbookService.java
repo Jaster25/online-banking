@@ -72,7 +72,7 @@ public class PassbookService {
                 .transferLimit(depositWithdrawPassbookRequestDto.getTransferLimit())
                 .dtype("DW")
                 .build();
-
+        
         depositWithdrawEntity.setBank(bankEntity);
         depositWithdrawEntity.setPassbookProduct(passbookProductEntity);
         depositWithdrawEntity.setUser(userEntity);
@@ -275,7 +275,6 @@ public class PassbookService {
                 .build();
 
         TransactionHistoryResponseDto transactionHistoryResponseDto = transactionHistoryService.createTransactionHistory(transactionHistoryRequestDto, withdrawPassbook, depositPassbook);
-
         return TransferResponseDto.of(transactionHistoryResponseDto);
     }
 

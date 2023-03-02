@@ -26,7 +26,11 @@ insert
 into users (user_id, created_at, is_deleted, updated_at, name, password, username)
 values (14, '2023-01-20T12:35:31.406332', false, null, '회원4',
         '{bcrypt}$2a$10$sjL4PxC.0Iz2nVqs0TGh4uI1XQODdfuV5LqpZeU35dxvx2h.v5U0i', 'user4');
-
+-- user5(해지된 통장만 소유한 사용자)
+insert
+into users (user_id, created_at, is_deleted, updated_at, name, password, username)
+values (15, '2023-01-20T12:35:31.406332', false, null, '회원5',
+        '{bcrypt}$2a$10$sjL4PxC.0Iz2nVqs0TGh4uI1XQODdfuV5LqpZeU35dxvx2h.v5U0i', 'user5');
 
 /*
     User Roles
@@ -54,7 +58,10 @@ values (13, 'USER');
 insert
 into user_roles (user_id, roles)
 values (14, 'USER');
-
+-- user5
+insert
+into user_roles (user_id, roles)
+values (15, 'USER');
 
 /*
     Bank
@@ -128,7 +135,15 @@ values (11, '2023-03-01T10:11:52.900180', false, null, '1-003-30032493', 40000, 
 insert
 into deposit_withdraw (transfer_limit, deposit_withdraw_id)
 values (10000, 11);
--- user2 입출금 통장1
+-- user1 예금 통장
+insert
+into passbook(passbook_id, created_at, is_deleted, updated_at, account_number, balance, bank_id, interest_rate,
+              passbook_product_id,
+              password, user_id, dtype)
+values (31, '2023-02-22T19:11:52.900180', false, null, '31-003-92834493', 150000, 1, 3.5, 1, 123456, 11, 'FD');
+insert
+into fixed_deposit (expired_at, fixed_deposit_id)
+values ('2025-02-22T19:11:52.900180', 31);
 insert
 into passbook(passbook_id, created_at, is_deleted, updated_at, account_number, balance, bank_id, interest_rate,
               passbook_product_id,
@@ -146,7 +161,15 @@ values (13, '2023-02-01T10:11:52.900180', false, null, '4-502-40008003', 83500, 
 insert
 into deposit_withdraw (transfer_limit, deposit_withdraw_id)
 values (5000, 13);
-
+-- user5 해지된 입출금 통장3
+insert
+into passbook(passbook_id, created_at, is_deleted, updated_at, account_number, balance, bank_id, interest_rate,
+              passbook_product_id,
+              password, user_id, dtype)
+values (14, '2023-02-26T10:11:52.900180', true, null, '5-502-40008003', 100100, 2, 2.3, 1, 555511, 15, 'DW');
+insert
+into deposit_withdraw (transfer_limit, deposit_withdraw_id)
+values (500000, 14);
 
 /*
     Transaction
@@ -156,7 +179,7 @@ insert
 into transaction_history(transaction_history_id, created_at, is_deleted, updated_at, amount, commission,
                          deposit_account_number,
                          deposit_passbook_id, memo, withdraw_account_number, withdraw_passbook_id)
-values (20, '2023-01-22T22:06:28.644832', false, null, 2000, 500, '1-003-30032493', 11,
+values (20000, '2023-01-22T22:06:28.644832', false, null, 2000, 500, '1-003-30032493', 11,
         'user1 입출금 통장1 -> user1 입출금 통장2',
         '1-003-92834493', 10);
 -- user1 입출금 통장1 -> user2 입출금 통장1
@@ -164,7 +187,7 @@ insert
 into transaction_history(transaction_history_id, created_at, is_deleted, updated_at, amount, commission,
                          deposit_account_number,
                          deposit_passbook_id, memo, withdraw_account_number, withdraw_passbook_id)
-values (21, '2023-01-20T12:16:28.644832', false, null, 100000, 500, '2-103-69208003', 12,
+values (20001, '2023-01-20T12:16:28.644832', false, null, 100000, 500, '2-103-69208003', 12,
         'user1 입출금 통장1 -> user2 입출금 통장1',
         '1-003-92834493', 10);
 -- user2 입출금 통장1 -> user1 입출금 통장1
@@ -172,7 +195,7 @@ insert
 into transaction_history(transaction_history_id, created_at, is_deleted, updated_at, amount, commission,
                          deposit_account_number,
                          deposit_passbook_id, memo, withdraw_account_number, withdraw_passbook_id)
-values (22, '2023-02-20T12:16:28.644832', false, null, 1000, 500, '1-003-92834493', 10,
+values (20002, '2023-02-20T12:16:28.644832', false, null, 1000, 500, '1-003-92834493', 10,
         'user2 입출금 통장1 -> user1 입출금 통장1',
         '2-103-69208003', 12);
 -- user2 입출금 통장1 -> user4 입출금 통장1
@@ -180,7 +203,7 @@ insert
 into transaction_history(transaction_history_id, created_at, is_deleted, updated_at, amount, commission,
                          deposit_account_number,
                          deposit_passbook_id, memo, withdraw_account_number, withdraw_passbook_id)
-values (23, '2023-01-18T20:40:28.644832', false, null, 5000, 500, '4-502-40008003', 13,
+values (20003, '2023-01-18T20:40:28.644832', false, null, 5000, 500, '4-502-40008003', 13,
         'user2 입출금 통장1 -> user4 입출금 통장1',
         '2-103-69208003', 12);
 -- user2 입출금 통장1 -> user4 입출금 통장1(삭제됨)
@@ -188,6 +211,6 @@ insert
 into transaction_history(transaction_history_id, created_at, is_deleted, updated_at, amount, commission,
                          deposit_account_number,
                          deposit_passbook_id, memo, withdraw_account_number, withdraw_passbook_id)
-values (24, '2023-02-18T20:40:28.644832', true, null, 3000, 500, '4-502-40008003', 13,
+values (20004, '2023-02-18T20:40:28.644832', true, null, 3000, 500, '4-502-40008003', 13,
         'user2 입출금 통장1 -> user4 입출금 통장1',
         '2-103-69208003', 12);

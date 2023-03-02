@@ -150,7 +150,7 @@ class UserControllerTest {
             // then
             result.andExpect(status().isOk())
                     .andExpect(jsonPath("$.passbooks").exists())
-                    .andExpect(jsonPath("$.passbooks.size()").value(2));
+                    .andExpect(jsonPath("$.passbooks.size()").value(3));
         }
 
         @DisplayName("실패 - 비로그인")

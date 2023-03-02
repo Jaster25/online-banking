@@ -1,6 +1,7 @@
 package com.finance.onlinebanking.domain.passbook.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -28,6 +29,7 @@ public class FixedDepositPassbookRequestDto {
     private BigDecimal interestRate;
 
 
+    @Builder
     public FixedDepositPassbookRequestDto(String password, Long balance, BigDecimal interestRate) {
         this.password = password;
         this.balance = balance;

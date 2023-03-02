@@ -16,7 +16,7 @@ public interface PassbookRepository extends JpaRepository<PassbookEntity, Long> 
     List<PassbookEntity> findAllByUserAndIsDeletedFalse(UserEntity user);
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @Query("select p from PassbookEntity p where p.id = :passbook_id")
+    @Query("select p from PassbookEntity p where p.id = :passbook_id and is_deleted = false")
     Optional<PassbookEntity> findByIdAndIsDeletedFalseForUpdate(@Param("passbook_id") Long passbook_id);
 
     Boolean existsByAccountNumber(String accountNumber);
