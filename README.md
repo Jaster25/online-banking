@@ -88,6 +88,18 @@
 
 🔗 [***스프링 시큐리티 도입***](https://www.notion.so/79f78ca7dc3a4daa9ba229f280d7cc1f)
 
+🔗 [***도메인 id 값에 Long을 사용하는 이유***](https://www.notion.so/jaster25/id-Long-ed73c4c020144194b9c6fa8552935d37?pvs=4)
+
+🔗 [***이체 기능 쓰레드 테스트(락킹 온/오프)***](https://www.notion.so/jaster25/5ca77f7048f74372a9fd249f0f758014?pvs=4)
+
+🔗 [***Optional<T>을 사용한 NPE 처리***](https://www.notion.so/jaster25/Optional-T-NPE-7f025f1507bd435baeab7be5eed9e2b1?pvs=4)
+
+🔗 [***CI/CD Jenkins 로컬 환경***](https://www.notion.so/jaster25/CI-CD-Jenkins-1898db53f7694212acb10d81b3416e6a?pvs=4)
+
+🔗 [***CI/CD Github Actions 도커 환경***](https://www.notion.so/jaster25/CI-CD-Github-Actions-111979231b7346bb92f2dfe244a95b0d?pvs=4)
+
+🔗 [***상속 테이블 → 조인 전략 선택 이유***](https://www.notion.so/jaster25/5b76d1b84795446b92bd5c8998be1401?pvs=4)
+
 <br>
 
 ## **🎯 트러블 슈팅**
